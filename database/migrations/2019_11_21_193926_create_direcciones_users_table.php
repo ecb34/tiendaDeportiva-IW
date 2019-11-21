@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePedidosTable extends Migration
+class CreateDireccionesUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreatePedidosTable extends Migration
      */
     public function up()
     {
-        Schema::create('pedidos', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->date('fecha');
-            $table->string('estado'); //cesta, pendiente,en proceso, servido, pagado, cancelado
+        Schema::create('direcciones_users', function (Blueprint $table) {
+            $table->integer('direccion_id')->unsigned();
+            $table->foreign('direccion_id')->references('id')->on('direcciones')->onDelete('cascade')->onUpdate('cascade');
             $table->integer('usuario_id')->unsigned();
             $table->foreign('usuario_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->primary(['usuario_id','direccion_id']);
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ class CreatePedidosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pedidos');
+        Schema::dropIfExists('direcciones_users');
     }
 }

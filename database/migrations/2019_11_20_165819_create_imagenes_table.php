@@ -17,7 +17,8 @@ class CreateImagenesTable extends Migration
             $table->bigIncrements('id');
             $table->string('nombre');
             $table->string('url')->unique();
-            $table->foreign('articulo_id')->references('id')->on('articulos')->onDelete('cascade');
+            $table->integer('articulo_id')->unsigned();
+            $table->foreign('articulo_id')->references('id')->on('articulos')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }
