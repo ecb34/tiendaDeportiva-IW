@@ -21,8 +21,3 @@
 9. Ejecutar npm install.
 10. Ejecutar npm run watch-poll.
 11. Ejecutar php artisan serve para ponerlo en marcha en localhost:8000 en una terminal diferente.
-
-### Swagger
-1. Ejecutar composer install.
-2. Ejeecutar php artisan l5-swagger:generate para generar la documentacion swagger.
-3. Acceder a la ruta localhost:8000/api/documentation.
