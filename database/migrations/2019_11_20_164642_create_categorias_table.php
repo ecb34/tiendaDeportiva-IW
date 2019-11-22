@@ -14,11 +14,14 @@ class CreateCategoriasTable extends Migration
     public function up()
     {
         Schema::create('categorias', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
             $table->string('nombre')->unique();
-            $table->integer('categoria_padre_id')->unsigned();
-            $table->foreign('categoria_padre_id')->references('id')->on('categorias')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
+        });
+        Schema::table('categorias', function (Blueprint $table) 
+        {
+            $table->integer('categoria_padre_id')->nullable()->unsigned();
+            $table->foreign('categoria_padre_id')->references('id')->on('categorias')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

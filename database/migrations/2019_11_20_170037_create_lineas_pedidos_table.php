@@ -14,7 +14,7 @@ class CreateLineasPedidosTable extends Migration
     public function up()
     {
         Schema::create('lineas_pedidos', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
             $table->float('importe', 8, 2);
             $table->integer('cantidad')->unsigned();
             $table->integer('pedido_id')->unsigned();

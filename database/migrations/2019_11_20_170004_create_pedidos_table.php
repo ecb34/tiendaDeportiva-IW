@@ -14,7 +14,7 @@ class CreatePedidosTable extends Migration
     public function up()
     {
         Schema::create('pedidos', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
             $table->date('fecha');
             $table->string('estado'); //cesta, pendiente,en proceso, servido, pagado, cancelado
             $table->integer('usuario_id')->unsigned();

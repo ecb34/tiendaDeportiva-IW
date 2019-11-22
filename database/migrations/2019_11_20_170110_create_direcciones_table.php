@@ -14,7 +14,7 @@ class CreateDireccionesTable extends Migration
     public function up()
     {
         Schema::create('direcciones', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
             $table->string('linea1');
             $table->string('linea2');
             $table->string('cod_postal');
