@@ -5,7 +5,7 @@
 ### Requisitos:
 * Composer
 * NPM
-* Laravel 5.8
+* Laravel 6.5
 * PHP
 * Mysql
 
