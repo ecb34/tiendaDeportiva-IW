@@ -7,6 +7,14 @@ use Faker\Generator as Faker;
 
 $factory->define(Pedido::class, function (Faker $faker) {
     return [
-        //
+        'fecha' => $faker->dateTimeThisDecade,
+        'estado' => function(){
+            $estados = array('cesta', 'pendiente', 'en proceso', 'servido', 'pagado', 'cancelado');
+            $randIndex = array_rand($estados);
+            return $estados[$randIndex];       
+        },
+        'usuario_id' => function(){//TODO revisar esto
+            return factory(App\Usuario::class)->create()->id;
+        }
     ];
 });
