@@ -8,6 +8,6 @@ class Direccion extends Model
 {
     // lina = calle
     protected $fillable = [
-        'id', 'linea1', 'linea2', 'cpd_postal'
+        'id', 'linea1', 'linea2', 'cod_postal'
     ];
 }
