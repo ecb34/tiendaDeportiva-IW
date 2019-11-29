@@ -9,11 +9,5 @@ $factory->define(LineaPedido::class, function (Faker $faker) {
     return [
         'importe' => $faker->randomFloat(2,0,9999),//max 2 decimales, max 9999 importe
         'cantidad' => $faker->numberBetween(0,10),//cantidad entre 0 y 10
-        'pedido_id' => function(){//TODO revisar esto
-            return factory(App\Pedido::class)->create()->id;
-        },
-        'articulo_id' => function(){//TODO revisar esto
-            return factory(App\Articulo::class)->create()->id;
-        }
     ];
 });

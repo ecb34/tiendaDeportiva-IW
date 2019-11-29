@@ -32,8 +32,8 @@ class DatabaseSeeder extends Seeder
                 );*/
         });
 
-        $marcas = factory(App\Marca::class,3)->create();
-        $categorias = factory(App\Categoria::class,3)->create();
+        $marcas = factory(App\Marca::class,2)->create();
+        $categorias = factory(App\Categoria::class,2)->create();
         for($i = 0; $i < count($marcas); ++$i) {
             for($j = 0; $j < count($categorias); ++$j) {    
                 $articulos = factory(App\Articulo::class,2)->create();    
@@ -56,6 +56,7 @@ class DatabaseSeeder extends Seeder
 
         /*
         lista deseos?
+        comentarios
         factory(App\LineaPedido::class, 5)->create();
         */
     }
