@@ -9,7 +9,11 @@ $factory->define(Categoria::class, function (Faker $faker) {
     return [
         'nombre' => $faker->unique()->name,
         'categoria_padre_id' => function () {//TODO revisar esto
-            return factory(App\Categoria::class)->create()->id;
+            if(rand(0,2) != 2){
+                return;
+            }else{
+                return factory(App\Categoria::class)->create()->id;
+            }
         }
     ];
 });

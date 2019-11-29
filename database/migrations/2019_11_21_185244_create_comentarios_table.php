@@ -16,7 +16,7 @@ class CreateComentariosTable extends Migration
         Schema::create('comentarios', function (Blueprint $table) {
             $table->increments('id');
             $table->longText('texto');
-            $table->float('valoracion',1,1);
+            $table->float('valoracion',2,1);
             $table->integer('articulo_id')->unsigned();
             $table->foreign('articulo_id')->references('id')->on('articulos')->onDelete('cascade')->onUpdate('cascade');
             $table->integer('user_id')->unsigned();

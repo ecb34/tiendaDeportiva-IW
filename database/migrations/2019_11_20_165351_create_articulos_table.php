@@ -19,7 +19,7 @@ class CreateArticulosTable extends Migration
             $table->string('nombre');
             $table->float('pvp',8,2);
             $table->longText('descripcion');
-            $table->float('valoracion',1,1);
+            $table->float('valoracion',2,1);
             $table->integer('marca_id')->unsigned()->nullable();//si se borra la marca, se pone a null la clave ajena
             $table->foreign('marca_id')->references('id')->on('marcas')->onDelete('set null')->onUpdate('cascade');
             $table->integer('categoria_id')->unsigned()->nullable();
