@@ -16,7 +16,7 @@ class CreateImagenesTable extends Migration
         Schema::create('imagenes', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nombre');
-            $table->string('url')->unique();
+            $table->string('url');
             $table->integer('articulo_id')->unsigned();
             $table->foreign('articulo_id')->references('id')->on('articulos')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();

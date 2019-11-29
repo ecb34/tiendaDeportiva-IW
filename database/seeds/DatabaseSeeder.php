@@ -11,7 +11,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UsersTableSeeder::class);
         $users = factory(App\User::class, 5)->create();
         $users->each(function ($user) {
             $user
@@ -24,12 +23,6 @@ class DatabaseSeeder extends Seeder
                 ->saveMany(
                     factory(App\Direccion::class, 3)->make()
                 );
-            
-            /*$user//* GENERA MUCHOS ARTICULOS, TRATAR DE SOLUCIONAR
-                ->comentarios()
-                ->saveMany(
-                    factory(App\Comentario::class, 3)->make()
-                );*/
         });
 
         $marcas = factory(App\Marca::class,2)->create();
@@ -51,12 +44,18 @@ class DatabaseSeeder extends Seeder
                 });
                 $categorias[$j]->articulos()->saveMany($articulos);
                 $marcas[$i]->articulos()->saveMany($articulos);
+
+                //agregar comentarios
+                $indexArticulo = rand(0, count($articulos) -1);
+                $indexUser = rand(0,count($users) -1);
+                factory(App\Comentario::class,2)->create([
+                    'articulo_id'=>$articulos[$indexArticulo]->id,
+                    'user_id'=>$users[$indexUser]->id ]
+                );
             }      
         }
-
         /*
         lista deseos?
-        comentarios
         factory(App\LineaPedido::class, 5)->create();
         */
     }
