@@ -2,7 +2,7 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\Direccione as Direccion;
+use App\Direccion as Direccion;
 use Faker\Generator as Faker;
 
 $factory->define(Direccion::class, function (Faker $faker) {

@@ -4,8 +4,10 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Imagene extends Model
+class Imagen extends Model
 {
+    protected $table = 'imagenes';
+
     protected $fillable = [
         'id', 'nombre','url'
     ];

@@ -14,7 +14,7 @@ class Articulo extends Model
     /**** INICIO Relaciones Articulos ****/
     public function imagenes()
     {
-        return $this->hasMany(Imagene::class);
+        return $this->hasMany(Imagen::class);
     }
     
     public function marca()

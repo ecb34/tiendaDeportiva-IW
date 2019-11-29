@@ -45,7 +45,7 @@ class User extends Authenticatable
 
     public function direcciones()
     {
-        return $this->belongsToMany(Direccione::class);
+        return $this->belongsToMany(Direccion::class);
     }
 
     public function comentarios()
