@@ -12,7 +12,7 @@ $factory->define(Comentario::class, function (Faker $faker) {
         'articulo_id' => function () {//TODO revisar esto
             return factory(App\Articulo::class)->create()->id;
         },
-        'usuario_id' => function () {//TODO revisar esto
+        'user_id' => function () {//TODO revisar esto
             return factory(App\User::class)->create()->id;
         }
 

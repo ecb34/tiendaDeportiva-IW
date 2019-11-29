@@ -14,4 +14,11 @@ class Marca extends Model
     protected $fillable = [
         'id', 'nombre', 'empresa', 'logo'
     ];
+
+    /**** INICIO Relaciones Marca ****/
+    public function articulos()
+    {
+        return $this->hasMany(Articulo::class);
+    }
+    /**** FIN Relaciones Marca ****/
 }

@@ -10,4 +10,14 @@ class Pedido extends Model
     protected $fillable = [
         'id', 'fecha','estado'
     ];
+
+    /**** INICIO Relaciones Pedido ****/
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    // falta la relacion con lineas
+    /**** INICIO Relaciones Pedido ****/
+
 }

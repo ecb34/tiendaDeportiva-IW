@@ -36,4 +36,23 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**** INICIO Relaciones User ****/
+    public function pedidos()
+    {
+        return $this->hasMany(Pedido::class);
+    }
+
+    public function direcciones()
+    {
+        return $this->belongsToMany(Direccione::class);
+    }
+
+    public function comentarios()
+    {
+        return $this->hasMany(Comentario::class);
+    }
+
+    // Falta la relación con ListaDeseo y el modelo...
+    /**** FIN Relaciones User ****/
 }

@@ -9,4 +9,17 @@ class Comentario extends Model
     protected $fillable = [
         'id', 'texto','valoracion'
     ];
+
+    /**** INICIO Relaciones Comentarios ****/
+    public function articulo()
+    {
+        return $this->belongsTo(Articulo::class);
+    }
+    
+    public function usuario()
+    {
+        return $this->belongsTo(User::class);
+    }
+    /**** FIN Relaciones Comentarios ****/
+    
 }

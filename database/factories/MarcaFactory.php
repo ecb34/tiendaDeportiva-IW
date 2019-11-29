@@ -8,7 +8,7 @@ use Faker\Generator as Faker;
 
 
 $factory->define(Marca::class, function (Faker $faker) {
-    $faker = Faker::create('es_ES');
+    //$faker = Faker::create('es_ES');
     return [
         'nombre' => $faker->name,
         'empresa' => $faker->company,

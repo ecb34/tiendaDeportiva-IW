@@ -16,7 +16,7 @@ class ComentarioTest extends TestCase
         $this->assertTrue(
             Schema::hasColumns(
                 'comentarios',
-                ['id', 'texto', 'valoracion', 'articulo_id', 'usuario_id']
+                ['id', 'texto', 'valoracion', 'articulo_id', 'user_id']
             ),
         true);
     }
