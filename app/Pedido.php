@@ -17,7 +17,9 @@ class Pedido extends Model
         return $this->belongsTo(User::class);
     }
 
-    // falta la relacion con lineas
-    /**** INICIO Relaciones Pedido ****/
+    public function lineaPedidos()
+    {
+        return $this->hasMany(LineaPedido::class);
+    }
 
 }

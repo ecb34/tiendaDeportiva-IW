@@ -11,13 +11,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+
+        /******users y direcciones*******/
         $users = factory(App\User::class, 5)->create();
         $users->each(function ($user) {
-            $user
-                ->pedidos()
-                ->saveMany(
-                    factory(App\Pedido::class, 3)->make()
-                );
             $user
                 ->direcciones()
                 ->saveMany(
@@ -25,6 +22,7 @@ class DatabaseSeeder extends Seeder
                 );
         });
 
+        /*************Marcas, categorias,articulos,imagenes, documentos y comentarios*****/
         $marcas = factory(App\Marca::class,2)->create();
         $categorias = factory(App\Categoria::class,2)->create();
         for($i = 0; $i < count($marcas); ++$i) {
@@ -50,13 +48,23 @@ class DatabaseSeeder extends Seeder
                 $indexUser = rand(0,count($users) -1);
                 factory(App\Comentario::class,2)->create([
                     'articulo_id'=>$articulos[$indexArticulo]->id,
-                    'user_id'=>$users[$indexUser]->id ]
-                );
+                    'user_id'=>$users[$indexUser]->id 
+                ]);
+
+                //agregar lista deseos, a user aleatorio el articulo aleatorio
+                $users[$indexUser]->articulos()->save($articulos[$indexArticulo]);
+                
+                //pedidos y lineas pedidos
+                $pedidos = factory(App\Pedido::class,2)->create([
+                    'user_id' => $users[$indexUser]->id
+                ]);
+                for($k = 0; $k < count($pedidos); ++$k){
+                    factory(App\LineaPedido::class)->create([
+                        'articulo_id' => $articulos[$indexArticulo]->id,
+                        'pedido_id' => $pedidos[$k]->id
+                    ]);
+                }
             }      
         }
-        /*
-        lista deseos?
-        factory(App\LineaPedido::class, 5)->create();
-        */
     }
 }

@@ -53,6 +53,10 @@ class User extends Authenticatable
         return $this->hasMany(Comentario::class);
     }
 
-    // Falta la relación con ListaDeseo y el modelo...
-    /**** FIN Relaciones User ****/
+    public function articulos()
+    {
+        return $this->belongsToMany(Articulo::class, 'lista_deseos')
+                    ->as('listaDeseo')
+                    ->withTimestamps();
+    }
 }

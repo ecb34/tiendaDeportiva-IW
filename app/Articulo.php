@@ -36,6 +36,16 @@ class Articulo extends Model
     {
         return $this->hasMany(Documento::class);
     }
-    // Falta la relacion con ListaDeseo... y el modelo
-    /**** FIN Relaciones Articulos ****/
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'lista_deseos')
+                    ->as('listaDeseo')
+                    ->withTimestamps();
+    }
+
+    public function lineaPedidos()
+    {
+        return $this->hasMany(LineaPedido::class);
+    }
 }

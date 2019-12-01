@@ -12,7 +12,14 @@ class LineaPedido extends Model
         'id', 'importe','cantidad'
     ];
 
-    /**** INICIO Relaciones LineaPedido ****/
-    /**** FIN Relaciones LineaPedido ****/
+    public function pedido()
+    {
+        return $this->belongsTo(Pedido::class);
+    }
+    
+    public function articulo()
+    {
+        return $this->belongsTo(Articulo::class);
+    }
 
 }
