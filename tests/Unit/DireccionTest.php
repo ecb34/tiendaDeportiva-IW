@@ -6,6 +6,8 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Schema; // Para comprobar que las columnas del modelo y la BDD son correctas
 use Tests\TestCase;
+use App\Direccion;
+use App\User;
 
 class DireccionTest extends TestCase
 {
@@ -20,4 +22,17 @@ class DireccionTest extends TestCase
             ),
         true);
     }
+    
+    /**** INICIO Relaciones Direcciones ****/
+    /** @test para probar la relación "una dirección pertenece a muchos usuarios" */
+    public function una_direccion_pertenece_a_muchos_usuarios()
+    {
+        // GIVEN
+        $user = factory(User::class)->create();
+        $direccion = factory(Direccion::class)->create();
+        // WHEN
+        // THEN
+        $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $direccion->users);
+    }
+    /**** FIN Relaciones Direcciones ****/
 }

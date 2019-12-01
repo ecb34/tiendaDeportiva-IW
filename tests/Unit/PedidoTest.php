@@ -23,7 +23,7 @@ class PedidoTest extends TestCase
         true);
     }
 
-    /** @test para comprobar la relación "un pedido tiene un usuario" */
+    /** @test para comprobar la relación "un pedido pertenece a un usuario" */
     public function un_pedido_pertenece_a_un_usuario()
     {
         // GIVEN
@@ -35,7 +35,7 @@ class PedidoTest extends TestCase
         $this->assertEquals($pedido->user->id, $user->id);
         // Method 2: Contar el numero de usuarios.
         $this->assertEquals(1, $pedido->user->count());
-        // Method 3: Los usuarios estan relacionados con los pedidos y propiedad es una instancia de pedidos
+        // Method 3: Los usuarios estan relacionados con los pedidos y su propiedad es una instancia de pedidos
         $this->assertInstanceOf(User::class, $pedido->user);
     }
 }

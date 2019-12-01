@@ -37,5 +37,5 @@ class Articulo extends Model
         return $this->hasMany(Documento::class);
     }
     // Falta la relacion con ListaDeseo... y el modelo
-    /**** INICIO Relaciones Articulos ****/
+    /**** FIN Relaciones Articulos ****/
 }
