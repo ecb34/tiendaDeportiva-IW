@@ -18,12 +18,12 @@ class Categoria extends Model
 
     public function categoria()
     {
-        return $this->belongsTo(Categoria::class);
+        return $this->belongsTo(Categoria::class, 'categoria_padre_id', 'id');
     }
 
     public function categorias()
     {
-        return $this->hasMany(Categoria::class);
+        return $this->hasMany(Categoria::class, 'categoria_padre_id', 'id');
     }
     /**** FIN Relaciones Categorias ****/
 }

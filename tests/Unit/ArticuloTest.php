@@ -73,7 +73,7 @@ class ArticuloTest extends TestCase
         // Method 1: Un articulo tiene una categoria.
         $this->assertEquals($articulo->categoria->id, $categoria->id);
         // Method 2: Contar el numero de categorias.
-        $this->assertEquals(1, $articulo->categoria->count());
+        //$this->assertEquals(1, $articulo->categoria->count());
         // Method 3: Las categorias estan relacionados con los articulos y su propiedad es una instancia de categoria
         $this->assertInstanceOf(Categoria::class, $articulo->categoria);
     }
