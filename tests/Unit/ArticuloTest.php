@@ -12,6 +12,7 @@ use App\Comentario;
 use App\Documento;
 use App\Imagen;
 use App\Marca;
+use App\User;
 
 class ArticuloTest extends TestCase
 {
@@ -82,8 +83,9 @@ class ArticuloTest extends TestCase
     {
         // GIVEN
         $articulo = factory(Articulo::class)->create();
+        $user = factory(User::class)->create();
         // WHEN
-        $comentarios = factory(Comentario::class, 5)->create(['articulo_id'=>$articulo->id]);   // Creo 5 comentarios para la articulo
+        $comentarios = factory(Comentario::class, 5)->create(['articulo_id'=>$articulo->id, 'user_id'=>$user->id]);   // Creo 5 comentarios para la articulo
         // THEN
         // Method 1: Una Comentario existe en la colección de comentarios de una articulo.
         $this->assertTrue($articulo->comentarios->contains($comentarios[1]));

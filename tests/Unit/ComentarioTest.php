@@ -30,8 +30,9 @@ class ComentarioTest extends TestCase
     {
         // GIVEN
         $articulo = factory(Articulo::class)->create();
+        $user = factory(User::class)->create();
         // WHEN
-        $comentario = factory(Comentario::class)->create(['articulo_id'=>$articulo->id]);
+        $comentario = factory(Comentario::class)->create(['articulo_id'=>$articulo->id, 'user_id'=>$user->id]);
         // THEN
         // Method 1: Un comentario tiene un articulo.
         $this->assertEquals($comentario->articulo->id, $articulo->id);
@@ -45,9 +46,10 @@ class ComentarioTest extends TestCase
     public function un_comentario_pertenece_a_un_usuario()
     {
         // GIVEN
+        $articulo = factory(Articulo::class)->create();
         $user = factory(User::class)->create();
         // WHEN
-        $comentario = factory(Comentario::class)->create(['user_id'=>$user->id]);
+        $comentario = factory(Comentario::class)->create(['user_id'=>$user->id, 'articulo_id'=>$articulo->id]);
         // THEN
         // Method 1: Un comentario tiene un usuario.
         $this->assertEquals($comentario->user->id, $user->id);

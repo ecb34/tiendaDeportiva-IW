@@ -10,6 +10,7 @@ use App\User;
 use App\Pedido;
 use App\Comentario;
 use App\Direccion;
+use App\Articulo;
 
 class UserTest extends TestCase
 {
@@ -58,8 +59,9 @@ class UserTest extends TestCase
     {
         // GIVEN
         $user = factory(User::class)->create();
+        $articulo = factory(Articulo::class)->create();
         // WHEN
-        $comentarios = factory(Comentario::class, 5)->create(['user_id'=>$user->id]);   // Creo 5 comentarios para el usuario
+        $comentarios = factory(Comentario::class, 5)->create(['user_id'=>$user->id, 'articulo_id'=>$articulo->id]);   // Creo 5 comentarios para el usuario
         // THEN
          // Method 1: Un Comentario existe en la colección de comentarios de un usuario.
          $this->assertTrue($user->comentarios->contains($comentarios[1]));
