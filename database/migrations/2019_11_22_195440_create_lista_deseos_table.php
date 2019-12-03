@@ -14,11 +14,11 @@ class CreateListaDeseosTable extends Migration
     public function up()
     {
         Schema::create('lista_deseos', function (Blueprint $table) {
-            $table->integer('usuario_id')->unsigned();
-            $table->foreign('usuario_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->integer('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->integer('articulo_id')->unsigned();
             $table->foreign('articulo_id')->references('id')->on('articulos')->onDelete('cascade')->onUpdate('cascade');
-            $table->primary(['usuario_id','articulo_id']);
+            $table->primary(['user_id','articulo_id']);
             $table->timestamps(); //puede ser usado para saber fecha en la que se añadio el producto
         });
     }

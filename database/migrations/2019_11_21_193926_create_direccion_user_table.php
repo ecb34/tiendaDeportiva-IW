@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDireccionesUsersTable extends Migration
+class CreateDireccionUserTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreateDireccionesUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('direcciones_users', function (Blueprint $table) {
+        Schema::create('direccion_user', function (Blueprint $table) {
             $table->integer('direccion_id')->unsigned();
             $table->foreign('direccion_id')->references('id')->on('direcciones')->onDelete('cascade')->onUpdate('cascade');
-            $table->integer('usuario_id')->unsigned();
-            $table->foreign('usuario_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
-            $table->primary(['usuario_id','direccion_id']);
+            $table->integer('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->primary(['user_id','direccion_id']);
             $table->timestamps();
         });
     }

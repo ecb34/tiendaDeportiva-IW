@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'nombre', 'email', 'password',
+        'id','nombre', 'email', 'apellido', 'telefono', 'fecha_nacimiento','rol','password',
     ];
 
     /**
@@ -36,4 +36,27 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**** INICIO Relaciones User ****/
+    public function pedidos()
+    {
+        return $this->hasMany(Pedido::class);
+    }
+
+    public function direcciones()
+    {
+        return $this->belongsToMany(Direccion::class);
+    }
+
+    public function comentarios()
+    {
+        return $this->hasMany(Comentario::class);
+    }
+
+    public function articulos()
+    {
+        return $this->belongsToMany(Articulo::class, 'lista_deseos')
+                    ->as('listaDeseo')
+                    ->withTimestamps();
+    }
 }

@@ -13,8 +13,5 @@ $factory->define(Pedido::class, function (Faker $faker) {
             $randIndex = array_rand($estados);
             return $estados[$randIndex];       
         },
-        'usuario_id' => function(){//TODO revisar esto
-            return factory(App\Usuario::class)->create()->id;
-        }
     ];
 });

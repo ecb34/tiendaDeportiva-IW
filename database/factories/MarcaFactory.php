@@ -8,9 +8,9 @@ use Faker\Generator as Faker;
 
 
 $factory->define(Marca::class, function (Faker $faker) {
-    $faker = Faker::create('es_ES');
+    $faker->addProvider(new \Bezhanov\Faker\Provider\Team($faker));
     return [
-        'nombre' => $faker->name,
+        'nombre' => $faker->team,
         'empresa' => $faker->company,
         'logo' => $faker->imageUrl()
     ];

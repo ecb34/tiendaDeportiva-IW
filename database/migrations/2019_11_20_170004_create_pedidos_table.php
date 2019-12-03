@@ -17,8 +17,8 @@ class CreatePedidosTable extends Migration
             $table->increments('id');
             $table->date('fecha');
             $table->string('estado'); //cesta, pendiente,en proceso, servido, pagado, cancelado
-            $table->integer('usuario_id')->unsigned();
-            $table->foreign('usuario_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->integer('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }
