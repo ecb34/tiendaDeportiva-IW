@@ -1,25 +1,31 @@
 <template>
     <v-container>
-        <v-card class="mx-auto" max-width="400" v-for="articulo in this.listaArticulos" v-bind:key="articulo.id">
-            <v-img class="white--text align-end" height="200px" src="https://cdn.vuetifyjs.com/images/cards/docks.jpg">
-            <v-card-title>{{articulo.nombre}}</v-card-title>
-            </v-img>
-            <v-card-subtitle class="pb-0">{{articulo.pvp}}</v-card-subtitle>
+        <v-row>
+            <v-col v-for="articulo in this.listaArticulos" v-bind:key="articulo.id" cols="12" sm="4">
+                <v-card class="mx-auto" max-width="400">
+                    <v-img class="white--text align-end" height="200px" src="https://cdn.vuetifyjs.com/images/cards/docks.jpg">
+                    <v-card-title>{{articulo.nombre}}</v-card-title>
+                    </v-img>
+                    <v-card-subtitle class="pb-0">{{articulo.pvp}}</v-card-subtitle>
 
-            <v-card-text class="text--primary">
-                {{articulo.descripcion}}
-            </v-card-text>
+                    <v-card-text class="text--primary">
+                        {{articulo.descripcion}}
+                    </v-card-text>
 
-            <v-card-actions>
-            <v-btn color="orange" text>
-                Ver
-            </v-btn>
+                    <v-card-actions>
+                    <v-btn color="orange" text>
+                        Ver
+                    </v-btn>
 
-            <v-btn color="green" text>
-                Añadir a la cesta
-            </v-btn>
-            </v-card-actions>
-        </v-card>
+                    <v-btn color="green" text>
+                        Añadir a la cesta
+                    </v-btn>
+                    </v-card-actions>
+                </v-card>
+            </v-col>
+        </v-row>
+        
+        
   </v-container>
 </template>
 

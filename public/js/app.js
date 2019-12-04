@@ -1880,6 +1880,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'articulos',
@@ -38018,55 +38024,70 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "v-container",
-    _vm._l(this.listaArticulos, function(articulo) {
-      return _c(
-        "v-card",
-        {
-          key: articulo.id,
-          staticClass: "mx-auto",
-          attrs: { "max-width": "400" }
-        },
-        [
-          _c(
-            "v-img",
-            {
-              staticClass: "white--text align-end",
-              attrs: {
-                height: "200px",
-                src: "https://cdn.vuetifyjs.com/images/cards/docks.jpg"
-              }
-            },
-            [_c("v-card-title", [_vm._v(_vm._s(articulo.nombre))])],
-            1
-          ),
-          _vm._v(" "),
-          _c("v-card-subtitle", { staticClass: "pb-0" }, [
-            _vm._v(_vm._s(articulo.pvp))
-          ]),
-          _vm._v(" "),
-          _c("v-card-text", { staticClass: "text--primary" }, [
-            _vm._v(
-              "\n              " + _vm._s(articulo.descripcion) + "\n          "
-            )
-          ]),
-          _vm._v(" "),
-          _c(
-            "v-card-actions",
+    [
+      _c(
+        "v-row",
+        _vm._l(this.listaArticulos, function(articulo) {
+          return _c(
+            "v-col",
+            { key: articulo.id, attrs: { cols: "12", sm: "4" } },
             [
-              _c("v-btn", { attrs: { color: "orange", text: "" } }, [
-                _vm._v("\n              Ver\n          ")
-              ]),
-              _vm._v(" "),
-              _c("v-btn", { attrs: { color: "green", text: "" } }, [
-                _vm._v("\n              Añadir a la cesta\n          ")
-              ])
+              _c(
+                "v-card",
+                { staticClass: "mx-auto", attrs: { "max-width": "400" } },
+                [
+                  _c(
+                    "v-img",
+                    {
+                      staticClass: "white--text align-end",
+                      attrs: {
+                        height: "200px",
+                        src: "https://cdn.vuetifyjs.com/images/cards/docks.jpg"
+                      }
+                    },
+                    [_c("v-card-title", [_vm._v(_vm._s(articulo.nombre))])],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c("v-card-subtitle", { staticClass: "pb-0" }, [
+                    _vm._v(_vm._s(articulo.pvp))
+                  ]),
+                  _vm._v(" "),
+                  _c("v-card-text", { staticClass: "text--primary" }, [
+                    _vm._v(
+                      "\n                      " +
+                        _vm._s(articulo.descripcion) +
+                        "\n                  "
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "v-card-actions",
+                    [
+                      _c("v-btn", { attrs: { color: "orange", text: "" } }, [
+                        _vm._v(
+                          "\n                      Ver\n                  "
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("v-btn", { attrs: { color: "green", text: "" } }, [
+                        _vm._v(
+                          "\n                      Añadir a la cesta\n                  "
+                        )
+                      ])
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
             ],
             1
           )
-        ],
+        }),
         1
       )
-    }),
+    ],
     1
   )
 }
