@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Http\Request;
+use App\Http\Resources\Articulo as ArticuloResource;
+use App\Articulo;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +15,9 @@ use Illuminate\Http\Request;
 |
 */
 
+Route::get('/articulos', function () {
+    return ArticuloResource::collection(Articulo::all());
+});
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
