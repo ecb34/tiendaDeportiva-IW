@@ -1906,20 +1906,21 @@ __webpack_require__.r(__webpack_exports__);
 
           case 3:
             res = _context.sent;
+            console.log(res.data.data);
             this.listaArticulos = res.data.data;
-            _context.next = 9;
+            _context.next = 10;
             break;
 
-          case 7:
-            _context.prev = 7;
+          case 8:
+            _context.prev = 8;
             _context.t0 = _context["catch"](0);
 
-          case 9:
+          case 10:
           case "end":
             return _context.stop();
         }
       }
-    }, null, this, [[0, 7]]);
+    }, null, this, [[0, 8]]);
   }
 });
 
@@ -38039,11 +38040,8 @@ var render = function() {
                   _c(
                     "v-img",
                     {
-                      staticClass: "white--text align-end",
-                      attrs: {
-                        height: "200px",
-                        src: "https://cdn.vuetifyjs.com/images/cards/docks.jpg"
-                      }
+                      staticClass: "orange--text align-end",
+                      attrs: { height: "200px", src: articulo.imagenes[0].url }
                     },
                     [_c("v-card-title", [_vm._v(_vm._s(articulo.nombre))])],
                     1

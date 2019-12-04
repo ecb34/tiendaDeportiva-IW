@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\Imagen as ImagenResource;
 
 class Articulo extends JsonResource
 {
@@ -23,6 +24,7 @@ class Articulo extends JsonResource
             'valoracion' => $this->valoracion,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+            'imagenes' => ImagenResource::collection($this->imagenes)
         ];
     }
 }

@@ -3,7 +3,7 @@
         <v-row>
             <v-col v-for="articulo in this.listaArticulos" v-bind:key="articulo.id" cols="12" sm="4">
                 <v-card class="mx-auto" max-width="400">
-                    <v-img class="white--text align-end" height="200px" src="https://cdn.vuetifyjs.com/images/cards/docks.jpg">
+                    <v-img class="orange--text align-end" height="200px"  v-bind:src="articulo.imagenes[0].url">
                     <v-card-title>{{articulo.nombre}}</v-card-title>
                     </v-img>
                     <v-card-subtitle class="pb-0">{{articulo.pvp}}</v-card-subtitle>
@@ -41,6 +41,7 @@ export default {
     async created(){
         try{
             const res = await axios.get('/api/articulos');
+            console.log(res.data.data);
             this.listaArticulos = res.data.data;
         }catch(err){
 
