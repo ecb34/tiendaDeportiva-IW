@@ -1976,6 +1976,53 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({});
 
 /***/ }),
@@ -38139,32 +38186,112 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "v-app",
+    { attrs: { id: "inspire" } },
     [
       _c(
-        "v-app-bar",
-        { attrs: { app: "", color: "black", dark: "" } },
+        "v-card",
+        { staticClass: "overflow-hidden" },
         [
-          _c("div", { staticClass: "d-flex align-center" }, [
-            _c("h2", [_vm._v("UASPORT")])
-          ]),
-          _vm._v(" "),
-          _c("v-spacer"),
+          _c(
+            "v-app-bar",
+            {
+              attrs: {
+                absolute: "",
+                color: "#000000",
+                dark: "",
+                "shrink-on-scroll": "",
+                prominent: "",
+                src:
+                  "https://nic.icu/wp-content/uploads/2018/07/sport-header-1030x452.jpg",
+                "fade-img-on-scroll": "",
+                "scroll-target": "#scrolling-techniques-3"
+              },
+              scopedSlots: _vm._u([
+                {
+                  key: "img",
+                  fn: function(ref) {
+                    var props = ref.props
+                    return [
+                      _c(
+                        "v-img",
+                        _vm._b(
+                          {
+                            attrs: {
+                              gradient:
+                                "to top right, rgba(63, 49, 51, 0.7), rgba(63, 49, 51, 0.7)"
+                            }
+                          },
+                          "v-img",
+                          props,
+                          false
+                        )
+                      )
+                    ]
+                  }
+                },
+                {
+                  key: "extension",
+                  fn: function() {
+                    return [
+                      _c(
+                        "v-tabs",
+                        {
+                          attrs: {
+                            "fixed-tabs": "",
+                            "background-color": "transparent",
+                            dark: "",
+                            "align-with-title": ""
+                          }
+                        },
+                        [
+                          _c("v-tab", [_vm._v("Home")]),
+                          _vm._v(" "),
+                          _c("v-tab", [_vm._v("Hombre")]),
+                          _vm._v(" "),
+                          _c("v-tab", [_vm._v("Mujer")]),
+                          _vm._v(" "),
+                          _c("v-tab", [_vm._v("Deportes")]),
+                          _vm._v(" "),
+                          _c("v-tab", [_vm._v("Contacto")]),
+                          _vm._v(" "),
+                          _c("v-tab", [_vm._v("Tiendas")])
+                        ],
+                        1
+                      )
+                    ]
+                  },
+                  proxy: true
+                }
+              ])
+            },
+            [
+              _vm._v(" "),
+              _c("v-toolbar-title", [_vm._v("UASport")]),
+              _vm._v(" "),
+              _c("v-spacer"),
+              _vm._v(" "),
+              _c(
+                "v-btn",
+                { attrs: { icon: "" } },
+                [_c("v-icon", [_vm._v("mdi-magnify")])],
+                1
+              )
+            ],
+            1
+          ),
           _vm._v(" "),
           _c(
-            "router-link",
-            { attrs: { to: "/login" } },
-            [
-              _c("span", { staticClass: "mr-2 " }, [_vm._v("Login")]),
-              _vm._v(" "),
-              _c("v-icon", [_vm._v("mdi-login")])
-            ],
+            "v-sheet",
+            {
+              staticClass: "overflow-y-auto",
+              attrs: { id: "scrolling-techniques-3", "max-height": "600" }
+            },
+            [_c("v-container", { staticStyle: { height: "1000px" } })],
             1
           )
         ],
         1
-      ),
-      _vm._v(" "),
-      _c("v-content", [_c("router-view")], 1)
+      )
     ],
     1
   )
