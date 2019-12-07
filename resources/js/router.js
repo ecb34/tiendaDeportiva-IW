@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Home from './components/Home'
 import Articulos from './components/Articulos'
+import DetalleArticulo from './components/DetalleArticulo'
 
 Vue.use(Router);
 
@@ -18,16 +19,18 @@ export default new Router({
             name: 'articulos',
             component: Articulos
         },
+        {
+            path: '/articulos/:id',
+            name: 'articulo',
+            component: DetalleArticulo
+        }
         /*{
             path: '/about',
             name: 'Sobre Nosotros',
             component: About
-        },
-        {
-            path: '/productos/:id',
-            name: 'producto',
-            component: Producto
-        },
+        },*/
+        
+        /*
         {
             path: '/usuarios',
             name: 'usuarios',
