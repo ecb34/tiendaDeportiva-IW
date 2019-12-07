@@ -28,49 +28,125 @@
     <v-card class="overflow-hidden">
         <!-- HEADER -->
         <v-app-bar
-            absolute
-            color="#000000"
+            app
+            color="black"
             dark
-            shrink-on-scroll
-            prominent
-            src="https://nic.icu/wp-content/uploads/2018/07/sport-header-1030x452.jpg"
-            fade-img-on-scroll
-            scroll-target="#scrolling-techniques-3"
         >
-        <template v-slot:img="{ props }">
-          <v-img v-bind="props" gradient="to top right, rgba(63, 49, 51, 0.7), rgba(63, 49, 51, 0.7)"></v-img>
-        </template>
+            <v-toolbar-side-icon>
+                <v-img class="mr-3" src="images/logo_sin.png" height="80px" width="90px"> </v-img>
+            </v-toolbar-side-icon>
+            <v-toolbar-title>UASport</v-toolbar-title>
 
-        <v-toolbar-title>UASport</v-toolbar-title>
+            <v-spacer></v-spacer>
 
-        <v-spacer></v-spacer>
+            <v-expand-transition>
+                <v-text-field
+                    v-show="hideDetails"
+                    single-line
+                    label="Buscar"
+                ></v-text-field>
+            </v-expand-transition>
 
-        <v-btn icon>
-          <v-icon>mdi-magnify</v-icon>
-        </v-btn>
+            <v-btn 
+                @click="hideDetails = ! hideDetails"
+                icon
+                >
+            <v-icon>mdi-magnify</v-icon>
+            </v-btn>
 
-        <template v-slot:extension>
-          <v-tabs fixed-tabs background-color="transparent" dark align-with-title>
-            <v-tab>Home</v-tab>
-            <v-tab>Hombre</v-tab>
-            <v-tab>Mujer</v-tab>
-            <v-tab>Deportes</v-tab>
-            <v-tab>Contacto</v-tab>
-            <v-tab>Tiendas</v-tab>
-          </v-tabs>
-        </template>
+            <v-btn icon>
+            <v-icon>mdi-cart</v-icon>
+            </v-btn>
+
+            <v-btn icon>
+            <v-icon>mdi-account</v-icon>
+            </v-btn>
+
+            <template v-slot:extension>
+                <v-tabs 
+                    fixed-tabs 
+                    background-color="transparent" 
+                    dark 
+                    align-with-title
+                    >
+                        <v-tab to="/">Home</v-tab>
+                        <v-tab to="/hombre">Hombre</v-tab>
+                        <v-tab to="/mujer">Mujer</v-tab>
+                        <v-tab to="/articulos">Deportes</v-tab>
+                        <v-tab to="/contacto">Contacto</v-tab>
+                        <v-tab to="/tiendas">Tiendas</v-tab>
+                </v-tabs>
+            </template>
         </v-app-bar>
         <!-- END HEADER -->
+        
+        <!-- BODY -->
+         <v-content>
+            <router-view/>
+        </v-content>
+        <!-- END BODY -->
 
-        <v-sheet id="scrolling-techniques-3" class="overflow-y-auto" max-height="600">
-        <v-container style="height: 1000px;"></v-container>
-      </v-sheet>
+        <!-- FOOTER -->
+        <v-footer
+            dark
+            padless
+        >
+            <v-card
+            flat
+            tile
+            class="black lighten-1 white--text text-center"
+            >
+            <v-card-text>                    
+                <v-img
+                    src="/images/logo.png"
+                    height="175"
+                    contain
+                ></v-img>      
+            </v-card-text>
+            <v-card-text>
+                <v-btn
+                v-for="icon in icons"
+                :key="icon"
+                class="mx-4 white--text"
+                icon
+                >
+                <v-icon size="24px">{{ icon }}</v-icon>
+                </v-btn>
+            </v-card-text>
+
+            <v-card-text class="white--text pt-0">
+                Phasellus feugiat arcu sapien, et iaculis ipsum elementum sit amet. Mauris cursus commodo interdum. Praesent ut risus eget metus luctus accumsan id ultrices nunc. Sed at orci sed massa consectetur dignissim a sit amet dui. Duis commodo vitae velit et faucibus. Morbi vehicula lacinia malesuada. Nulla placerat augue vel ipsum ultrices, cursus iaculis dui sollicitudin. Vestibulum eu ipsum vel diam elementum tempor vel ut orci. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
+            </v-card-text>
+
+            <v-divider></v-divider>
+
+            <v-card-text class="white--text">
+                {{ new Date().getFullYear() }} — <strong>Vuetify</strong>
+            </v-card-text>
+            </v-card>
+        </v-footer>
+        <!-- END FOOTER-->
+        
     </v-card>
   </v-app>
 </template>
 
 <script>
-export default {};
+export default {
+    data: function () {
+        return {
+            hideDetails: false,
+            icons: [
+                'mdi-twitter',
+                'mdi-facebook',
+                'mdi-linkedin',
+                'mdi-instagram',
+            ]
+        }
+    },
+    methods: {
+    }
+};
 </script>
 
 <style>
