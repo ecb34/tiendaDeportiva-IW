@@ -1976,7 +1976,124 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-/* harmony default export */ __webpack_exports__["default"] = ({});
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      hideDetails: false,
+      icons: ['mdi-twitter', 'mdi-facebook', 'mdi-linkedin', 'mdi-instagram']
+    };
+  },
+  methods: {}
+});
 
 /***/ }),
 
@@ -38139,32 +38256,204 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "v-app",
+    { attrs: { id: "inspire" } },
     [
       _c(
-        "v-app-bar",
-        { attrs: { app: "", color: "black", dark: "" } },
+        "v-card",
+        { staticClass: "overflow-hidden" },
         [
-          _c("div", { staticClass: "d-flex align-center" }, [
-            _c("h2", [_vm._v("UASPORT")])
-          ]),
+          _c(
+            "v-app-bar",
+            {
+              attrs: { app: "", color: "black", dark: "" },
+              scopedSlots: _vm._u([
+                {
+                  key: "extension",
+                  fn: function() {
+                    return [
+                      _c(
+                        "v-tabs",
+                        {
+                          attrs: {
+                            "fixed-tabs": "",
+                            "background-color": "transparent",
+                            dark: "",
+                            "align-with-title": ""
+                          }
+                        },
+                        [
+                          _c("v-tab", { attrs: { to: "/" } }, [_vm._v("Home")]),
+                          _vm._v(" "),
+                          _c("v-tab", { attrs: { to: "/hombre" } }, [
+                            _vm._v("Hombre")
+                          ]),
+                          _vm._v(" "),
+                          _c("v-tab", { attrs: { to: "/mujer" } }, [
+                            _vm._v("Mujer")
+                          ]),
+                          _vm._v(" "),
+                          _c("v-tab", { attrs: { to: "/articulos" } }, [
+                            _vm._v("Deportes")
+                          ]),
+                          _vm._v(" "),
+                          _c("v-tab", { attrs: { to: "/contacto" } }, [
+                            _vm._v("Contacto")
+                          ]),
+                          _vm._v(" "),
+                          _c("v-tab", { attrs: { to: "/tiendas" } }, [
+                            _vm._v("Tiendas")
+                          ])
+                        ],
+                        1
+                      )
+                    ]
+                  },
+                  proxy: true
+                }
+              ])
+            },
+            [
+              _c(
+                "v-toolbar-side-icon",
+                [
+                  _c("v-img", {
+                    staticClass: "mr-3",
+                    attrs: {
+                      src: "images/logo_sin.png",
+                      height: "80px",
+                      width: "90px"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c("v-toolbar-title", [_vm._v("UASport")]),
+              _vm._v(" "),
+              _c("v-spacer"),
+              _vm._v(" "),
+              _c(
+                "v-expand-transition",
+                [
+                  _c("v-text-field", {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: _vm.hideDetails,
+                        expression: "hideDetails"
+                      }
+                    ],
+                    attrs: { "single-line": "", label: "Buscar" }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-btn",
+                {
+                  attrs: { icon: "" },
+                  on: {
+                    click: function($event) {
+                      _vm.hideDetails = !_vm.hideDetails
+                    }
+                  }
+                },
+                [_c("v-icon", [_vm._v("mdi-magnify")])],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-btn",
+                { attrs: { icon: "" } },
+                [_c("v-icon", [_vm._v("mdi-cart")])],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-btn",
+                { attrs: { icon: "" } },
+                [_c("v-icon", [_vm._v("mdi-account")])],
+                1
+              )
+            ],
+            1
+          ),
           _vm._v(" "),
-          _c("v-spacer"),
+          _c("v-content", [_c("router-view")], 1),
           _vm._v(" "),
           _c(
-            "router-link",
-            { attrs: { to: "/login" } },
+            "v-footer",
+            { attrs: { dark: "", padless: "" } },
             [
-              _c("span", { staticClass: "mr-2 " }, [_vm._v("Login")]),
-              _vm._v(" "),
-              _c("v-icon", [_vm._v("mdi-login")])
+              _c(
+                "v-card",
+                {
+                  staticClass: "black lighten-1 white--text text-center",
+                  attrs: { flat: "", tile: "" }
+                },
+                [
+                  _c(
+                    "v-card-text",
+                    [
+                      _c("v-img", {
+                        attrs: {
+                          src: "/images/logo.png",
+                          height: "175",
+                          contain: ""
+                        }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-card-text",
+                    _vm._l(_vm.icons, function(icon) {
+                      return _c(
+                        "v-btn",
+                        {
+                          key: icon,
+                          staticClass: "mx-4 white--text",
+                          attrs: { icon: "" }
+                        },
+                        [
+                          _c("v-icon", { attrs: { size: "24px" } }, [
+                            _vm._v(_vm._s(icon))
+                          ])
+                        ],
+                        1
+                      )
+                    }),
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c("v-card-text", { staticClass: "white--text pt-0" }, [
+                    _vm._v(
+                      "\n              Phasellus feugiat arcu sapien, et iaculis ipsum elementum sit amet. Mauris cursus commodo interdum. Praesent ut risus eget metus luctus accumsan id ultrices nunc. Sed at orci sed massa consectetur dignissim a sit amet dui. Duis commodo vitae velit et faucibus. Morbi vehicula lacinia malesuada. Nulla placerat augue vel ipsum ultrices, cursus iaculis dui sollicitudin. Vestibulum eu ipsum vel diam elementum tempor vel ut orci. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.\n          "
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("v-divider"),
+                  _vm._v(" "),
+                  _c("v-card-text", { staticClass: "white--text" }, [
+                    _vm._v(
+                      "\n              " +
+                        _vm._s(new Date().getFullYear()) +
+                        " — "
+                    ),
+                    _c("strong", [_vm._v("Vuetify")])
+                  ])
+                ],
+                1
+              )
             ],
             1
           )
         ],
         1
-      ),
-      _vm._v(" "),
-      _c("v-content", [_c("router-view")], 1)
+      )
     ],
     1
   )
@@ -91210,8 +91499,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! D:\laragon\www\tiendaDeportiva\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! D:\laragon\www\tiendaDeportiva\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\JuanMiguelBetetaTumb\Desktop\UNI\Cuarto\IW\Practica2\tiendaDeportiva-IW\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\JuanMiguelBetetaTumb\Desktop\UNI\Cuarto\IW\Practica2\tiendaDeportiva-IW\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
