@@ -7,6 +7,7 @@
             <h3 class="mt-3">Facebook: UASPORT</h3>
             <h3 class="mt-3">Instagram: @uasportes</h3>
             <h3 class="mt-3">Teléfono de atención: 915938888</h3>
+            <v-btn to="/cookies" class="mt-5" color="accent"> Ver política de cookies</v-btn>
         </v-col>
         <v-col cols="12" sm="6">
             <about></about>
