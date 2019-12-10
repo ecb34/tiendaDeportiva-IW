@@ -13,7 +13,7 @@
                     </v-card-text>
 
                     <v-card-actions>
-                    <v-btn color="orange" text>
+                    <v-btn color="orange" text :to="`/articulos/${articulo.id}`">
                         Ver
                     </v-btn>
 

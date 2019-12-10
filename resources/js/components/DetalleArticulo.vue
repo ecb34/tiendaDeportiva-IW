@@ -3,7 +3,7 @@
         <v-breadcrumbs :items="items" divider=">"></v-breadcrumbs>
         <v-row>
             <v-col cols="1">
-                <v-hover v-for="index in listaImagenes.length" class="mb-4" v-slot:default="{ hover }">
+                <v-hover v-for="index in listaImagenes.length" v-bind:key="index" class="mb-4" v-slot:default="{ hover }">
                     <v-card :elevation="hover ? 12 : 2" :class="{ 'on-hover': hover }"
                         v-on:click="cambiarImagen(index-1)">
                         <v-img v-bind:src="listaImagenes[index-1]" aspect-ratio=1 max-height="70"></v-img>

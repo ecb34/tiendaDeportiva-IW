@@ -3,6 +3,9 @@ import Router from 'vue-router';
 import Home from './components/Home'
 import Articulos from './components/Articulos'
 import DetalleArticulo from './components/DetalleArticulo'
+import Contacto from './components/Contacto'
+import Cookies from './components/PoliticaCookies'
+import Tiendas from './components/Tiendas'
 
 Vue.use(Router);
 
@@ -23,19 +26,21 @@ export default new Router({
             path: '/articulos/:id',
             name: 'articulo',
             component: DetalleArticulo
-        }
-        /*{
-            path: '/about',
-            name: 'Sobre Nosotros',
-            component: About
-        },*/
-        
-        /*
+        },
         {
-            path: '/usuarios',
-            name: 'usuarios',
-            component: Usuarios
-        }*/
-       
+            path: '/contacto',
+            name: 'Contacto',
+            component: Contacto
+        },
+        {
+            path: '/cookies',
+            name: 'Cookies',
+            component: Cookies
+        },
+        {
+            path: '/tiendas',
+            name: 'Tiendas',
+            component: Tiendas
+        }
     ]
 });
