@@ -41,7 +41,6 @@ export default {
     async created(){
         try{
             const res = await axios.get('/api/articulos');
-            console.log(res.data.data);
             this.listaArticulos = res.data.data;
         }catch(err){
 
