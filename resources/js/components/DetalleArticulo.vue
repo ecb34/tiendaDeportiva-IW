@@ -3,10 +3,11 @@
         <v-breadcrumbs :items="items" divider=">"></v-breadcrumbs>
         <v-row>
             <v-col cols="1">
-                <v-hover v-for="index in listaImagenes.length" v-bind:key="index" class="mb-4" v-slot:default="{ hover }">
+                <v-hover v-for="index in listaImagenes.length" v-bind:key="index" class="mb-4"
+                    v-slot:default="{ hover }">
                     <v-card :elevation="hover ? 12 : 2" :class="{ 'on-hover': hover }"
                         v-on:click="cambiarImagen(index-1)">
-                        <v-img v-bind:src="listaImagenes[index-1]" aspect-ratio=1 max-height="70"></v-img>
+                        <v-img v-bind:src="listaImagenes[index-1].url" aspect-ratio=1 max-height="70"></v-img>
                     </v-card>
                 </v-hover>
             </v-col>
@@ -22,14 +23,14 @@
             </v-col>
             <v-col justify="center">
 
-                <p class="display-2">Titulo producto</p>
+                <p class="display-2">{{articulo.nombre}}</p>
                 <p class="headline">Descripcion:</p>
-                <p class="body-2">Descripcion del producto</p>
+                <p class="body-2">{{articulo.descripcion}}</p>
                 <v-row justify="center">
                     <p class="body-2">Total: 32,56€</p>
                 </v-row>
                 <v-row justify="center">
-                    <v-rating v-model="rating" justify-center></v-rating>
+                    <v-rating v-model="articulo.valoracion" justify-center></v-rating>
                 </v-row>
                 <v-row>
                     <v-btn class="mr-4" color="green draken-4">Comprar</v-btn>
@@ -62,7 +63,7 @@
                     <v-tab-item>
                         <v-card flat>
                             <v-card-text>Contents for Item 2 go here</v-card-text>
-                            
+
                         </v-card>
                     </v-tab-item>
                 </v-tabs>
@@ -89,6 +90,7 @@
                 </v-row>
             </v-col>
         </v-row>
+
     </v-container>
 </template>
 
@@ -117,35 +119,56 @@
                 ],
                 rating: 4,
                 contadorImagen: 0,
+                articulo: {},
                 listaArticulos: [],
                 listaComentarios: [],
                 listaArticulosRelacionados: ["https://picsum.photos/id/11/500/300", "https://picsum.photos/510/300?random",
                     'http://d26lpennugtm8s.cloudfront.net/stores/008/632/products/lchl14-negra-11-5ef53327e0e0a6e96515128489853509-640-0.jpg',
                     'https://ae01.alicdn.com/kf/HTB1yJ3PzByWBuNkSmFPq6xguVXa1.jpg?width=800&height=800&hash=1600'
                 ],
-                listaImagenesSize: '50',
                 listaImagenes: ["https://picsum.photos/id/11/500/300", "https://picsum.photos/510/300?random",
                     'http://d26lpennugtm8s.cloudfront.net/stores/008/632/products/lchl14-negra-11-5ef53327e0e0a6e96515128489853509-640-0.jpg',
                     'https://ae01.alicdn.com/kf/HTB1yJ3PzByWBuNkSmFPq6xguVXa1.jpg?width=800&height=800&hash=1600'
                 ],
-                imagen: 'https://picsum.photos/id/11/500/300'
+                imagen: ''
             }
         },
         methods: {
             cambiarImagen: function (i) {
-                this.imagen = this.listaImagenes[i];
+                this.imagen = this.listaImagenes[i].url;
                 console.log('hola');
             }
+
+
+
         },
         async created() {
             try {
+                //lista de articulos 
                 const res = await axios.get('/api/articulos');
-                console.log(res.data.articulos);
                 this.listaArticulos = res.data.articulos;
+
+                //articulo con ID especifica, recuperamos las imagenes del articulo
+                const res2 = await axios.get('/api/articulos/' + this.$route.params.id);
+                this.articulo = res2.data.data;
+                this.listaImagenes = this.articulo.imagenes;
+                this.imagen = this.listaImagenes[0].url;
+                console.log(this.articulo)
+
             } catch (err) {
 
             }
+
         }
+        /*
+        mounted() {
+            axios.get('api/articulos')
+                .then(response => {
+                    this.listaArticulos = response.data.articulos;
+                    console.log('lista de articulos:'+this.listaArticulos);
+                }).catch(error => {
+                })
+        }*/
     }
 </script>
 
