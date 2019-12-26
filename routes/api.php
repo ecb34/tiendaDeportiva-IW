@@ -1,8 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
-use App\Http\Resources\Articulo as ArticuloResource;
-use App\Articulo;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -15,14 +14,13 @@ use App\Articulo;
 |
 */
 
-//
+Route::apiResources([
+    'articulos' => 'API\ArticuloController',
+    'categorias'=> 'API\CategoriaController',
+    'marcas' => 'API\MarcaController',
+    'users' => 'API\UserController'
+    ]);//excluye las rutas que devuelven html (create,edit...)
 
-Route::resource('articulos', 'ArticuloController');
-/*
-Route::get('/articulos', function () {
-    
-    return ArticuloResource::collection(Articulo::all());
-});*/
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
@@ -41,9 +39,3 @@ Route::group(['prefix' => 'auth'], function () {
 });
 
 
-Route::get('/emergencies/assists', 'Api\EmergencyController@assists');
-    //Emergency resource routes
-    Route::resource('emergencies', 'Api\EmergencyController')->only([
-        'index', 'store', 'show', 'update', 'edit', 'destroy'
-    ]);
-    */

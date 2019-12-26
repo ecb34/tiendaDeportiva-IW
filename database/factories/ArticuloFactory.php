@@ -13,5 +13,6 @@ $factory->define(Articulo::class, function (Faker $faker) {
         'pvp' => $faker->randomFloat(2,0,200),//2 digitos, hasta 9999
         'descripcion' => $faker->text(150),
         'valoracion' => $faker->randomFloat(1,0,5),//hasta 5 estrellas
+        'genero' => $faker->numberBetween(0,2)//0 = hombre, 1 =mujer, 2 = unisex
     ];
 });
