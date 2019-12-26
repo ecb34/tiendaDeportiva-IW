@@ -4,6 +4,8 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\Imagen as ImagenResource;
+use App\Http\Resources\Comentario as ComentarioResource;
+use App\Http\Resources\Marca as MarcaResource;
 
 class Articulo extends JsonResource
 {
@@ -24,7 +26,9 @@ class Articulo extends JsonResource
             'valoracion' => $this->valoracion,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-            'imagenes' => ImagenResource::collection($this->imagenes)
+            'marca' => new MarcaResource($this->marca),
+            'imagenes' => ImagenResource::collection($this->imagenes),
+            'comentarios' => ComentarioResource::collection($this->comentarios)
         ];
     }
 }
