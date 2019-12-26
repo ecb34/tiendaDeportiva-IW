@@ -20,6 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('apellido');
             $table->string('telefono');
             $table->string('password');
+            $table->string('api_token',80)->unique()->nullable()->default(null);
             $table->date('fecha_nacimiento');
             $table->string('rol');
             $table->timestamp('email_verified_at')->nullable();
