@@ -49,8 +49,6 @@
                     <v-tab ripple>
                         <v-badge>
                             Comentarios
-                            <template v-slot:badge>10</template>
-
                         </v-badge>
 
                     </v-tab>
@@ -144,7 +142,7 @@
         },
         async created() {
             try {
-                //lista de articulos 
+                //lista de articulos
                 const res = await axios.get('/api/articulos');
                 this.listaArticulos = res.data.data;
 
@@ -153,6 +151,7 @@
                 this.articulo = res2.data.data;
                 this.listaImagenes = this.articulo.imagenes;
                 this.imagen = this.listaImagenes[0].url;
+                console.log(this.articulo);
 
             } catch (err) {
 

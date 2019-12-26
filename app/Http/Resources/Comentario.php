@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class Marca extends JsonResource
+class Comentario extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,9 +16,9 @@ class Marca extends JsonResource
     {
         return [
             'id' => $this->id,
-            'nombre' => $this->nombre,
-            'empresa' => $this->empresa,
-            'logo' => $this->logo
+            'texto' => $this->texto,
+            'valoracion' => $this->valoracion,
+            'user' => $this->user->nombre
         ];
     }
 }
