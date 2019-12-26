@@ -65,9 +65,9 @@ class ArticuloController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Articulo $articulo)
     {
-        return new ArticuloResource(Articulo::find($id));
+        return new ArticuloResource($articulo);
     }
 
     /**

@@ -146,14 +146,13 @@
             try {
                 //lista de articulos 
                 const res = await axios.get('/api/articulos');
-                this.listaArticulos = res.data.articulos;
+                this.listaArticulos = res.data.data;
 
                 //articulo con ID especifica, recuperamos las imagenes del articulo
                 const res2 = await axios.get('/api/articulos/' + this.$route.params.id);
                 this.articulo = res2.data.data;
                 this.listaImagenes = this.articulo.imagenes;
                 this.imagen = this.listaImagenes[0].url;
-                console.log(this.articulo)
 
             } catch (err) {
 
