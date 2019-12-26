@@ -17,7 +17,8 @@ use Illuminate\Http\Request;
 Route::apiResources([
     'articulos' => 'API\ArticuloController',
     'categorias'=> 'API\CategoriaController',
-    'marcas' => 'API\MarcaController'
+    'marcas' => 'API\MarcaController',
+    'users' => 'API\UserController'
     ]);//excluye las rutas que devuelven html (create,edit...)
 
 
