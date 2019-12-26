@@ -6,6 +6,7 @@ import DetalleArticulo from './components/DetalleArticulo'
 import Contacto from './components/Contacto'
 import Cookies from './components/PoliticaCookies'
 import Tiendas from './components/Tiendas'
+import Registrar from './components/Registrar'
 
 Vue.use(Router);
 
@@ -41,6 +42,11 @@ export default new Router({
             path: '/tiendas',
             name: 'Tiendas',
             component: Tiendas
+        },
+        {
+            path: '/registrar',
+            name: 'Registrar',
+            component: Registrar
         }
     ]
 });
