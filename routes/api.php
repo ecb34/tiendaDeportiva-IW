@@ -25,3 +25,17 @@ Route::apiResources([
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+
+/* ///// Ejemplo///////
+Route::group(['prefix' => 'auth'], function () {
+    //Authentication routes
+    Route::post('login', 'Api\AuthController@login');
+    Route::group(['middleware' => 'auth:api'], function() {
+        Route::post('signup', 'Api\AuthController@signup');
+        Route::get('logout', 'Api\AuthController@logout');
+        Route::get('user', 'Api\AuthController@user');
+    });
+});
+
+
