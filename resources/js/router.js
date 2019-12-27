@@ -7,6 +7,7 @@ import Contacto from './components/Contacto'
 import Cookies from './components/PoliticaCookies'
 import Tiendas from './components/Tiendas'
 import ListaArticulosHombre from './components/ListaArticulosHombre'
+import ListaArticulosMujer from './components/ListaArticulosMujer'
 
 Vue.use(Router);
 
@@ -43,6 +44,11 @@ export default new Router({
             path: '/hombre',
             name: 'ListaArticulosHombre',
             component: ListaArticulosHombre
+        },
+        {
+            path: '/mujer',
+            name: 'ListaArticulosMujer',
+            component: ListaArticulosMujer
         },
         {
             path: '/tiendas',
