@@ -18,15 +18,18 @@
                 <v-icon>mdi-magnify</v-icon>
             </v-btn>
 
-            <v-btn icon>
-                <v-icon>mdi-cart</v-icon>
-            </v-btn>
+            <div v-if="loggedIn">
+                <v-btn icon>
+                    <v-icon>mdi-cart</v-icon>
+                </v-btn>
 
-            <v-btn icon>
-                <v-icon>mdi-account</v-icon>
-            </v-btn>
-            
-            <login></login>
+                <v-btn icon>
+                    <v-icon>mdi-account</v-icon>
+                </v-btn>
+                <v-btn @click="logout()" icon><v-icon >mdi-logout</v-icon></v-btn>
+            </div>
+           
+            <login v-else></login>
 
             <template v-slot:extension>
                 <v-tabs fixed-tabs background-color="transparent" dark align-with-title>
@@ -91,6 +94,15 @@ export default {
         }
     },
     methods: {
+        async logout(){
+            await this.$store.dispatch('logout');
+            location.reload();
+        }
+    },
+    computed: {
+        loggedIn(){
+            return this.$store.getters.loggedIn
+        }
     },
     components: {
         'login': login

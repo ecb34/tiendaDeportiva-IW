@@ -32,6 +32,7 @@
                     prepend-icon="mdi-lock"
                     type="password"
                   ></v-text-field>
+                  <span>{{error}}</span>
                 </v-form>
               </v-card-text>
               <v-card-actions>
@@ -53,6 +54,7 @@ export default {
                 email: '',
                 password: ''
             },
+            error: ''
         }
     },
     methods: {
@@ -61,7 +63,7 @@ export default {
                       .then((res) =>{
                         this.$router.go('/')
                       }).catch(err => {
-                        console.log(err.response.data)
+                        this.error = 'Error, contraseña/email incorrecto'
                       })
         }
     }

@@ -13,7 +13,7 @@ export default new Vuex.Store({
     //Getters are function which consult the variables of the state.
     getters: {
         loggedIn(state){
-            return state.token !==null
+            return state.token != null
         },
         getToken(state){
             return state.token
@@ -41,9 +41,11 @@ export default new Vuex.Store({
             
         },
         logout(context){
-            axios.get('/api/auth/logout').then(()=>{
-                localStorage.setItem('token', null)
+            return axios.get('/api/auth/logout').then(()=>{
+                localStorage.setItem('token', '')
                 context.commit('setToken', '')
+            }).catch(err => {
+                console.log(err)
             })
         }
     }
