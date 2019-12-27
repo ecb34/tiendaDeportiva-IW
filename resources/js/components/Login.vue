@@ -35,7 +35,7 @@
                 </v-form>
               </v-card-text>
               <v-card-actions>
-                <v-btn @click="dialog = false" to="/registrar" text color="primary">¿No tienes cuenta? Registrate</v-btn>
+                <v-btn @click="dialog = false" to="/registro" text color="primary">¿No tienes cuenta? Registrate</v-btn>
                 <v-spacer></v-spacer>
                 <v-btn  @click="submit" color="blue" class="white--text">Login</v-btn>
               </v-card-actions>
