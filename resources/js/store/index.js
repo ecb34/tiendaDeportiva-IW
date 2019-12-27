@@ -31,8 +31,8 @@ export default new Vuex.Store({
                     email: credentials.email,
                     password: credentials.password
                 }).then(res =>{
-                    localStorage.setItem('token', res.access_token)
-                    context.commit('setToken', res.access_token)
+                    localStorage.setItem('token', res.data.access_token)
+                    context.commit('setToken', res.data.access_token)
                     resolve()
                 }).catch(err =>{
                     reject(err)

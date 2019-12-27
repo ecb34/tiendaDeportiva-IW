@@ -18,9 +18,9 @@
               <v-card-text>
                 <v-form>
                   <v-text-field
-                    label="Nombre"
-                    name="Nombre"
-                    v-model="credentials.nombre"
+                    label="Email"
+                    name="Email"
+                    v-model="credenciales.email"
                     prepend-icon="mdi-account"
                     type="text"
                   ></v-text-field>
@@ -28,7 +28,7 @@
                   <v-text-field
                     label="Contraseña"
                     name="contraseña"
-                    v-model="credentials.password"
+                    v-model="credenciales.password"
                     prepend-icon="mdi-lock"
                     type="password"
                   ></v-text-field>
@@ -49,15 +49,20 @@ export default {
     data: function(){
         return{
             dialog: false,
-            credentials: {
-                nombre: '',
+            credenciales: {
+                email: '',
                 password: ''
             },
         }
     },
     methods: {
         submit(){
-
+          this.$store.dispatch('login', this.credenciales)
+                      .then((res) =>{
+                        this.$router.go('/')
+                      }).catch(err => {
+                        console.log(err.response.data)
+                      })
         }
     }
 
