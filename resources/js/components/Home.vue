@@ -17,7 +17,13 @@
       <img src="https://placeimg.com/500/500/any?4">
       <img src="https://placeimg.com/500/500/any?5">
       <img src="https://placeimg.com/500/500/any?6">
-    </carousel>
+  </carousel>
+  <v-snackbar v-model="mostrar_snackbar" color="success" top class="title">
+        Te has registrado exitosamente
+      <v-btn dark flat @click="mostrar_snackbar = false">
+          Cerrar
+      </v-btn>
+  </v-snackbar>
 </v-container>
 </template>
 
@@ -25,6 +31,11 @@
 import carousel from 'vue-owl-carousel'
 export default {
   components: { carousel },
+  props:{
+    mostrar_snackbar: {
+      type: Boolean
+    }
+  },
   data () {
       return {
         items: [
