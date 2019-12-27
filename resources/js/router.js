@@ -8,6 +8,7 @@ import Cookies from './components/PoliticaCookies'
 import Tiendas from './components/Tiendas'
 import ListaArticulosHombre from './components/ListaArticulosHombre'
 import ListaArticulosMujer from './components/ListaArticulosMujer'
+import Carrito from './components/Carrito'
 
 Vue.use(Router);
 
@@ -49,6 +50,11 @@ export default new Router({
             path: '/mujer',
             name: 'ListaArticulosMujer',
             component: ListaArticulosMujer
+        },
+        {
+            path: '/carrito',
+            name: 'Carrito',
+            component: Carrito
         },
         {
             path: '/tiendas',
