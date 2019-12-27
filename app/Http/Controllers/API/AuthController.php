@@ -15,15 +15,20 @@ class AuthController extends Controller
         $request->validate([
             'nombre'     => 'required|string',
             'email'    => 'required|string|email|unique:users',
+            'apellido' => 'string',
+            'fecha_nacimiento' => 'date',
             'password' => 'required|string|confirmed',
         ]);
         $user = new User([
             'nombre'     => $request->nombre,
             'email'    => $request->email,
+            'apellido' => $request->apellido,
+            'fecha_nacimiento' => $request->fecha_nacimiento,
+            'telefono' => $request->telefono,
             'password' => bcrypt($request->password),
         ]);
         $user->save();
-        return response()->json(['message' => 'Successfully created user!'], 201);
+        return response()->json(['mensaje' => 'Usuario creado correctamente'], 201);
     }    
     
     public function login(Request $request)
@@ -37,7 +42,7 @@ class AuthController extends Controller
         $credentials = request(['email', 'password']);
         
         if (!Auth::attempt($credentials)) {
-            return response()->json(['message' => 'Unauthorized'], 401);
+            return response()->json(['mensaje' => 'No Autorizado'], 401);
         }
 
         $user = $request->user();
@@ -59,7 +64,7 @@ class AuthController extends Controller
     public function logout(Request $request)
     {
         $request->user()->token()->revoke();
-        return response()->json(['message' =>'Successfully logged out']);
+        return response()->json(['mensaje' =>'Cerrada sesión correctamente']);
     }
 
     public function user(Request $request)

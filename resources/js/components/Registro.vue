@@ -1,81 +1,96 @@
 <template>
 <v-container>
-<form :lazy-validation="false">
+<v-form
+    ref="form"
+    v-model="valid"
+  >
     <v-text-field
-      v-model="name"
-      :error-messages="nameErrors"
-      :counter="10"
-      label="Name"
+      v-model="nombre"
+      :rules="reglasNombre"
+      label="Nombre"
       required
-      @input="$v.name.$touch()"
-      @blur="$v.name.$touch()"
     ></v-text-field>
+    <v-text-field
+      v-model="apellido"
+      label="Apellidos"
+    ></v-text-field>
+
+    <v-menu max-width="290">
+      <template v-slot:activator="{ on }">
+      <v-text-field v-on="on" :value="fechaFormateada" slot="activator" label="Fecha Nacimiento" append-icon="mdi-calendar-range"></v-text-field>
+      </template>
+      <v-date-picker v-model="fechaNacimiento"></v-date-picker>
+    </v-menu>
+   
     <v-text-field
       v-model="email"
-      :error-messages="emailErrors"
+      :rules="reglasEmail"
       label="E-mail"
       required
-      @input="$v.email.$touch()"
-      @blur="$v.email.$touch()"
     ></v-text-field>
-    <v-select
-      v-model="select"
-      :items="items"
-      :error-messages="selectErrors"
-      label="Item"
-      required
-      @change="$v.select.$touch()"
-      @blur="$v.select.$touch()"
-    ></v-select>
+    <v-text-field
+      v-model="telefono"
+      label="Telefono"
+    ></v-text-field>
     <v-checkbox
       v-model="checkbox"
-      :error-messages="checkboxErrors"
+      :rules="[v => !!v || 'Debes aceptar las condiciones de uso!']"
       label="¿Aceptas los terminos y condiciones?"
       required
-      @change="$v.checkbox.$touch()"
-      @blur="$v.checkbox.$touch()"
     ></v-checkbox>
-
-    <v-btn class="mr-4" @click="submit">submit</v-btn>
-  </form>
+    <v-btn
+      :disabled="!valid"
+      color="success"
+      class="mr-4"
+      @click="validar"
+    >
+      Registrar
+    </v-btn>
+</v-form>
 </v-container>
   
 </template>
 
 <script>
+  import axios from "axios"
   export default {
     data: () => ({
       valid: true,
-      name: '',
-      nameRules: [
-        v => !!v || 'Name is required',
-        v => (v && v.length <= 10) || 'Name must be less than 10 characters',
+      nombre: '',
+      reglasNombre: [
+        v => !!v || 'El nombre es obligatorio',
       ],
       email: '',
-      emailRules: [
-        v => !!v || 'E-mail is required',
-        v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
+      reglasEmail: [
+        v => !!v || 'El email es obligatorio',
+        v => /.+@.+\..+/.test(v) || 'El email debe tener un formato válido',
       ],
-      select: null,
-      items: [
-        'Item 1',
-        'Item 2',
-        'Item 3',
-        'Item 4',
-      ],
+      telefono: '',
+      apellido: '',
+      fechaNacimiento: null,
       checkbox: false,
     }),
 
     methods: {
-      validate () {
+      validar () {
         if (this.$refs.form.validate()) {
           this.snackbar = true
+          
+          //llamada a signup
+          //TODO configurar axios como ADI practica 3*/
         }
-      },
-      resetValidation () {
-        this.$refs.form.resetValidation()
-      },
+      }
     },
+    computed: {
+      fechaFormateada(){
+        if(this.fechaNacimiento){
+           var split = this.fechaNacimiento.split('-')
+           return split[2] + '/' + split[1] + '/' + split[0]
+        }
+       
+        return '';
+      }
+    }
   }
 </script>
 
