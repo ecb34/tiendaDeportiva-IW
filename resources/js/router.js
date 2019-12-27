@@ -6,6 +6,7 @@ import DetalleArticulo from './components/DetalleArticulo'
 import Contacto from './components/Contacto'
 import Cookies from './components/PoliticaCookies'
 import Tiendas from './components/Tiendas'
+import ListaArticulosHombre from './components/ListaArticulosHombre'
 
 Vue.use(Router);
 
@@ -20,7 +21,8 @@ export default new Router({
         {
             path: '/articulos',
             name: 'articulos',
-            component: Articulos
+            component: Articulos,
+            //props: true
         },
         {
             path: '/articulos/:id',
@@ -36,6 +38,11 @@ export default new Router({
             path: '/cookies',
             name: 'Cookies',
             component: Cookies
+        },
+        {
+            path: '/hombre',
+            name: 'ListaArticulosHombre',
+            component: ListaArticulosHombre
         },
         {
             path: '/tiendas',
