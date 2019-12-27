@@ -32,6 +32,12 @@
 <script>
 import axios from "axios";
 export default {
+   /* props: {
+        categoria: {
+            type: Integer,
+            required: false
+        }
+    },*/
     name: 'articulos',
     data(){
         return{

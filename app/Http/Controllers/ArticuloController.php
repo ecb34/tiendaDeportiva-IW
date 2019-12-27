@@ -15,10 +15,9 @@ class ArticuloController extends Controller
      */
     public function index()
     {
-        //
-        $articulos = ArticuloResource::collection(Articulo::all());
-
-        return response()->json(['articulos' => $articulos]);
+        //$articulos = ArticuloResource::collection(Articulo::all());
+        //return response()->json(['articulos' => $articulos]);
+        return ArticuloResource::collection(Articulo::all());
     }
 
     /**
