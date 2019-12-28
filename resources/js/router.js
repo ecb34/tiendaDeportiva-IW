@@ -17,7 +17,7 @@ export default new Router({
             path: '/',
             name: 'home',
             component: Home,
-            props: (route) => ({ mostrar_snackbar: (route.query.mostrar_snackbar === 'true') })
+            props: true
         },    
         {
             path: '/articulos',

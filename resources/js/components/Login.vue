@@ -61,7 +61,7 @@ export default {
         submit(){
           this.$store.dispatch('login', this.credenciales)
                       .then((res) =>{
-                        this.$router.go('/')
+                        //this.$router.go()//recarga la pagina... por ahora no lo usamos
                       }).catch(err => {
                         this.error = 'Error, contraseña/email incorrecto'
                       })

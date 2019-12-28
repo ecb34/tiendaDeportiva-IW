@@ -96,7 +96,7 @@ export default {
     methods: {
         async logout(){
             await this.$store.dispatch('logout');
-            location.reload();
+            this.$router.go()
         }
     },
     computed: {
