@@ -52,6 +52,11 @@
 
         <!-- FOOTER -->
         <v-footer dark padless>
+            <cookie-law>
+                <div slot="message">
+                    Este sitio web utiliza cookies para que usted tenga la mejor experiencia de usuario. Si continúa navegando está dando su consentimiento para la aceptación de las mencionadas cookies y la aceptación de <router-link to="cookies">nuestra política de cookies</router-link>, pinche el enlace para mayor información.
+                </div>
+            </cookie-law>
             <v-card flat tile class="black lighten-1 white--text text-center">
             <v-card-text>                    
                 <v-img src="/images/logo.png" height="175" contain></v-img>      
@@ -81,6 +86,7 @@
 
 <script>
 import login from '../components/Login'
+import CookieLaw from 'vue-cookie-law'
 export default {
     data: function () {
         return {
@@ -105,7 +111,8 @@ export default {
         }
     },
     components: {
-        'login': login
+        'login': login,
+        CookieLaw
     }
 };
 </script>
