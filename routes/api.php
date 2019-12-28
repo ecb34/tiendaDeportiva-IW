@@ -14,25 +14,24 @@ use Illuminate\Http\Request;
 |
 */
 
+
+//por ahora cualquiera puede acceder a ellas
 Route::apiResources([
     'articulos' => 'API\ArticuloController',
     'categorias'=> 'API\CategoriaController',
     'marcas' => 'API\MarcaController',
     'users' => 'API\UserController'
-    ]);//excluye las rutas que devuelven html (create,edit...)
+]);//excluye las rutas que devuelven html (create,edit...)
 
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
-
-/* ///// Ejemplo///////
+///// Ejemplo///////
 Route::group(['prefix' => 'auth'], function () {
     //Authentication routes
-    Route::post('login', 'Api\AuthController@login');
+    Route::post('login', 'API\AuthController@login');
+    Route::post('signup', 'API\AuthController@signup');
+
+    //rutas en las que debe estar autenticado para acceder
     Route::group(['middleware' => 'auth:api'], function() {
-        Route::post('signup', 'Api\AuthController@signup');
         Route::get('logout', 'Api\AuthController@logout');
         Route::get('user', 'Api\AuthController@user');
     });

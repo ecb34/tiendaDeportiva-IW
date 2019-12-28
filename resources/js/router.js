@@ -6,6 +6,7 @@ import DetalleArticulo from './components/DetalleArticulo'
 import Contacto from './components/Contacto'
 import Cookies from './components/PoliticaCookies'
 import Tiendas from './components/Tiendas'
+import Registro from './components/Registro'
 import ListaArticulosHombre from './components/ListaArticulosHombre'
 import ListaArticulosMujer from './components/ListaArticulosMujer'
 import Carrito from './components/Carrito'
@@ -18,7 +19,8 @@ export default new Router({
         {
             path: '/',
             name: 'home',
-            component: Home
+            component: Home,
+            props: true
         },    
         {
             path: '/articulos',
@@ -60,6 +62,11 @@ export default new Router({
             path: '/tiendas',
             name: 'Tiendas',
             component: Tiendas
+        },
+        {
+            path: '/registro',
+            name: 'Registro',
+            component: Registro
         }
     ]
 });
