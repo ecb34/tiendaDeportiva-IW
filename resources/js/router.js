@@ -7,6 +7,9 @@ import Contacto from './components/Contacto'
 import Cookies from './components/PoliticaCookies'
 import Tiendas from './components/Tiendas'
 import Registro from './components/Registro'
+import ListaArticulosHombre from './components/ListaArticulosHombre'
+import ListaArticulosMujer from './components/ListaArticulosMujer'
+import Carrito from './components/Carrito'
 
 Vue.use(Router);
 
@@ -22,7 +25,8 @@ export default new Router({
         {
             path: '/articulos',
             name: 'articulos',
-            component: Articulos
+            component: Articulos,
+            //props: true
         },
         {
             path: '/articulos/:id',
@@ -38,6 +42,21 @@ export default new Router({
             path: '/cookies',
             name: 'Cookies',
             component: Cookies
+        },
+        {
+            path: '/hombre',
+            name: 'ListaArticulosHombre',
+            component: ListaArticulosHombre
+        },
+        {
+            path: '/mujer',
+            name: 'ListaArticulosMujer',
+            component: ListaArticulosMujer
+        },
+        {
+            path: '/carrito',
+            name: 'Carrito',
+            component: Carrito
         },
         {
             path: '/tiendas',

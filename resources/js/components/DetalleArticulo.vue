@@ -30,7 +30,7 @@
                     <p class="body-2">Total: 32,56€</p>
                 </v-row>
                 <v-row justify="center">
-                    <v-rating v-model="articulo.valoracion" justify-center></v-rating>
+                    <v-rating readonly color="orange" v-model="articulo.valoracion" justify-center></v-rating>
                 </v-row>
                 <v-row>
                     <v-btn class="mr-4" color="green draken-4">Comprar</v-btn>
@@ -49,10 +49,7 @@
                     <v-tab ripple>
                         <v-badge>
                             Comentarios
-                            <template v-slot:badge>10</template>
-
                         </v-badge>
-
                     </v-tab>
 
                     <v-tab-item>
@@ -62,8 +59,21 @@
                     </v-tab-item>
                     <v-tab-item>
                         <v-card flat>
-                            <v-card-text>Contents for Item 2 go here</v-card-text>
-
+                            <v-list three-line>
+                                <template v-for="(item, index) in listaComentarios">
+                                    <v-list-item :key="item.title" @click="">
+                                        <v-list-item-avatar>
+                                            <v-img src="https://cdn.onlinewebfonts.com/svg/img_184513.png"></v-img>
+                                        </v-list-item-avatar>
+                                        <v-list-item-content>
+                                            <v-list-item-title v-text="item.user"></v-list-item-title>
+                                            <v-list-item-subtitle v-text="item.texto"></v-list-item-subtitle>
+                                            <v-rating readonly color="orange" v-model="item.valoracion" justify-center>
+                                            </v-rating>
+                                        </v-list-item-content>
+                                    </v-list-item>
+                                </template>
+                            </v-list>
                         </v-card>
                     </v-tab-item>
                 </v-tabs>
@@ -136,15 +146,11 @@
         methods: {
             cambiarImagen: function (i) {
                 this.imagen = this.listaImagenes[i].url;
-                console.log('hola');
             }
-
-
-
         },
         async created() {
             try {
-                //lista de articulos 
+                //lista de articulos
                 const res = await axios.get('/api/articulos');
                 this.listaArticulos = res.data.data;
 
@@ -153,7 +159,9 @@
                 this.articulo = res2.data.data;
                 this.listaImagenes = this.articulo.imagenes;
                 this.imagen = this.listaImagenes[0].url;
-
+                this.listaComentarios = this.articulo.comentarios;
+                console.log(this.articulo);
+                console.log(this.listaComentarios)
             } catch (err) {
 
             }
