@@ -11,12 +11,7 @@
 
   <h2 class="mt-3">Categorias Recomendadas</h2>
   <carousel class="mt-5" :nav="false" :items="4" :loop="true">
-      <img src="https://placeimg.com/500/500/any?1">
-      <img src="https://placeimg.com/500/500/any?2">
-      <img src="https://placeimg.com/500/500/any?3">
-      <img src="https://placeimg.com/500/500/any?4">
-      <img src="https://placeimg.com/500/500/any?5">
-      <img src="https://placeimg.com/500/500/any?6">
+      <img src="" :alt="categoria.nombre" v-for="categoria in categoriasRecomendadas" :key="categoria.id">
   </carousel>
   <v-snackbar v-model="mostrar_snackbar" color="success" top class="title">
         Te has registrado exitosamente
@@ -38,6 +33,7 @@ export default {
   },
   data () {
       return {
+        categoriasRecomendadas: [],
         items: [
           {
             src: 'https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg',
@@ -54,6 +50,15 @@ export default {
         ],
       }
     },
+  mounted(){
+    axios.get('/api/categorias')
+        .then(response => {
+          this.categoriasRecomendadas = response.data.data;
+          console.log(this.categoriasRecomendadas)
+        }).catch(err => {
+          console.log(err)
+        })
+  }
 }
 </script>
 

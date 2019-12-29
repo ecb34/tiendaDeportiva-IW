@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Categoria;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\http\Resources\Categoria as CategoriaResource;
+use DB;
 
 class CategoriaController extends Controller
 {
@@ -14,7 +17,7 @@ class CategoriaController extends Controller
      */
     public function index()
     {
-        //
+        return CategoriaResource::collection(Categoria::all());
     }
 
     /**
