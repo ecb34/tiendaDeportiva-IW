@@ -17,5 +17,10 @@ class Imagen extends Model
     {
         return $this->belongsTo(Articulo::class);
     }
+
+    public function categoria()
+    {
+        return $this->belongsTo(Categoria::class);
+    }
     /**** FIN Relaciones Imagenes ****/
 }

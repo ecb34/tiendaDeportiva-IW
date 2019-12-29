@@ -41,11 +41,15 @@ export default new Vuex.Store({
             
         },
         logout(context){
-            return axios.get('/api/auth/logout').then(()=>{
-                localStorage.setItem('token', '')
-                context.commit('setToken', '')
-            }).catch(err => {
-                console.log(err)
+            return new Promise((resolve,reject) => {
+                axios.get('/api/auth/logout').then(()=>{
+                    localStorage.setItem('token', '')
+                    context.commit('setToken', '')
+                    resolve()
+                }).catch(err => {
+                    console.log(err)
+                    reject(err)
+                })
             })
         }
     }
