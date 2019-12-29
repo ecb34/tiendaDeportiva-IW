@@ -3,9 +3,11 @@
     <v-card class="overflow-hidden">
         <!-- HEADER -->
         <v-app-bar app color="black" dark>
+            <!--
             <v-toolbar-side-icon>
                 <v-img class="mr-3" src="images/logo_sin.png" height="80px" width="90px"> </v-img>
             </v-toolbar-side-icon>
+            -->
             <v-toolbar-title>UASport</v-toolbar-title>
 
             <v-spacer></v-spacer>
@@ -45,8 +47,22 @@
         <!-- END HEADER -->
         
         <!-- BODY -->
-         <v-content>
-            <router-view/>
+        <v-content>
+            <v-row>
+                <v-col cols="12" sm="2">
+                    <v-treeview
+                    v-model="selection"
+                    :items="items"
+                    :selection-type="selectionType"
+                    selectable
+                    return-object
+                    open-all
+                    ></v-treeview>
+                </v-col>
+                <v-col cols="12" sm="10">
+                    <router-view/>
+                </v-col>
+            </v-row>
         </v-content>
         <!-- END BODY -->
 
@@ -87,9 +103,32 @@
 <script>
 import login from '../components/Login'
 import CookieLaw from 'vue-cookie-law'
+import axios from "axios";
+import { log } from 'util';
 export default {
     data: function () {
         return {
+            selectionType: 'leaf',
+            selection: [],
+            /*items: [
+                {
+                id: 1,
+                name: 'Articulos',
+                children: [
+                    { id: 2, name: 'Child #1' },
+                    { id: 3, name: 'Child #2' },
+                    {
+                    id: 4,
+                    name: 'Child #3',
+                    children: [
+                        { id: 5, name: 'Grandchild #1' },
+                        { id: 6, name: 'Grandchild #2' },
+                    ],
+                    },
+                ],
+                },
+            ],*/
+            items:[],
             hideDetails: false,
             icons: [
                 'mdi-twitter',
@@ -113,6 +152,22 @@ export default {
     components: {
         'login': login,
         CookieLaw
+    },
+    async created(){
+        try{
+            const res = await axios.get('/api/categorias');
+            this.items = res.data.map((items) => {
+                return  {
+                    id: items.id,
+                    name: items.nombre,
+                    children: items.hijos_categorias
+                }
+
+            })
+            //console.log(this.items);
+        }catch(err){
+
+        }
     }
 };
 </script>

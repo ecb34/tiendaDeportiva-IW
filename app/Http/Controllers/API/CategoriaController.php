@@ -4,6 +4,9 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Resources\Categoria as CategoriaResource;
+use App\Categoria;
+use Illuminate\Support\Facades\Validator;
 
 class CategoriaController extends Controller
 {
@@ -14,7 +17,10 @@ class CategoriaController extends Controller
      */
     public function index()
     {
-        //
+        $categorias = Categoria::whereNull('categoria_id')
+            ->with('hijosCategorias')
+            ->get();
+        return response()->json($categorias);
     }
 
     /**

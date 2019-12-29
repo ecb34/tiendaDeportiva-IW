@@ -16,7 +16,7 @@ class Categoria extends Model
         return $this->hasMany(Articulo::class);
     }
 
-    public function categoria()
+    /*public function categoria()
     {
         return $this->belongsTo(Categoria::class, 'categoria_padre_id', 'id');
     }
@@ -24,6 +24,16 @@ class Categoria extends Model
     public function categorias()
     {
         return $this->hasMany(Categoria::class, 'categoria_padre_id', 'id');
+    }*/
+
+    public function categorias()
+    {
+        return $this->hasMany(categoria::class);
+    }
+
+    public function hijosCategorias()
+    {
+        return $this->hasMany(Categoria::class)->with('categorias');
     }
     /**** FIN Relaciones Categorias ****/
 }

@@ -20,8 +20,8 @@ class CreateCategoriasTable extends Migration
         });
         Schema::table('categorias', function (Blueprint $table) 
         {
-            $table->integer('categoria_padre_id')->nullable()->unsigned();
-            $table->foreign('categoria_padre_id')->references('id')->on('categorias')->onDelete('cascade')->onUpdate('cascade');
+            $table->integer('categoria_id')->nullable()->unsigned();
+            $table->foreign('categoria_id')->references('id')->on('categorias')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 
