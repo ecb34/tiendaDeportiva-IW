@@ -12,7 +12,16 @@
                     ></v-treeview>
                 </v-col>
                 <v-col cols="12" sm="10">
-                    <v-row>
+                    <h1 v-if="listaArticulos.length === 0 && !loading">No hay articulos de esta categoría</h1>
+                    <v-row v-if="loading" justify="center">
+                        <v-progress-circular
+                        :width="4"
+                        :size="100"
+                        color="primary"
+                        indeterminate
+                        ></v-progress-circular>
+                    </v-row>
+                    <v-row v-else>
                         <v-col v-for="articulo in this.listaArticulos" v-bind:key="articulo.id" cols="12" sm="4">
                             <v-card class="mx-auto" max-width="400">
                                 <v-img class="orange--text align-end" height="200px"  v-bind:src="articulo.imagenes[0].url">
@@ -55,6 +64,7 @@ export default {
             selectionType: 'leaf',
             selection: [],
             items:[],
+            loading: true
         }
     },
     async created(){
@@ -80,14 +90,13 @@ export default {
                 return false;
             },
             traerArticulos: function (){
+                this.loading = true
                 axios.get('/api/articulos')
                 .then(response => {
                     this.listaArticulos = response.data.data
-                        .filter((articulo) => {
-                            return this.filtrarArticulos(articulo)
-                        })
+                        .filter(this.filtrarArticulos)
+                    this.loading = false;
                     this.listaArticulosSinFiltro = this.listaArticulos
-                   
                 })
                 .catch(function (error) {
                     console.log(error);
@@ -96,16 +105,14 @@ export default {
         },
          watch: {
             $route(to, from) {
+                this.selection = [];
                 this.traerArticulos();
             },
             selection(){
-                console.log(this.selection)
                 if(this.selection.length == 0) this.listaArticulos = this.listaArticulosSinFiltro
                 else{
                     this.listaArticulos = this.listaArticulosSinFiltro.filter((articulo) =>{
-                        let filtrado = this.selection.some( s => s.id == articulo.categoria.id)
-                        
-                        return filtrado.length == 0 ? this.listaArticulosSinFiltro: filtrado      
+                        return this.selection.some( s => s.id == articulo.categoria.id)    
                     })
                 }
             }
