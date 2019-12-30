@@ -1,5 +1,6 @@
 <?php
 
+use App\Categoria;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -24,7 +25,9 @@ class DatabaseSeeder extends Seeder
 
         /*************Marcas, categorias,articulos,imagenes, documentos y comentarios*****/
         $marcas = factory(App\Marca::class,2)->create();
-        $categorias = factory(App\Categoria::class,2)->create();
+        //$categorias = factory(App\Categoria::class,2)->create();
+        $this->call(CategoriaTableSeeder::class);
+        $categorias = Categoria::all();
         for($i = 0; $i < count($marcas); ++$i) {
             for($j = 0; $j < count($categorias); ++$j) {    
                 $articulos = factory(App\Articulo::class,2)->create();    
@@ -67,4 +70,5 @@ class DatabaseSeeder extends Seeder
             }      
         }
     }
+
 }
