@@ -26,6 +26,7 @@ class Articulo extends JsonResource
             'descripcion' => $this->descripcion,
             'valoracion' => $this->valoracion,
             'created_at' => $this->created_at,
+            'genero' => $this->genero,
             'updated_at' => $this->updated_at,
             'marca' => new MarcaResource($this->marca),
             'categoria' => new CategoriaResource($this->categoria),
