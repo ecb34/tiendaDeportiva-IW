@@ -3,9 +3,9 @@
         <v-card class="overflow-hidden">
             <!-- HEADER -->
             <v-app-bar app color="black" dark>
-                <v-toolbar-side-icon>
+                <v-app-bar-nav-icon>
                     <v-img class="mr-3" src="images/logo_sin.png" height="80px" width="90px"> </v-img>
-                </v-toolbar-side-icon>
+                </v-app-bar-nav-icon>
                 <v-toolbar-title>UASport</v-toolbar-title>
 
                 <v-spacer></v-spacer>
