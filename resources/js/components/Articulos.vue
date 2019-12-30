@@ -46,12 +46,6 @@
 <script>
 import axios from "axios";
 export default {
-   /* props: {
-        categoria: {
-            type: Integer,
-            required: false
-        }
-    },*/
     name: 'articulos',
 
     data(){
@@ -64,16 +58,47 @@ export default {
     },
     async created(){
         try{
-            const res = await axios.get('/api/articulos');
-            this.listaArticulos = res.data.data;
+            this.traerArticulos();
             
             const cat = await axios.get('/api/categorias');
             this.items = cat.data;
         }catch(err){
 
         }
+    },
+        methods: {
+            filtrarArticulos: function(articulo){
+                if(this.$route.name === 'hombre' && (articulo.genero == 0 || articulo.genero == 2)){
+                    return true;
+                }else if(this.$route.name === 'mujer' && (articulo.genero == 1 || articulo.genero == 2)){
+                    return true;
+                }else if(this.$route.name === 'articulos'){
+                    return true;
+                }
+
+                return false;
+            },
+            traerArticulos: function (){
+                axios.get('/api/articulos')
+                .then(response => {
+                    this.listaArticulos = response.data.data
+                        .filter((articulo) => {
+                            return this.filtrarArticulos(articulo)
+                        })
+                   
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+            }
+        },
+         watch: {
+            $route(to, from) {
+                this.traerArticulos();
+            }
+         }
+
     }
-}
 </script>
 
 <style>

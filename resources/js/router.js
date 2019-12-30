@@ -10,6 +10,7 @@ import Registro from './components/Registro'
 import ListaArticulosHombre from './components/ListaArticulosHombre'
 import ListaArticulosMujer from './components/ListaArticulosMujer'
 import Carrito from './components/Carrito'
+import app from './app';
 
 Vue.use(Router);
 
@@ -21,12 +22,12 @@ export default new Router({
             name: 'home',
             component: Home,
             props: true
-        },    
+        },
         {
             path: '/articulos',
             name: 'articulos',
             component: Articulos,
-            //props: true
+            props: true,
         },
         {
             path: '/articulos/:id',
@@ -45,13 +46,15 @@ export default new Router({
         },
         {
             path: '/hombre',
-            name: 'ListaArticulosHombre',
-            component: ListaArticulosHombre
+            name: 'hombre',
+            component: Articulos,
+            props: true
         },
         {
             path: '/mujer',
-            name: 'ListaArticulosMujer',
-            component: ListaArticulosMujer
+            name: 'mujer',
+            component: Articulos,
+            props: true
         },
         {
             path: '/carrito',
@@ -70,3 +73,4 @@ export default new Router({
         }
     ]
 });
+

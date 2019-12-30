@@ -16,6 +16,7 @@ class Categoria extends Model
         return $this->hasMany(Articulo::class);
     }
 
+    //categoria padre
     public function categoria()
     {
         return $this->belongsTo(Categoria::class, 'categoria_padre_id', 'id');
@@ -34,6 +35,11 @@ class Categoria extends Model
     public function children()
     {
         return $this->hasMany(Categoria::class)->with('children');
+    }
+
+    public function imagen()
+    {
+        return $this->hasOne(Imagen::class);
     }
     /**** FIN Relaciones Categorias ****/
 }

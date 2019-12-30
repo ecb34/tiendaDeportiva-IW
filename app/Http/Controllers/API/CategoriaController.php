@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Categoria;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Resources\Categoria as CategoriaResource;
-use App\Categoria;
 use Illuminate\Support\Facades\Validator;
 
 class CategoriaController extends Controller
