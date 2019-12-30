@@ -32,7 +32,6 @@
 <script>
     import axios from "axios";
     export default {
-        props: ['filtro'],
         name: 'articulos',
         data() {
             return {
@@ -40,47 +39,24 @@
             }
         },
         methods: {
-            generoToInt: function (genero) {
-                switch (genero) {
-                    case "hombre":
-                        return 0
-                        break;
-                    case "Hombre":
-                        return 0
-                        break;
-                    case "mujer":
-                        return 1;
-                        break;
-                    case "Unisex":
-                        return 2;
-                    case "Mujer":
-                        return 1;
-                        break;
-                    case "unisex":
-                        return 2;
-                    default:
-                        return 2;
+            filtrarArticulos: function(articulo){
+                if(this.$route.name === 'hombre' && (articulo.genero == 0 || articulo.genero == 2)){
+                    return true;
+                }else if(this.$route.name === 'mujer' && (articulo.genero == 1 || articulo.genero == 2)){
+                    return true;
+                }else if(this.$route.name === 'articulos'){
+                    return true;
                 }
+
+                return false;
             },
             traerArticulos: function (){
                 axios.get('/api/articulos')
                 .then(response => {
-                    this.listaArticulos = response.data.data;
-                    console.log('el filtro' + this.$route.params.filtro)
-                    console.log(this.listaArticulos)
-                    this.listaArticulosFiltrado = this.listaArticulos
+                    this.listaArticulos = response.data.data
                         .filter((articulo) => {
-                            if (articulo.nombre.includes(this.$route.params.filtro))
-                                return true
-                            if (articulo.genero == generoToInt(this.$route.params.filtro))
-                                return true
-                            if (articulo.categoria.nombre === this.$route.params.filtro)
-                                return true
-                            if (articulo.marca === this.$route.params.filtro)
-                                return true
-                            return false
+                            return this.filtrarArticulos(articulo)
                         })
-                    console.log(this.listaArticulosFiltrado)
                    
                 })
                 .catch(function (error) {
@@ -88,16 +64,14 @@
                 });
             }
         },
-        watch: {
-            // whenever question changes, this function will run
-            filtro: function () {
-                this.traerArticulos();
-                console.log('respuesta') 
-            }
-        },
         mounted() {
            this.traerArticulos();
-        }
+        },
+         watch: {
+            $route(to, from) {
+                this.traerArticulos();
+            }
+         }
 
     }
 </script>

@@ -36,10 +36,9 @@
                 <template v-slot:extension>
                     <v-tabs fixed-tabs background-color="transparent" dark align-with-title>
                         <v-tab to="/">Home</v-tab>
-
-                        <v-tab @click="redirectToHombre('hombre')">Hombre</v-tab>
-                        <v-tab  @click="redirectToMujer('mujer')">Mujer</v-tab>
-                        <v-tab  @click="redirectToDeportes('')">Deportes</v-tab>
+                        <v-tab to="/hombre">Hombre</v-tab>
+                        <v-tab to="/mujer">Mujer</v-tab>
+                        <v-tab to="/articulos">Deportes</v-tab>
                         <v-tab to="/contacto">Contacto</v-tab>
                         <v-tab to="/tiendas">Tiendas</v-tab>
                     </v-tabs>
@@ -115,15 +114,6 @@
                 await this.$store.dispatch('logout')
                 this.$router.go()
             },
-            redirectToHombre(filter) {
-                this.$router.push({ name: 'hombre', params: { filtro: filter }, function() { } });
-            },
-            redirectToMujer(filter) {
-                this.$router.push({ name: 'mujer', params: { filtro: filter }, function() { } });
-            },
-            redirectToDeportes(filter) {
-                this.$router.push({ name: 'articulos', params: { filtro: filter }} );
-            }
         },
         computed: {
             loggedIn() {
