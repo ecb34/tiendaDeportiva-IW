@@ -99,11 +99,13 @@ export default {
                 this.traerArticulos();
             },
             selection(){
-                if(this.selection.length == 0) this.listaArticulos = this.traerArticulos()
+                console.log(this.selection)
+                if(this.selection.length == 0) this.listaArticulos = this.listaArticulosSinFiltro
                 else{
                     this.listaArticulos = this.listaArticulosSinFiltro.filter((articulo) =>{
-                        console.log(articulo.categoria)
-                        return this.selection.some( s => s.id == articulo.categoria.id)
+                        let filtrado = this.selection.some( s => s.id == articulo.categoria.id)
+                        
+                        return filtrado.length == 0 ? this.listaArticulosSinFiltro: filtrado      
                     })
                 }
             }
