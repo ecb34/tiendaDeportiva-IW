@@ -5,8 +5,8 @@ namespace App\Http\Controllers\API;
 use App\Categoria;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\http\Resources\Categoria as CategoriaResource;
-use DB;
+use App\Http\Resources\Categoria as CategoriaResource;
+use Illuminate\Support\Facades\Validator;
 
 class CategoriaController extends Controller
 {
@@ -17,7 +17,10 @@ class CategoriaController extends Controller
      */
     public function index()
     {
-        return CategoriaResource::collection(Categoria::all());
+        $children = Categoria::whereNull('categoria_id')
+            ->with('children')
+            ->get();
+        return response()->json($children);
     }
 
     /**
