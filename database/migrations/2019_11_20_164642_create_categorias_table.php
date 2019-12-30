@@ -16,8 +16,6 @@ class CreateCategoriasTable extends Migration
         Schema::create('categorias', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->integer('imagen_id')->nullable()->unsigned();
-            $table->foreign('imagen_id')->references('id')->on('imagenes')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
         Schema::table('categorias', function (Blueprint $table) 
