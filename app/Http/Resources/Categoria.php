@@ -16,7 +16,7 @@ class Categoria extends JsonResource
     {
         return [
             'id' => $this->id,
-            'nombre' => $this->nombre
+            'name' => $this->name
         ];
     }
 }
