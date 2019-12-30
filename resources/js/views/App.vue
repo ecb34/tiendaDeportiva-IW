@@ -47,23 +47,7 @@
         <!-- END HEADER -->
         
         <!-- BODY -->
-        <v-content>
-            <v-row>
-                <v-col cols="12" sm="2">
-                    <v-treeview
-                    v-model="selection"
-                    :items="items"
-                    :selection-type="selectionType"
-                    selectable
-                    return-object
-                    open-all
-                    ></v-treeview>
-                </v-col>
-                <v-col cols="12" sm="10">
-                    <router-view/>
-                </v-col>
-            </v-row>
-        </v-content>
+            <router-view/>
         <!-- END BODY -->
 
         <!-- FOOTER -->
@@ -104,30 +88,11 @@
 import login from '../components/Login'
 import CookieLaw from 'vue-cookie-law'
 import axios from "axios";
-import { log } from 'util';
 export default {
     data: function () {
         return {
             selectionType: 'leaf',
             selection: [],
-            /*items: [
-                {
-                id: 1,
-                name: 'Articulos',
-                children: [
-                    { id: 2, name: 'Child #1' },
-                    { id: 3, name: 'Child #2' },
-                    {
-                    id: 4,
-                    name: 'Child #3',
-                    children: [
-                        { id: 5, name: 'Grandchild #1' },
-                        { id: 6, name: 'Grandchild #2' },
-                    ],
-                    },
-                ],
-                },
-            ],*/
             items:[],
             hideDetails: false,
             icons: [
@@ -153,22 +118,7 @@ export default {
         'login': login,
         CookieLaw
     },
-    async created(){
-        try{
-            const res = await axios.get('/api/categorias');
-            this.items = res.data.map((items) => {
-                return  {
-                    id: items.id,
-                    name: items.nombre,
-                    children: items.hijos_categorias
-                }
-
-            })
-            //console.log(this.items);
-        }catch(err){
-
-        }
-    }
+    
 };
 </script>
 

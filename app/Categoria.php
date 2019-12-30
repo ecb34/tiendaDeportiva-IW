@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Categoria extends Model
 {
     protected $fillable = [
-        'id', 'nombre'
+        'id', 'name'
     ];
 
     /**** INICIO Relaciones Categorias ****/
@@ -16,24 +16,24 @@ class Categoria extends Model
         return $this->hasMany(Articulo::class);
     }
 
-    /*public function categoria()
+    public function categoria()
     {
         return $this->belongsTo(Categoria::class, 'categoria_padre_id', 'id');
     }
 
-    public function categorias()
+    /*public function categorias()
     {
         return $this->hasMany(Categoria::class, 'categoria_padre_id', 'id');
     }*/
 
-    public function categorias()
+    /*public function categorias()
     {
-        return $this->hasMany(categoria::class);
-    }
+        return $this->hasMany(Categoria::class);
+    }*/
 
-    public function hijosCategorias()
+    public function children()
     {
-        return $this->hasMany(Categoria::class)->with('categorias');
+        return $this->hasMany(Categoria::class)->with('children');
     }
     /**** FIN Relaciones Categorias ****/
 }

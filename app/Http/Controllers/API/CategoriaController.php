@@ -17,10 +17,10 @@ class CategoriaController extends Controller
      */
     public function index()
     {
-        $categorias = Categoria::whereNull('categoria_id')
-            ->with('hijosCategorias')
+        $children = Categoria::whereNull('categoria_id')
+            ->with('children')
             ->get();
-        return response()->json($categorias);
+        return response()->json($children);
     }
 
     /**
