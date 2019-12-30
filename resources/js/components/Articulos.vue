@@ -69,6 +69,7 @@ export default {
             
             const cat = await axios.get('/api/categorias');
             this.items = cat.data;
+            
         }catch(err){
 
         }
