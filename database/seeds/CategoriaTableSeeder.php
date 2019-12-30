@@ -11,37 +11,90 @@ class CategoriaTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('categorias')->insert([
+        $idFutbol = DB::table('categorias')->insertGetId([
             'name' => 'futbol'
         ]);
-        DB::table('categorias')->insert([
+        
+        $idTenis = DB::table('categorias')->insertGetId([
             'name' => 'tenis'
         ]);
-        DB::table('categorias')->insert([
+
+        $idBaloncesto = DB::table('categorias')->insertGetId([
             'name' => 'baloncesto'
         ]);
-        DB::table('categorias')->insert([
+        
+        $idZapatos = DB::table('categorias')->insertGetId([
             'name' => 'zapatos',
-            'categoria_id' => 1
+            'categoria_id' => $idFutbol
+        ]);
+
+        $idEntrenamiento = DB::table('categorias')->insertGetId([
+            'name' => 'materiales entrenamiento',
+            'categoria_id' => $idFutbol
+        ]);
+
+        DB::table('categorias')->insert([
+            'name' => 'porterias y redes',
+            'categoria_id' => $idEntrenamiento
+        ]);
+
+        DB::table('categorias')->insert([
+            'name' => 'mochilas y maletas',
+            'categoria_id' => $idEntrenamiento
+        ]);
+
+        DB::table('categorias')->insert([
+            'name' => 'accesorios entrenamiento',
+            'categoria_id' => $idEntrenamiento
         ]);
 
         DB::table('categorias')->insert([
             'name' => 'botas',
-            'categoria_id' => 4
+            'categoria_id' => $idZapatos
         ]);
 
         DB::table('categorias')->insert([
-            'name' => 'futbol sala',
-            'categoria_id' => 4
+            'name' => 'botas futbol sala',
+            'categoria_id' => $idZapatos
         ]);
 
-        DB::table('categorias')->insert([
+        $idAccesorios = DB::table('categorias')->insertGetId([
             'name' => 'accesorios',
-            'categoria_id' => DB::table('categorias')->where('name','tenis')->value('id')
+            'categoria_id' => $idTenis
         ]);
         DB::table('categorias')->insert([
             'name' => 'raquetas',
-            'categoria_id' => DB::table('categorias')->where('name','accesorios')->value('id')
+            'categoria_id' => $idAccesorios
+        ]);
+
+        DB::table('categorias')->insert([
+            'name' => 'pelotas',
+            'categoria_id' => $idAccesorios
+        ]);
+
+        $idmaterial = DB::table('categorias')->insertGetId([
+            'name' => 'material',
+            'categoria_id' => $idBaloncesto
+        ]);
+
+        DB::table('categorias')->insert([
+            'name' => 'mochilas',
+            'categoria_id' => $idmaterial
+        ]);
+
+        DB::table('categorias')->insert([
+            'name' => 'balones',
+            'categoria_id' => $idBaloncesto
+        ]);
+
+        DB::table('categorias')->insert([
+            'name' => 'canastas',
+            'categoria_id' => $idBaloncesto
+        ]);
+
+        DB::table('categorias')->insert([
+            'name' => 'zapatos',
+            'categoria_id' => $idBaloncesto
         ]);
     }
 }
