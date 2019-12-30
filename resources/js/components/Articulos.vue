@@ -95,6 +95,13 @@ export default {
          watch: {
             $route(to, from) {
                 this.traerArticulos();
+            },
+            selection(){
+                if(this.selection.length == 0) this.traerArticulos()
+                this.listaArticulos = this.listaArticulos.filter((articulo) =>{
+                    console.log(articulo.categoria)
+                    return this.selection.some( s => s.id == articulo.categoria.id)
+                })
             }
          }
 

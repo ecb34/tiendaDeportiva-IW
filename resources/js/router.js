@@ -7,10 +7,7 @@ import Contacto from './components/Contacto'
 import Cookies from './components/PoliticaCookies'
 import Tiendas from './components/Tiendas'
 import Registro from './components/Registro'
-import ListaArticulosHombre from './components/ListaArticulosHombre'
-import ListaArticulosMujer from './components/ListaArticulosMujer'
 import Carrito from './components/Carrito'
-import app from './app';
 
 Vue.use(Router);
 
