@@ -8,6 +8,7 @@ import Cookies from './components/PoliticaCookies'
 import Tiendas from './components/Tiendas'
 import Registro from './components/Registro'
 import Carrito from './components/Carrito'
+import ListaDeseos from './components/ListaDeseos'
 
 Vue.use(Router);
 
@@ -57,6 +58,11 @@ export default new Router({
             path: '/carrito',
             name: 'Carrito',
             component: Carrito
+        },
+        {
+            path: '/listadeseos',
+            name: 'ListaDeseos',
+            component: ListaDeseos
         },
         {
             path: '/tiendas',
