@@ -43,7 +43,7 @@ export default new Vuex.Store({
         logout(context){
             return new Promise((resolve,reject) => {
                 axios.get('/api/auth/logout').then(()=>{
-                    localStorage.setItem('token', '')
+                    localStorage.removeItem('token')
                     context.commit('setToken', '')
                     resolve()
                 }).catch(err => {
