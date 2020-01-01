@@ -9,12 +9,20 @@ import Tiendas from './components/Tiendas'
 import Registro from './components/Registro'
 import Carrito from './components/Carrito'
 import ListaDeseos from './components/ListaDeseos'
+import Store from './store/index'
+import NotFound from './components/NotFoundError'
+import Unauthorized from './components/UnauthorizedError'
 
 Vue.use(Router);
 
 export default new Router({
     mode: 'history',
     routes: [
+        {
+            path: '/401',
+            name: '401',
+            component: Unauthorized
+        },
         {
             path: '/',
             name: 'home',
@@ -57,7 +65,14 @@ export default new Router({
         {
             path: '/carrito',
             name: 'Carrito',
-            component: Carrito
+            component: Carrito,
+            beforeEnter(to,from,next){
+                if(Store.getters.loggedIn){
+                    next()
+                }else{
+                    next({name: '401'})
+                }
+            }
         },
         {
             path: '/listadeseos',
@@ -73,6 +88,11 @@ export default new Router({
             path: '/registro',
             name: 'Registro',
             component: Registro
+        },
+        {
+            path: "*",
+            name: 'NotFound',
+            component: NotFound 
         }
     ]
 });
