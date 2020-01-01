@@ -23,9 +23,22 @@
                         <v-icon>mdi-cart</v-icon>
                     </v-btn>
 
-                    <v-btn icon>
-                        <v-icon>mdi-account</v-icon>
-                    </v-btn>
+                    <v-menu offset-y>
+                        <template v-slot:activator="{ on }">
+                            <v-btn icon v-on="on">
+                                <v-icon>mdi-account</v-icon>          
+                            </v-btn>
+                        </template>
+                        <v-list>
+                            <v-list-item to="/listadeseos">
+                                <v-list-item-title>Lista de deseos</v-list-item-title>
+                            </v-list-item>
+                            <v-list-item to="/perfil">
+                                <v-list-item-title>Mi Cuenta</v-list-item-title>
+                            </v-list-item>
+                        </v-list>
+                    </v-menu>
+                    
                     <v-btn @click="logout()" icon>
                         <v-icon>mdi-logout</v-icon>
                     </v-btn>
