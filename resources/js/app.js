@@ -12,7 +12,7 @@ const app = new Vue({
     router,
     vuetify,
     store,
-    mounted(){
+    beforeMount(){
         axios.interceptors.request.use(async config => {//TODO verificar que va bien
           const token = store.getters.getToken;
           if (token) {
