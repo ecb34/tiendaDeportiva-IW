@@ -27,13 +27,13 @@
                 <p class="headline">Descripcion:</p>
                 <p class="body-2">{{articulo.descripcion}}</p>
                 <v-row justify="center">
-                    <p class="body-2">Total: 32,56€</p>
+                    <p class="body-2">Total: {{articulo.pvp}}€</p>
                 </v-row>
                 <v-row justify="center">
                     <v-rating readonly color="orange" v-model="articulo.valoracion" justify-center></v-rating>
                 </v-row>
                 <v-row>
-                    <v-btn class="mr-4" color="green draken-4">Comprar</v-btn>
+                    <v-btn class="mr-4 white--text" color="green draken-4">Comprar</v-btn>
                     <v-btn color="primary">Añadir al carrito</v-btn>
                 </v-row>
                 <v-divider class="mb-4 mt-2 green"></v-divider>
@@ -60,7 +60,7 @@
                     <v-tab-item>
                         <v-card flat>
                             <v-list three-line>
-                                <template v-for="(item, index) in listaComentarios">
+                                <template v-for="(item, index) in listaComentarios" :v-bind="index">
                                     <v-list-item :key="item.title" @click="">
                                         <v-list-item-avatar>
                                             <v-img src="https://cdn.onlinewebfonts.com/svg/img_184513.png"></v-img>
@@ -152,7 +152,7 @@
             try {
                 //lista de articulos
                 const res = await axios.get('/api/articulos');
-                this.listaArticulos = res.data.data;
+                //this.listaArticulos = res.data.data;
 
                 //articulo con ID especifica, recuperamos las imagenes del articulo
                 const res2 = await axios.get('/api/articulos/' + this.$route.params.id);
@@ -167,15 +167,6 @@
             }
 
         }
-        /*
-        mounted() {
-            axios.get('api/articulos')
-                .then(response => {
-                    this.listaArticulos = response.data.articulos;
-                    console.log('lista de articulos:'+this.listaArticulos);
-                }).catch(error => {
-                })
-        }*/
     }
 </script>
 

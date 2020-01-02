@@ -51,7 +51,7 @@
                         <v-tab to="/">Home</v-tab>
                         <v-tab to="/hombre">Hombre</v-tab>
                         <v-tab to="/mujer">Mujer</v-tab>
-                        <v-tab to="/articulos">Deportes</v-tab>
+                        <v-tab to="/articulos">Articulos</v-tab>
                         <v-tab to="/contacto">Contacto</v-tab>
                         <v-tab to="/tiendas">Tiendas</v-tab>
                     </v-tabs>
