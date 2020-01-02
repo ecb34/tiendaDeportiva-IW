@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <div class="container">
+    <div class="containerSize">
       <h1 class="mt-12">ERROR 401</h1>
       <h1 class="mt-8">Usuario no autorizado</h1>
       <v-btn text class="mt-12" @click="$router.go(-1)" color="primary">Volver a la página anterior</v-btn>
@@ -15,5 +15,7 @@ export default {
 </script>
 
 <style>
-
+.containerSize{
+    height: 400px;
+  }
 </style>
