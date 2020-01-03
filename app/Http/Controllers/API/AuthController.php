@@ -71,11 +71,4 @@ class AuthController extends Controller
         return response()->json($request->user());
     }
 
-    //api/auth/user/listadeseos
-    public function getListaDeseos(Request $request)
-    {
-        $user = $request->user();
-
-        return  response()->json($user->articulos,200);
-    }
 }

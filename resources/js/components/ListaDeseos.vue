@@ -59,7 +59,7 @@ export default {
         }
     },
     mounted(){
-        axios.get('/api/auth/user/listadeseos')
+        axios.get('/api/user/listadeseos')
                 .then(res =>{
                     console.log(res.data)
                     this.listaDeseos = res.data
