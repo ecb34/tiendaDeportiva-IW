@@ -24,6 +24,11 @@ Route::apiResources([
 ]);//excluye las rutas que devuelven html (create,edit...)
 
 
+Route::group(['middleware' => 'auth:api'], function(){
+    Route::get('user/listadeseos', 'API\ListaDeseosController@index');
+    Route::post('user/listadeseos', 'API\ListaDeseosController@store');
+    Route::delete('user/listadeseos/{id}', 'API\ListaDeseosController@destroy');
+});
 ///// Ejemplo///////
 Route::group(['prefix' => 'auth'], function () {
     //Authentication routes
@@ -34,7 +39,6 @@ Route::group(['prefix' => 'auth'], function () {
     Route::group(['middleware' => 'auth:api'], function() {
         Route::get('logout', 'Api\AuthController@logout');
         Route::get('user', 'Api\AuthController@user');
-        Route::get('user/listadeseos', 'API\AuthController@getListaDeseos');
     });
 });
 

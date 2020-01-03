@@ -18,22 +18,21 @@
                 :search="search"
             >
             <template v-slot:item.action="{ item }">
-                <v-btn color="red" @click="eliminarArticulo(item.id)">
-                    <v-icon class="mr-2">
-                        delete
-                    </v-icon>
-                </v-btn>
-                <v-btn color="white" @click="addCarrito(item.id)">
+                <v-btn color="success" @click="addCarrito(item.id)">
                     <v-icon class="mr-2">
                         mdi-cart
                     </v-icon>
                 </v-btn>
-                <v-btn color="white" :to="'articulos/'+item.id">
+                <v-btn color="primary" :to="'articulos/'+item.id">
                     <v-icon class="mr-2">
                         mdi-eye
                     </v-icon>
                 </v-btn>
-                
+                <v-btn color="error" @click="eliminarArticulo(item)">
+                    <v-icon class="mr-2">
+                        delete
+                    </v-icon>
+                </v-btn>
             </template>
             </v-data-table>
         </v-card>
@@ -59,9 +58,8 @@ export default {
         }
     },
     mounted(){
-        axios.get('/api/auth/user/listadeseos')
+        axios.get('/api/user/listadeseos')
                 .then(res =>{
-                    console.log(res.data)
                     this.listaDeseos = res.data
                     this.loading = false
                 }).catch(err => {
@@ -72,8 +70,13 @@ export default {
         addCarrito(id){
 
         },
-        eliminarArticulo(id){
-
+        eliminarArticulo(articulo){
+            axios.delete('/api/user/listadeseos/' + articulo.id)
+                .then(res =>{
+                    this.listaDeseos.splice(this.listaDeseos.indexOf(articulo), 1)
+                }).catch(err =>{
+                    console.log(err.response)
+                })
         }
     }
 }
