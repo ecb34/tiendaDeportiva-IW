@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\Pedido as PedidoResource;
 
 class User extends JsonResource
 {
@@ -19,7 +20,8 @@ class User extends JsonResource
             'email' => $this->email,
             'apellido' => $this->apellido,
             'telefono' => $this->telefono,
-            'fecha_nacimiento' => $this->fecha_nacimiento
+            'fecha_nacimiento' => $this->fecha_nacimiento,
+            'pedidos' => PedidoResource::collection($this->pedidos)
         ];
     }
 }

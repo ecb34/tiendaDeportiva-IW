@@ -1,6 +1,6 @@
 <template>
     <v-container fluid>
-        <v-breadcrumbs :items="items" divider=">"></v-breadcrumbs>
+        
         <v-row>
             <v-col cols="1">
                 <v-hover v-for="index in listaImagenes.length" v-bind:key="index" class="mb-4"
@@ -118,23 +118,6 @@
         name: 'articulo',
         data() {
             return {
-                items: [
-                    {
-                        text: 'Dashboard',
-                        disabled: false,
-                        href: 'breadcrumbs_dashboard',
-                    },
-                    {
-                        text: 'Link 1',
-                        disabled: false,
-                        href: 'breadcrumbs_link_1',
-                    },
-                    {
-                        text: 'Link 2',
-                        disabled: true,
-                        href: 'breadcrumbs_link_2',
-                    },
-                ],
                 rating: 4,
                 contadorImagen: 0,
                 articulo: {},
