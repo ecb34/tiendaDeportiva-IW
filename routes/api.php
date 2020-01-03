@@ -22,6 +22,7 @@ Route::apiResources([
     'marcas' => 'API\MarcaController',
     'users' => 'API\UserController'
 ]);//excluye las rutas que devuelven html (create,edit...)
+Route::get('categoriasrecomendadas', 'API\CategoriaController@categoriasRecomendadas');
 
 
 Route::group(['middleware' => 'auth:api'], function(){

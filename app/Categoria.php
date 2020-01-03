@@ -29,7 +29,7 @@ class Categoria extends Model
 
     public function imagen()
     {
-        return $this->hasOne(Imagen::class);
+        return $this->belongsTo(Imagen::class);
     }
     /**** FIN Relaciones Categorias ****/
 }

@@ -23,6 +23,12 @@ class CategoriaController extends Controller
         return response()->json($children);
     }
 
+    public function categoriasRecomendadas()
+    {
+        //solo queremos las categorias padre
+        return response()->json(Categoria::whereNull('categoria_id')->with('imagen')->get());
+    }
+
     /**
      * Store a newly created resource in storage.
      *
