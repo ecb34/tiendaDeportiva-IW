@@ -1,6 +1,6 @@
 <template>
     <v-container fluid>
-        <v-breadcrumbs :items="items" divider=">"></v-breadcrumbs>
+        
         <v-row>
             <v-col cols="1">
                 <v-hover v-for="index in listaImagenes.length" v-bind:key="index" class="mb-4"
@@ -27,14 +27,17 @@
                 <p class="headline">Descripcion:</p>
                 <p class="body-2">{{articulo.descripcion}}</p>
                 <v-row justify="center">
-                    <p class="body-2">Total: 32,56€</p>
+                    <p class="body-2">Total: {{articulo.pvp}}€</p>
                 </v-row>
                 <v-row justify="center">
                     <v-rating readonly color="orange" v-model="articulo.valoracion" justify-center></v-rating>
                 </v-row>
                 <v-row>
-                    <v-btn class="mr-4" color="green draken-4">Comprar</v-btn>
-                    <v-btn color="primary">Añadir al carrito</v-btn>
+                    <v-btn class="mr-4 white--text" color="green draken-4" :disabled="!$store.getters.loggedIn">Comprar</v-btn>
+                    <v-btn color="primary" :disabled="!$store.getters.loggedIn">Añadir al carrito</v-btn>
+                </v-row>
+                <v-row class="mt-3">
+                    <v-btn color="white" :disabled="!$store.getters.loggedIn" @click="addListaDeseos()">Añadir a la Lista de Deseos</v-btn>
                 </v-row>
                 <v-divider class="mb-4 mt-2 green"></v-divider>
             </v-col>
@@ -53,14 +56,14 @@
                     </v-tab>
 
                     <v-tab-item>
-                        <v-card flat>
+                        <v-card text>
                             <v-card-text>Contents for Item 1 go here</v-card-text>
                         </v-card>
                     </v-tab-item>
                     <v-tab-item>
-                        <v-card flat>
+                        <v-card text>
                             <v-list three-line>
-                                <template v-for="(item, index) in listaComentarios">
+                                <template v-for="(item, index) in listaComentarios" :v-bind="index">
                                     <v-list-item :key="item.title" @click="">
                                         <v-list-item-avatar>
                                             <v-img src="https://cdn.onlinewebfonts.com/svg/img_184513.png"></v-img>
@@ -100,7 +103,12 @@
                 </v-row>
             </v-col>
         </v-row>
-
+         <v-snackbar v-model="mostrar_snackbar" color="success" top class="title">
+             {{snackbar}}
+            <v-btn dark text @click="mostrar_snackbar = false">
+                Cerrar
+            </v-btn>
+        </v-snackbar>
     </v-container>
 </template>
 
@@ -110,23 +118,6 @@
         name: 'articulo',
         data() {
             return {
-                items: [
-                    {
-                        text: 'Dashboard',
-                        disabled: false,
-                        href: 'breadcrumbs_dashboard',
-                    },
-                    {
-                        text: 'Link 1',
-                        disabled: false,
-                        href: 'breadcrumbs_link_1',
-                    },
-                    {
-                        text: 'Link 2',
-                        disabled: true,
-                        href: 'breadcrumbs_link_2',
-                    },
-                ],
                 rating: 4,
                 contadorImagen: 0,
                 articulo: {},
@@ -140,19 +131,36 @@
                     'http://d26lpennugtm8s.cloudfront.net/stores/008/632/products/lchl14-negra-11-5ef53327e0e0a6e96515128489853509-640-0.jpg',
                     'https://ae01.alicdn.com/kf/HTB1yJ3PzByWBuNkSmFPq6xguVXa1.jpg?width=800&height=800&hash=1600'
                 ],
-                imagen: ''
+                imagen: '',
+                snackbar: '',
+                mostrar_snackbar: false
             }
         },
         methods: {
             cambiarImagen: function (i) {
                 this.imagen = this.listaImagenes[i].url;
+            },
+            addListaDeseos(){
+                console.log(this.articulo.id);
+                axios.post('/api/user/listadeseos',{
+                    'articulo_id': this.articulo.id
+                }).then(res =>{
+                    this.mostrar_snackbar = true
+                    this.snackbar = 'Añadido a lista de deseos'
+                }).catch(err =>{
+                    if(err.response.status == 400){
+                        this.mostrar_snackbar = true
+                        this.snackbar = 'El artículo ya está en la lista de deseos'
+                    }
+                    console.log(err.response);
+                })
             }
         },
         async created() {
             try {
                 //lista de articulos
                 const res = await axios.get('/api/articulos');
-                this.listaArticulos = res.data.data;
+                //this.listaArticulos = res.data.data;
 
                 //articulo con ID especifica, recuperamos las imagenes del articulo
                 const res2 = await axios.get('/api/articulos/' + this.$route.params.id);
@@ -167,15 +175,6 @@
             }
 
         }
-        /*
-        mounted() {
-            axios.get('api/articulos')
-                .then(response => {
-                    this.listaArticulos = response.data.articulos;
-                    console.log('lista de articulos:'+this.listaArticulos);
-                }).catch(error => {
-                })
-        }*/
     }
 </script>
 

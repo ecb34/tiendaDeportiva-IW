@@ -87,11 +87,4 @@ class AuthController extends Controller
         ]);
     }
 
-    //api/auth/user/listadeseos
-    public function getListaDeseos(Request $request)
-    {
-        $user = $request->user();
-
-        return  response()->json($user->articulos,200);
-    }
 }

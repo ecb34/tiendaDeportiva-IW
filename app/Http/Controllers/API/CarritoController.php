@@ -1,13 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\User;
 use Illuminate\Http\Request;
-use App\Http\Resources\User as UserResource;
 
-class UserController extends Controller
+class CarritoController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +13,17 @@ class UserController extends Controller
      */
     public function index()
     {
-        return UserResource::collection(User::all());
+        //
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
     }
 
     /**
@@ -37,6 +44,17 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
     {
         //
     }
@@ -63,5 +81,4 @@ class UserController extends Controller
     {
         //
     }
-
 }

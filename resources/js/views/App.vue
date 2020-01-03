@@ -11,7 +11,7 @@
                 <v-spacer></v-spacer>
 
                 <v-expand-transition>
-                    <v-text-field v-show="hideDetails" single-line label="Buscar"></v-text-field>
+                    <v-text-field v-on:keyup.enter="searchbyname" v-model="search" v-show="hideDetails" single-line label="Buscar"></v-text-field>
                 </v-expand-transition>
 
                 <v-btn @click="hideDetails = ! hideDetails" icon>
@@ -51,7 +51,7 @@
                         <v-tab to="/">Home</v-tab>
                         <v-tab to="/hombre">Hombre</v-tab>
                         <v-tab to="/mujer">Mujer</v-tab>
-                        <v-tab to="/articulos">Deportes</v-tab>
+                        <v-tab to="/articulos">Articulos</v-tab>
                         <v-tab to="/contacto">Contacto</v-tab>
                         <v-tab to="/tiendas">Tiendas</v-tab>
                     </v-tabs>
@@ -114,6 +114,7 @@
         data: function () {
             return {
                 hideDetails: false,
+                search: '',
                 icons: [
                     'mdi-twitter',
                     'mdi-facebook',
@@ -127,6 +128,9 @@
                 await this.$store.dispatch('logout')
                 this.$router.go()
             },
+            searchbyname(){
+                this.$router.push({ name: 'articulos', query: { q: this.search } })
+            }
         },
         computed: {
             loggedIn() {

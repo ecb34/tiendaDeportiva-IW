@@ -21,3 +21,6 @@
 9. Ejecutar npm install.
 10. Ejecutar npm run watch-poll.
 11. Ejecutar php artisan serve para ponerlo en marcha en localhost:8000 en una terminal diferente.
+
+#Errores
+1. Ejecutar composer dump-autoload y seguido punto 6 de arriba

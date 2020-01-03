@@ -65,7 +65,17 @@
 
         },
         mounted() {
-            axios.get('/api/articulos')
+            
+
+                axios.get('/api/users')
+                .then(response => {
+                    console.log(response.data.data)
+                   
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+                axios.get('/api/articulos')
                 .then(response => {
                     this.listaArticulos = response.data.data;
                     console.log(this.listaArticulos)
