@@ -13,7 +13,7 @@
             </div>
                   <h4 class="widget-user-email text-center" style="color:azure; margin-left:1%;">Email: {{user.email}}</h4>
                   <h4 class="widget-user-email text-center" style="color:azure; margin-left:1%;">Telefono: {{user.telefono}}</h4>
-                  <h4 class="widget-user-email text-center" style="color:azure; margin-left:1%;">Nacido el: {{user.fecha_nacimiento}}</h4>
+                  <h4 class="widget-user-email text-center" style="color:azure; margin-left:1%;">Nacido el: {{fechaFormateada}}</h4>
           </div>
           <div class="card-footer">
             <div class="row">
@@ -63,13 +63,12 @@ export default {
   async created(){
         try{
           var res = await axios.get("/api/auth/user")
-          console.log(res.data)
           this.user = res.data.user
           this.totalPedidos = res.data.totalPedidos
           this.totalArticulos = res.data.totalArticulos
           this.totalGastado = res.data.totalGastado
         }catch(err){
-
+          console.log(err.response)
         }
     },
   methods: {
@@ -84,6 +83,15 @@ export default {
           
         })
       }
+    }
+  },
+  computed: {
+    fechaFormateada() {
+      if (this.user.fecha_nacimiento) {
+        var split = this.user.fecha_nacimiento.split("-");
+        return split[2] + "/" + split[1] + "/" + split[0];
+      }
+      return "";
     }
   }
 };

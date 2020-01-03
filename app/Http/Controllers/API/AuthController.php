@@ -22,7 +22,7 @@ class AuthController extends Controller
             'nombre'     => $request->nombre,
             'email'    => $request->email,
             'apellido' => $request->apellido,
-            'fecha_nacimiento' => $request->fecha_nacimiento,
+            'fecha_nacimiento' => $request->fechaNacimiento,
             'telefono' => $request->telefono,
             'password' => bcrypt($request->password),
         ]);
@@ -64,6 +64,25 @@ class AuthController extends Controller
     {
         $request->user()->token()->revoke();
         return response()->json(['mensaje' =>'Cerrada sesión correctamente']);
+    }
+
+    public function FormEditarPerfil(Request $request) {
+        $user = $request->user();
+        $request->validate([
+            'nombre'     => 'required|string',
+            'email'    => 'required|string|email|unique:users,email,' . $user->id,
+            'fecha_nacimiento' => 'date',
+            'password' => 'required|string|confirmed',
+        ]);
+        $user->update([
+            'nombre'     => $request->nombre,
+            'email'    => $request->email,
+            'apellido' => $request->apellido,
+            'fecha_nacimiento' => $request->fechaNacimiento,
+            'telefono' => $request->telefono,
+            'password' => bcrypt($request->password),
+        ]);
+        return response()->json(['mensaje' => 'Usuario creado correctamente'], 201);
     }
 
     public function user(Request $request)

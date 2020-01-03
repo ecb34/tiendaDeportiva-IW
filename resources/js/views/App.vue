@@ -36,6 +36,9 @@
                             <v-list-item to="/perfil">
                                 <v-list-item-title>Mi Cuenta</v-list-item-title>
                             </v-list-item>
+                            <v-list-item to="/editarPerfil">
+                                <v-list-item-title>Editar Perfil</v-list-item-title>
+                            </v-list-item>
                         </v-list>
                     </v-menu>
                     

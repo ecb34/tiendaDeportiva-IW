@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Home from './components/Home'
 import Perfil from './components/Perfil'
+import FormEditarPerfil from './components/FormEditarPerfil'
 import Articulos from './components/Articulos'
 import DetalleArticulo from './components/DetalleArticulo'
 import Contacto from './components/Contacto'
@@ -88,12 +89,38 @@ export default new Router({
         {
             path: '/registro',
             name: 'Registro',
-            component: Registro
+            component: Registro,
+            beforeEnter(to,from,next){
+                if(Store.getters.loggedIn){
+                    next({name: '401'})
+                }else{
+                    next()
+                }
+            }
+        },
+        {
+            path: '/editarPerfil',
+            name: 'editarPerfil',
+            component: FormEditarPerfil,
+            beforeEnter(to,from,next){
+                if(Store.getters.loggedIn){
+                    next()
+                }else{
+                    next({name: '401'})
+                }
+            }
         },
         {
             path: '/perfil',
             name: 'Perfil',
-            component: Perfil
+            component: Perfil,
+            beforeEnter(to,from,next){
+                if(Store.getters.loggedIn){
+                    next()
+                }else{
+                    next({name: '401'})
+                }
+            }
         },
         {
             path: "*",
