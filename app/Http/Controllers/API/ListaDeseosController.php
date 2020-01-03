@@ -38,11 +38,12 @@ class ListaDeseosController extends Controller
 
         $articulo = Articulo::find($id);
 
-        if($articulo){
-            $user->articulos()->detach($id);
-            return response()->json(null, 201);
-        }else{
+        if(!$articulo)
             return response()->json(['message' => 'Articulo no existe'], 404);
-        }
+        if(!$user->articulos()->find($id))
+            return response()->json(['message' => 'Articulo no existe en lista de deseos'], 400);
+       
+        $user->articulos()->detach($id);
+        return response()->json(null, 201);
     }
 }
