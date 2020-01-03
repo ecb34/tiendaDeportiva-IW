@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import Home from './components/Home'
+import Perfil from './components/Perfil'
 import Articulos from './components/Articulos'
 import DetalleArticulo from './components/DetalleArticulo'
 import Contacto from './components/Contacto'
@@ -88,6 +89,11 @@ export default new Router({
             path: '/registro',
             name: 'Registro',
             component: Registro
+        },
+        {
+            path: '/perfil',
+            name: 'Perfil',
+            component: Perfil
         },
         {
             path: "*",

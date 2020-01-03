@@ -68,7 +68,23 @@ class AuthController extends Controller
 
     public function user(Request $request)
     {
-        return response()->json($request->user());
+        $user = $request->user();
+        $pedidos = $user->pedidos;
+        $totalPedidos = count($pedidos);
+        $totalArticulos = 0;
+        $totalGastado = 0;
+        foreach($pedidos as $pedido){
+            foreach($pedido->lineaPedidos as $lineaPedido) {
+                $totalArticulos += ($lineaPedido->cantidad);
+                $totalGastado += ($lineaPedido->importe);
+            }
+        }
+        return response()->json([
+            'totalPedidos' => $totalPedidos,
+            'totalArticulos' => $totalArticulos,
+            'totalGastado' => $totalGastado,
+            'user' => $user,
+        ]);
     }
 
     //api/auth/user/listadeseos
