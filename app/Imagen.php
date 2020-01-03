@@ -20,7 +20,7 @@ class Imagen extends Model
 
     public function categoria()
     {
-        return $this->belongsTo(Categoria::class);
+        return $this->hasMany(Categoria::class);
     }
     /**** FIN Relaciones Imagenes ****/
 }

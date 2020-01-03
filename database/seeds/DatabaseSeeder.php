@@ -28,6 +28,12 @@ class DatabaseSeeder extends Seeder
         //$categorias = factory(App\Categoria::class,2)->create();
         $this->call(CategoriaTableSeeder::class);
         $categorias = Categoria::whereNotNull('categoria_id')->get();
+
+        $categoriasPadre = Categoria::whereNull('categoria_id')->get();
+        for($i = 0; $i < count($categoriasPadre); ++$i){
+            $categoriasPadre[$i]->imagen()->associate(factory(App\Imagen::class)->create()->id);
+            $categoriasPadre[$i]->save();
+        }
         for($i = 0; $i < count($marcas); ++$i) {
             for($j = 0; $j < count($categorias); ++$j) {    
                 $articulos = factory(App\Articulo::class,2)->create();    
