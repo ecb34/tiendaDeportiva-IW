@@ -26,7 +26,7 @@ class CategoriaController extends Controller
     public function categoriasRecomendadas()
     {
         //solo queremos las categorias padre
-        return response()->json(Categoria::whereNull('categoria_id')->with('imagen')->get());
+        return response()->json(Categoria::whereNull('categoria_id')->with('imagen')->take(4)->get());
     }
 
     /**

@@ -11,7 +11,7 @@
 
   <h2 class="mt-3">Categorias Recomendadas</h2>
   <carousel class="mt-5" :nav="false" :items="4" :loop="true">
-      <img src="" :alt="categoria.nombre" v-for="categoria in categoriasRecomendadas" :key="categoria.id">
+      <img :src="categoria.imagen.url" :alt="categoria.nombre" v-for="categoria in categoriasRecomendadas" :key="categoria.id" @click="articulosPorCategoria(categoria)">
   </carousel>
   <v-snackbar v-model="mostrar_snackbar" color="success" top class="title">
         Te has registrado exitosamente
@@ -51,13 +51,18 @@ export default {
       }
     },
   mounted(){
-    axios.get('/api/categorias')
+    axios.get('/api/categoriasrecomendadas')
         .then(response => {
-          this.categoriasRecomendadas = response.data.data;
-          console.log(this.categoriasRecomendadas)
+          this.categoriasRecomendadas = response.data;
+          console.log(response.data)
         }).catch(err => {
           console.log(err)
         })
+  },
+  methods: {
+    articulosPorCategoria(categoria){
+      this.$router.push({name: 'articulos', query: {q: categoria.name}})
+    }
   }
 }
 </script>
