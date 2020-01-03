@@ -1,10 +1,15 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
+use App\Pedido;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Resources\Pedido as PedidoResource;
+use App\LineaPedido;
+use DateTime;
 
-class CarritoController extends Controller
+class PedidoController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -34,7 +39,6 @@ class CarritoController extends Controller
      */
     public function store(Request $request)
     {
-        //
     }
 
     /**
@@ -43,10 +47,52 @@ class CarritoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Pedido $pedido)
     {
-        //
+        return new PedidoResource($pedido);
     }
+
+    //FUNCIONA
+    public function showCarritoUser(Request $request)
+    {
+        $user = $request->user();
+        $carrito = $user->pedidos()->where('estado', 'cesta')->get();
+
+        if (count($carrito) == 0) {
+            $carrito = new Pedido([
+                'estado' => 'cesta',
+                'fecha' => new DateTime()
+            ]);
+
+            $user->pedidos()->save($carrito);
+        }
+        return $carrito;
+    }
+
+    //NO FUNCIONA 
+    public function addArticuloCarrito(Request $request)
+    {
+        $user = $request->user();
+        $carrito = $user->pedidos()->where('estado', 'cesta')->get();
+        //$articulo = $request->articulo->id;
+
+        //demomento lo dejamos en 20 fijo
+        $linea = new LineaPedido([
+            'importe' => '20',
+            'cantidad' => $request->cantidad,
+            
+        ]);
+
+        //$linea->pedido() = $carrito[0]->id;
+        // 'id_pedido' => $carrito[0]->id,
+        //'id_articulo' => $request->articulo_id
+        $linea->save();
+
+        return $carrito;
+    }
+
+
+
 
     /**
      * Show the form for editing the specified resource.

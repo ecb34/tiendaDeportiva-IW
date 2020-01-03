@@ -49,15 +49,7 @@
         name: 'Carrito',
         data() {
             return {
-                listaArticulos: [],
-                listaArticulosFiltrado: [],
-                headers: [
-                    { text: 'I', value: 'imagenes[0].url', align: 'centre' },
-                    { text: 'Nombre', value: 'nombre', align: 'centre' },
-                    { text: 'Precio', value: 'pvp', align: 'centre' },
-                    { text: 'Cantidad', value: 'cantidad', align: 'centre' },
-                    { text: 'Total', value: 'total', align: 'centre' }
-                ],
+                listaArticulos: []
 
             }
         },
@@ -65,28 +57,14 @@
 
         },
         mounted() {
-            
-
-                axios.get('/api/users')
+            axios.get('/api/user/carrito')
                 .then(response => {
-                    console.log(response.data.data)
+                   
+                    console.log(response.data)
                    
                 })
                 .catch(function (error) {
-                    console.log(error);
-                });
-                axios.get('/api/articulos')
-                .then(response => {
-                    this.listaArticulos = response.data.data;
-                    console.log(this.listaArticulos)
-                    this.listaArticulosFiltrado = this.listaArticulos
-                        .filter((articulo) => {
-                            return articulo.categoria.nombre === "Hombre"
-                        })
-                    console.log(this.listaArticulosFiltrado)
-                })
-                .catch(function (error) {
-                    console.log(error);
+                    console.log(error.response);
                 });
         },
         methods: {
