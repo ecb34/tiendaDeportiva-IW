@@ -56,7 +56,7 @@ class PedidoController extends Controller
     public function showCarritoUser(Request $request)
     {
         $user = $request->user();
-        $carrito = $user->pedidos()->where('estado', 'cesta')->with('lineapedidos')->first();
+        $carrito = $user->pedidos()->where('estado', 'cesta')->with('lineapedidos.articulo')->first();
 
         if (!$carrito) {
             $carrito = $this->crearCarrito($user);
