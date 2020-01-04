@@ -69,23 +69,17 @@ class PedidoController extends Controller
         return $carrito;
     }
 
-    //NO FUNCIONA 
     public function addArticuloCarrito(Request $request)
     {
         $user = $request->user();
-        $carrito = $user->pedidos()->where('estado', 'cesta')->get();
-        //$articulo = $request->articulo->id;
-
-        //demomento lo dejamos en 20 fijo
+        $carrito = $user->pedidos()->where('estado', 'cesta')->first();
+        $importe = $request->cantidad * $request->pvp;
         $linea = new LineaPedido([
-            'importe' => '20',
+            'importe' => $importe,
             'cantidad' => $request->cantidad,
-            
+            'articulo_id' => $request->articulo_id,
+            'pedido_id' => $carrito->id
         ]);
-
-        //$linea->pedido() = $carrito[0]->id;
-        // 'id_pedido' => $carrito[0]->id,
-        //'id_articulo' => $request->articulo_id
         $linea->save();
 
         return $carrito;
