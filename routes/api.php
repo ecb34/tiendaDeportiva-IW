@@ -22,6 +22,7 @@ Route::apiResources([
     'marcas' => 'API\MarcaController',
     'users' => 'API\UserController'
 ]);//excluye las rutas que devuelven html (create,edit...)
+Route::get('categoriasrecomendadas', 'API\CategoriaController@categoriasRecomendadas');
 
 
 Route::group(['middleware' => 'auth:api'], function(){
@@ -41,6 +42,7 @@ Route::group(['prefix' => 'auth'], function () {
     Route::group(['middleware' => 'auth:api'], function() {
         Route::get('logout', 'Api\AuthController@logout');
         Route::get('user', 'Api\AuthController@user');
+        Route::put('FormEditarPerfil', 'Api\AuthController@FormEditarPerfil');
     });
 });
 

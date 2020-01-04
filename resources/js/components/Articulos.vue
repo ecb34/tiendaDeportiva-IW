@@ -115,9 +115,6 @@ export default {
                 if(this.selection.length == 0) this.listaArticulos = this.listaArticulosSinFiltro
                 else{
                     this.listaArticulos = this.listaArticulosSinFiltro.filter((articulo) =>{
-                        console.log(articulo)
-                        console.log(this.selection)
-                        console.log(this.selection.some( s => s.id == articulo.categoria.id))
                         return this.selection.some( s => s.id == articulo.categoria.id)    
                     })
                 }
