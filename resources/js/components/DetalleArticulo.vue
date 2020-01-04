@@ -157,8 +157,9 @@
             },
             addArticuloToCarrito() {
                 console.log(this.articulo.id);
-                axios.post('/api/user/carrito/'+ this.articulo.id,{
+                axios.post('/api/user/carrito',{
                     'articulo_id': this.articulo.id,
+                    'pvp': this.articulo.pvp,
                     'cantidad': 1
                 }).then(res =>{
                     this.mostrar_snackbar = true

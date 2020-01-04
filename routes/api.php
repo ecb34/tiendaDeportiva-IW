@@ -30,7 +30,8 @@ Route::group(['middleware' => 'auth:api'], function(){
     Route::post('user/listadeseos', 'API\ListaDeseosController@store');
     Route::delete('user/listadeseos/{id}', 'API\ListaDeseosController@destroy');
     Route::get('user/carrito', 'API\PedidoController@showCarritoUser');
-    Route::post('user/carrito/{id}', 'API\PedidoController@addArticuloCarrito');
+    Route::post('user/carrito', 'API\PedidoController@addArticuloCarrito');
+    Route::delete('user/carrito', 'API\PedidoController@borrarArticuloCarrito');
 });
 ///// Ejemplo///////
 Route::group(['prefix' => 'auth'], function () {
