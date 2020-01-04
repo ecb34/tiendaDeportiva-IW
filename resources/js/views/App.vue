@@ -4,7 +4,7 @@
             <!-- HEADER -->
             <v-app-bar app color="black" dark>
                 <v-app-bar-nav-icon>
-                    <v-img class="mr-3" src="images/logo_sin.png" height="80px" width="90px"> </v-img>
+                    <v-img class="mr-3" :src="logoImgUrl" height="80px" width="90px"> </v-img>
                 </v-app-bar-nav-icon>
                 <v-toolbar-title>UASport</v-toolbar-title>
 
@@ -121,6 +121,7 @@
                     'mdi-linkedin',
                     'mdi-instagram',
                 ],
+                logoImgUrl: require('../public/images/logo_sin.png')
             }
         },
         methods: {
