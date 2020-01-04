@@ -56,15 +56,10 @@ class PedidoController extends Controller
     public function showCarritoUser(Request $request)
     {
         $user = $request->user();
-        $carrito = $user->pedidos()->where('estado', 'cesta')->get();
+        $carrito = $user->pedidos()->where('estado', 'cesta')->with('lineapedidos')->first();
 
-        if (count($carrito) == 0) {
-            $carrito = new Pedido([
-                'estado' => 'cesta',
-                'fecha' => new DateTime()
-            ]);
-
-            $user->pedidos()->save($carrito);
+        if (!$carrito) {
+            $carrito = $this->crearCarrito($user);
         }
         return $carrito;
     }
@@ -73,14 +68,58 @@ class PedidoController extends Controller
     {
         $user = $request->user();
         $carrito = $user->pedidos()->where('estado', 'cesta')->first();
+        if(!$carrito){
+            $carrito = $this->crearCarrito($user);
+        }
         $importe = $request->cantidad * $request->pvp;
-        $linea = new LineaPedido([
-            'importe' => $importe,
-            'cantidad' => $request->cantidad,
-            'articulo_id' => $request->articulo_id,
-            'pedido_id' => $carrito->id
+
+        //miramos si existe una linea de pedido con el articulo a añadir...
+        $lineaPedido = $carrito->lineaPedidos()->where('articulo_id', $request->articulo_id)->first();
+        //si existe la linea de pedido, actualizar el importe y cantidad, sino crear una nueva
+        if($lineaPedido){
+            $lineaPedido->update([
+                'importe' => $importe,
+                'cantidad' => $request->cantidad
+            ]);
+        }else{
+            $linea = new LineaPedido([
+                'importe' => $importe,
+                'cantidad' => $request->cantidad,
+                'articulo_id' => $request->articulo_id,
+                'pedido_id' => $carrito->id
+            ]);
+            $linea->save();
+        }
+        return response()->json(null, 201);
+    }
+
+    public function borrarArticuloCarrito(Request $request){
+        $user = $request->user();
+        $carrito = $user->pedidos()->where('estado', 'cesta')->first();
+
+        //no existe carrito...
+        if(!$carrito){
+            return response()->json(['message', 'Carrito no existe'],404);
+        }
+
+        $lineaPedido = $carrito->lineaPedidos()->where('articulo_id', $request->articulo_id)->first();
+        //no existe linea de pedido con ese articulo...
+        if(!$lineaPedido){
+            return response()->json(['message', 'Articulo no existe'],404);
+        }
+
+        $lineaPedido->delete();
+
+        return response()->json(null,201);
+    }
+
+    private function crearCarrito($user){
+        $carrito = new Pedido([
+            'estado' => 'cesta',
+            'fecha' => new DateTime()
         ]);
-        $linea->save();
+
+        $user->pedidos()->save($carrito);
 
         return $carrito;
     }

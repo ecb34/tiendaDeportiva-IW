@@ -19,7 +19,7 @@
                 </v-btn>
 
                 <div v-if="loggedIn">
-                    <v-btn icon>
+                    <v-btn icon to="/carrito">
                         <v-icon>mdi-cart</v-icon>
                     </v-btn>
 
