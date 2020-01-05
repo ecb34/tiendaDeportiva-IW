@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Resources\Articulo as ArticuloResource;
 use App\Articulo;
+use App\Comentario;
 use Illuminate\Support\Facades\Validator;
 
 class ArticuloController extends Controller
@@ -22,7 +23,6 @@ class ArticuloController extends Controller
         }
         return ArticuloResource::collection(Articulo::all());
     }
-
 
     protected function validarArticulo(Request $request){
         $validator = Validator::make($request->all(), [
@@ -86,6 +86,46 @@ class ArticuloController extends Controller
         Articulo::find($id)->update($request->all());
 
         return response()->json(null, 201);
+    }
+
+    public function comentar(Request $request)
+    {
+        $user = $request->user();
+        $articulo = Articulo::find($request->articulo_id);
+
+        if(!$articulo)
+            return response()->json(['message' => 'Articulo no existe'], 404);
+
+        $comentario = new Comentario([
+            'texto' => $request->comentario,
+            'valoracion' => $request->valoracion,
+            'articulo_id' => $articulo->id,
+            'user_id' => $user->id
+        ]);
+        $comentario->save();
+        /* SET VALORACION
+        $comentarios = $articulo->comentarios();
+        $valoracion = 0;
+        foreach($comentarios as $comentario) 
+        {
+            $valoracion += $comentario->valoracion;
+        }
+        $numComentarios = count($comentarios);
+        if($numComentarios>0){
+            $articulo->valoracion = $valoracion/$numComentarios;
+            $articulo->update();
+        } else {
+            $articulo->valoracion = 0;
+            $articulo->update();
+        }*/
+        if($articulo->valoracion==0) {
+            $articulo->valoracion = $request->valoracion;
+        } else {
+            $articulo->valoracion = ($articulo->valoracion+$request->valoracion)/2;
+        }
+        $articulo->update();
+
+        return response()->json(null,201);
     }
 
     /**

@@ -30,7 +30,7 @@
                     <p class="body-2">Total: {{articulo.pvp}}€</p>
                 </v-row>
                 <v-row justify="center">
-                    <v-rating readonly color="orange" v-model="articulo.valoracion" justify-center></v-rating>
+                    <v-rating readonly :half-increments="true" color="orange" v-model="articulo.valoracion" justify-center></v-rating>
                 </v-row>
                 <v-row>
                     <v-btn class="mr-4 white--text" color="green draken-4" :disabled="!$store.getters.loggedIn">Comprar</v-btn>
@@ -54,6 +54,9 @@
                             Comentarios
                         </v-badge>
                     </v-tab>
+                    <v-tab ripple>
+                        Comentar
+                    </v-tab>
 
                     <v-tab-item>
                         <v-card text>
@@ -71,12 +74,21 @@
                                         <v-list-item-content>
                                             <v-list-item-title v-text="item.user"></v-list-item-title>
                                             <v-list-item-subtitle v-text="item.texto"></v-list-item-subtitle>
-                                            <v-rating readonly color="orange" v-model="item.valoracion" justify-center>
+                                            <v-rating readonly :half-increments="true" color="orange" v-model="item.valoracion" justify-center>
                                             </v-rating>
                                         </v-list-item-content>
                                     </v-list-item>
                                 </template>
                             </v-list>
+                        </v-card>
+                    </v-tab-item>
+                    <v-tab-item>
+                        <v-card>
+                            <v-form v-on:submit.prevent="comentar">
+                                <v-rating :x-large="true" :half-increments="true" color="orange" v-model="valoracion" justify-center> </v-rating>
+                                <v-textarea v-model="comentario" solo name="input-7-4" label="Comentario"></v-textarea>
+                                <v-btn color="success" class="mr-4" @click="comentar">Comentar</v-btn>
+                            </v-form>
                         </v-card>
                     </v-tab-item>
                 </v-tabs>
@@ -118,10 +130,11 @@
         name: 'articulo',
         data() {
             return {
-                rating: 4,
                 contadorImagen: 0,
                 articulo: {},
                 listaArticulos: [],
+                comentario: "",
+                valoracion: 2.5,
                 listaComentarios: [],
                 listaArticulosRelacionados: ["https://picsum.photos/id/11/500/300", "https://picsum.photos/510/300?random",
                     'http://d26lpennugtm8s.cloudfront.net/stores/008/632/products/lchl14-negra-11-5ef53327e0e0a6e96515128489853509-640-0.jpg',
@@ -141,7 +154,6 @@
                 this.imagen = this.listaImagenes[i].url;
             },
             addListaDeseos(){
-                console.log(this.articulo.id);
                 axios.post('/api/user/listadeseos',{
                     'articulo_id': this.articulo.id
                 }).then(res =>{
@@ -154,12 +166,25 @@
                     }
                     console.log(err.response);
                 })
+            },
+            comentar(){
+                axios.post('/api/articulo/comentar',{
+                    'articulo_id': this.articulo.id,
+                    'valoracion': this.valoracion,
+                    'comentario': this.comentario
+                }).then(res =>{
+                    this.mostrar_snackbar = true
+                    this.snackbar = 'Comentario guardado'
+                    //this.$router.go()
+                }).catch(err =>{
+                    
+                })
             }
         },
         async created() {
             try {
                 //lista de articulos
-                const res = await axios.get('/api/articulos');
+                //const res = await axios.get('/api/articulos');
                 //this.listaArticulos = res.data.data;
 
                 //articulo con ID especifica, recuperamos las imagenes del articulo
@@ -168,8 +193,6 @@
                 this.listaImagenes = this.articulo.imagenes;
                 this.imagen = this.listaImagenes[0].url;
                 this.listaComentarios = this.articulo.comentarios;
-                console.log(this.articulo);
-                console.log(this.listaComentarios)
             } catch (err) {
 
             }
