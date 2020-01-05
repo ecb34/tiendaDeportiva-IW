@@ -54,7 +54,7 @@
                             Comentarios
                         </v-badge>
                     </v-tab>
-                    <v-tab ripple>
+                    <v-tab v-if="loggedIn" ripple>
                         Comentar
                     </v-tab>
 
@@ -179,6 +179,11 @@
                 }).catch(err =>{
                     
                 })
+            }
+        },
+        computed: {
+            loggedIn() {
+                return this.$store.getters.loggedIn
             }
         },
         async created() {
