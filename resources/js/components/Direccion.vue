@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-content>
       <h1>Direcciones  <v-btn color="primary" @click="dialog = true">Añadir</v-btn></h1>
       <v-row>
           <v-col cols="12" sm="4" v-for="direccion in direcciones" :key="direccion.id">
@@ -40,7 +40,7 @@
               </v-form>
           </v-dialog>
       </v-row>
-  </v-container>
+  </v-content>
 </template>
 
 <script>
