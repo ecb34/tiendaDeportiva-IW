@@ -33,7 +33,7 @@ class DireccionController extends Controller
         $user = $request->user();
         $this->validarDireccion($request);
 
-        $user->save(new Direccion([
+        $user->direcciones()->save(new Direccion([
             'linea1' => $request->linea1,
             'linea2' => $request->linea2,
             'cod_postal' => $request->cod_postal
