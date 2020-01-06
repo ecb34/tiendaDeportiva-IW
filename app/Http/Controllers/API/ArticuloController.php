@@ -92,16 +92,22 @@ class ArticuloController extends Controller
     {
         $user = $request->user();
         $articulo = Articulo::find($request->articulo_id);
-
+        
         if(!$articulo)
             return response()->json(['message' => 'Articulo no existe'], 404);
-
-        $comentario = new Comentario([
-            'texto' => $request->comentario,
-            'valoracion' => $request->valoracion,
-            'articulo_id' => $articulo->id,
-            'user_id' => $user->id
-        ]);
+        $comentario = null;
+        if($request->comentario_id!=-1) { // Es que se ha decidido editar el comentario
+            $comentario = Comentario::find($request->comentario_id);
+            $comentario->texto = $request->comentario;
+            $comentario->valoracion = $request->valoracion;
+        } else {    // Es un nuevo comentario
+            $comentario = new Comentario([
+                'texto' => $request->comentario,
+                'valoracion' => $request->valoracion,
+                'articulo_id' => $articulo->id,
+                'user_id' => $user->id
+            ]);
+        }
         $comentario->save();
         /* SET VALORACION
         $comentarios = $articulo->comentarios();
@@ -125,6 +131,20 @@ class ArticuloController extends Controller
         }
         $articulo->update();
 
+        return response()->json(null,201);
+    }
+
+    /**
+     * Quitar un comentario.
+     */
+    public function deleteComment(Request $request){
+        $comentario = Comentario::find($request->comentario_id);
+        
+        if(!$comentario)
+            return response()->json(['message' => 'Comentario no existe'], 404);
+        
+        $comentario->delete();
+        
         return response()->json(null,201);
     }
 

@@ -60,7 +60,7 @@
 
                     <v-tab-item>
                         <v-card text>
-                            <v-card-text>Contents for Item 1 go here</v-card-text>
+                            <v-card-text>{{articulo.descripcion}}</v-card-text>
                         </v-card>
                     </v-tab-item>
                     <v-tab-item>
@@ -71,11 +71,24 @@
                                         <v-list-item-avatar>
                                             <v-img src="https://cdn.onlinewebfonts.com/svg/img_184513.png"></v-img>
                                         </v-list-item-avatar>
+
                                         <v-list-item-content>
                                             <v-list-item-title v-text="item.user"></v-list-item-title>
                                             <v-list-item-subtitle v-text="item.texto"></v-list-item-subtitle>
-                                            <v-rating readonly :half-increments="true" color="orange" v-model="item.valoracion" justify-center>
-                                            </v-rating>
+                                            <v-rating readonly :half-increments="true" color="orange" v-model="item.valoracion" justify-center></v-rating>
+                                            <v-list-item-group v-if="user.id===item.user_id">
+                                                <v-btn color="success" class="mr-4" @click="swapEdit(index)"><v-icon class="mr-1">edit</v-icon></v-btn>
+                                                <v-btn color="red" class="mr-4" @click="deleteComment(item.id)"><v-icon class="mr-1">delete</v-icon></v-btn>
+                                            </v-list-item-group>
+                                        </v-list-item-content>
+                                        
+                                        <v-list-item-content v-if="edit===index">
+                                            <v-form v-on:submit.prevent="comentar">
+                                                <v-rating :x-large="true" :half-increments="true" color="orange" v-model="valoracion" justify-center> </v-rating>
+                                                <v-textarea v-model="comentario" solo name="input-7-4" label="Comentario"></v-textarea>
+                                                <v-btn color="success" class="mr-4" @click="comentar(item.id)">Guardar</v-btn>
+                                                <v-btn color="red" class="mr-4" @click="swapEdit(-1)">Cancelar</v-btn>
+                                            </v-form>
                                         </v-list-item-content>
                                     </v-list-item>
                                 </template>
@@ -87,7 +100,7 @@
                             <v-form v-on:submit.prevent="comentar">
                                 <v-rating :x-large="true" :half-increments="true" color="orange" v-model="valoracion" justify-center> </v-rating>
                                 <v-textarea v-model="comentario" solo name="input-7-4" label="Comentario"></v-textarea>
-                                <v-btn color="success" class="mr-4" @click="comentar">Comentar</v-btn>
+                                <v-btn color="success" class="mr-4" @click="comentar(-1)">Comentar</v-btn>
                             </v-form>
                         </v-card>
                     </v-tab-item>
@@ -130,11 +143,13 @@
         name: 'articulo',
         data() {
             return {
+                user: {},
                 contadorImagen: 0,
                 articulo: {},
                 listaArticulos: [],
                 comentario: "",
                 valoracion: 2.5,
+                edit: -1,
                 listaComentarios: [],
                 listaArticulosRelacionados: ["https://picsum.photos/id/11/500/300", "https://picsum.photos/510/300?random",
                     'http://d26lpennugtm8s.cloudfront.net/stores/008/632/products/lchl14-negra-11-5ef53327e0e0a6e96515128489853509-640-0.jpg',
@@ -167,17 +182,34 @@
                     console.log(err.response);
                 })
             },
-            comentar(){
+            comentar: function(i){
                 axios.post('/api/articulo/comentar',{
                     'articulo_id': this.articulo.id,
                     'valoracion': this.valoracion,
-                    'comentario': this.comentario
+                    'comentario': this.comentario,
+                    'comentario_id': i
                 }).then(res =>{
                     this.mostrar_snackbar = true
-                    this.snackbar = 'Comentario guardado'
-                    //this.$router.go()
+                    this.snackbar = (this.edit==-1? 'Comentario guardado' : 'Comentario editado')
+                    this.$router.go() // refrescar pagina
                 }).catch(err =>{
-                    
+                    console.log(err.response);
+                })
+            },
+            swapEdit: function (i){
+                console.log(i)
+                console.log(this.listaComentarios)
+                this.edit = i;
+            },
+            deleteComment: function(i){
+                axios.delete('api/articulo/deleteComment', {
+                    'comentario_id': i
+                }).then(res =>{
+                    this.mostrar_snackbar = true
+                    this.snackbar = 'Comentario borrado'
+                    this.$router.go()   // Refrescar pagina
+                }).catch(err =>{
+                    console.log(err.response);
                 })
             }
         },
@@ -191,7 +223,8 @@
                 //lista de articulos
                 //const res = await axios.get('/api/articulos');
                 //this.listaArticulos = res.data.data;
-
+                const res = await axios.get("/api/auth/user")
+                this.user = res.data.user
                 //articulo con ID especifica, recuperamos las imagenes del articulo
                 const res2 = await axios.get('/api/articulos/' + this.$route.params.id);
                 this.articulo = res2.data.data;
@@ -199,7 +232,7 @@
                 this.imagen = this.listaImagenes[0].url;
                 this.listaComentarios = this.articulo.comentarios;
             } catch (err) {
-
+                console.log(err.response);
             }
 
         }

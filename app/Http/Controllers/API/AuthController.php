@@ -88,7 +88,7 @@ class AuthController extends Controller
     public function user(Request $request)
     {
         $user = $request->user();
-        $pedidos = $user->pedidos;
+        $pedidos = $user->pedidos->where('estado', '!=', 'cesta');
         $totalPedidos = count($pedidos);
         $totalArticulos = 0;
         $totalGastado = 0;
