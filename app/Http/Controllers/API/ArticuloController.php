@@ -109,27 +109,23 @@ class ArticuloController extends Controller
             ]);
         }
         $comentario->save();
-        /* SET VALORACION
-        $comentarios = $articulo->comentarios();
+        // SET VALORACION
+        $comentarios = $articulo->comentarios;
         $valoracion = 0;
-        foreach($comentarios as $comentario) 
-        {
-            $valoracion += $comentario->valoracion;
-        }
-        $numComentarios = count($comentarios);
-        if($numComentarios>0){
-            $articulo->valoracion = $valoracion/$numComentarios;
-            $articulo->update();
+        if(count($comentarios) > 0){
+            foreach($comentarios as $comentario) 
+            {
+                $valoracion += $comentario->valoracion;
+            }
+            $articulo->update([
+                'valoracion' => $valoracion/count($comentarios)
+            ]);
         } else {
-            $articulo->valoracion = 0;
-            $articulo->update();
-        }*/
-        if($articulo->valoracion==0) {
-            $articulo->valoracion = $request->valoracion;
-        } else {
-            $articulo->valoracion = ($articulo->valoracion+$request->valoracion)/2;
+            $articulo->update([
+                'valoracion' => 0
+            ]);
         }
-        $articulo->update();
+        
 
         return response()->json($comentario,200);
     }

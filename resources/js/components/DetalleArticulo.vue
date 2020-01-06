@@ -191,7 +191,8 @@
                 }).then(res =>{
                     this.mostrar_snackbar = true
                     this.snackbar = (this.edit==-1? 'Comentario guardado' : 'Comentario editado')
-                    this.listaComentarios.push(res.data);
+                    //this.listaComentarios.push(res.data);
+                    console.log(res.data)
                     //this.$router.go() // refrescar pagina
                 }).catch(err =>{
                     console.log(err.response);
