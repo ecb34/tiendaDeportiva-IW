@@ -88,6 +88,26 @@ class ArticuloController extends Controller
         return response()->json(null, 201);
     }
 
+    protected function setValoracion($articulo){
+        // SET VALORACION
+        $comentarios = $articulo->comentarios;
+        $valoracion = 0;
+
+        if(count($comentarios) > 0){
+            foreach($comentarios as $comentario) 
+            {
+                $valoracion += $comentario->valoracion;
+            }
+            $articulo->update([
+                'valoracion' => $valoracion/count($comentarios)
+            ]);
+        } else {
+            $articulo->update([
+                'valoracion' => 0
+            ]);
+        }
+    }
+
     public function comentar(Request $request)
     {
         $user = $request->user();
@@ -109,25 +129,9 @@ class ArticuloController extends Controller
             ]);
         }
         $comentario->save();
-        // SET VALORACION
-        $comentarios = $articulo->comentarios;
-        $valoracion = 0;
-        if(count($comentarios) > 0){
-            foreach($comentarios as $comentario) 
-            {
-                $valoracion += $comentario->valoracion;
-            }
-            $articulo->update([
-                'valoracion' => $valoracion/count($comentarios)
-            ]);
-        } else {
-            $articulo->update([
-                'valoracion' => 0
-            ]);
-        }
+        $this->setValoracion($articulo);
         
-
-        return response()->json($comentario,200);
+        return response()->json([$comentario,$articulo->valoracion],200);
     }
 
     /**
@@ -139,9 +143,12 @@ class ArticuloController extends Controller
         if(!$comentario)
             return response()->json(['message' => 'Comentario no existe'], 404);
         
+        $articulo = $comentario->articulo;
         $comentario->delete();
         
-        return response()->json(null,201);
+        $this->setValoracion($articulo);
+        
+        return response()->json($articulo->valoracion,201);
     }
 
     /**

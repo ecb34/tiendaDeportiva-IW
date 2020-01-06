@@ -86,7 +86,7 @@
                                             <v-form v-on:submit.prevent="comentar">
                                                 <v-rating :x-large="true" :half-increments="true" color="orange" v-model="valoracion" justify-center> </v-rating>
                                                 <v-textarea v-model="comentario" solo name="input-7-4" label="Comentario"></v-textarea>
-                                                <v-btn color="success" class="mr-4" @click="comentar(item.id)">Guardar</v-btn>
+                                                <v-btn color="success" class="mr-4" @click="comentar(item.id, index)">Guardar</v-btn>
                                                 <v-btn color="error" class="mr-4" @click="swapEdit(-1)">Cancelar</v-btn>
                                             </v-form>
                                         </v-list-item-content>
@@ -100,7 +100,7 @@
                             <v-form v-on:submit.prevent="comentar">
                                 <v-rating :x-large="true" :half-increments="true" color="orange" v-model="valoracion" justify-center> </v-rating>
                                 <v-textarea v-model="comentario" solo name="input-7-4" label="Comentario"></v-textarea>
-                                <v-btn color="success" class="mr-4" @click="comentar(-1)">Comentar</v-btn>
+                                <v-btn color="success" class="mr-4" @click="comentar(-1, -1)">Comentar</v-btn>
                             </v-form>
                         </v-card>
                     </v-tab-item>
@@ -182,25 +182,24 @@
                     console.log(err.response);
                 })
             },
-            comentar: function(i){
+            comentar: function(id, index){  // [-1, -1] es un comentario nuevo
                 axios.post('/api/articulo/comentar',{
                     'articulo_id': this.articulo.id,
                     'valoracion': this.valoracion,
                     'comentario': this.comentario,
-                    'comentario_id': i
+                    'comentario_id': id
                 }).then(res =>{
                     this.mostrar_snackbar = true
                     this.snackbar = (this.edit==-1? 'Comentario guardado' : 'Comentario editado')
-                    //this.listaComentarios.push(res.data);
-                    console.log(res.data)
+                    this.edit==-1? this.listaComentarios.push(res.data[0]) : (this.listaComentarios[index]=res.data[0]);
+                    this.articulo.valoracion = res.data[1];
+                    this.edit=-1;
                     //this.$router.go() // refrescar pagina
                 }).catch(err =>{
                     console.log(err.response);
                 })
             },
             swapEdit: function (i){
-                console.log(i)
-                console.log(this.listaComentarios)
                 this.edit = i;
             },
             deleteComment: function(comentario){
@@ -209,6 +208,7 @@
                     this.mostrar_snackbar = true
                     this.snackbar = 'Comentario borrado'
                     this.listaComentarios.splice(this.listaComentarios.indexOf(comentario), 1)
+                    this.articulo.valoracion = res.data;
                 }).catch(err =>{
                     console.log(err.response);
                 })
