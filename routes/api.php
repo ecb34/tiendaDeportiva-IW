@@ -26,13 +26,22 @@ Route::get('categoriasrecomendadas', 'API\CategoriaController@categoriasRecomend
 
 
 Route::group(['middleware' => 'auth:api'], function(){
+    //pedidos
+    Route::get('user/pedidos', 'API\PedidoController@index');
+    Route::post('user/pedidos', 'API\PedidoController@store');
+
+    //lista deseos
     Route::get('user/listadeseos', 'API\ListaDeseosController@index');
     Route::post('user/listadeseos', 'API\ListaDeseosController@store');
     Route::delete('user/listadeseos/{id}', 'API\ListaDeseosController@destroy');
     Route::apiResources([
         'direcciones' => 'API\DireccionController'
     ]);
+
+    Route::post('articulo/comentar', 'API\ArticuloController@comentar');
+    Route::delete('articulo/comentarios/{id}', 'API\ArticuloController@deleteComment');
 });
+
 ///// Ejemplo///////
 Route::group(['prefix' => 'auth'], function () {
     //Authentication routes
