@@ -3,11 +3,16 @@
 namespace App\Http\Controllers\API;
 
 use App\Pedido;
+use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Resources\Pedido as PedidoResource;
 use App\LineaPedido;
 use DateTime;
+
+use Illuminate\Support\Facades\Log;
+use Illuminate\Console\Command;
 
 class PedidoController extends Controller
 {
@@ -23,14 +28,15 @@ class PedidoController extends Controller
             return collect([
                 'id' => $item->id,
                 'fecha' => $item->fecha,
-                'articulos' => DB::table('lineas_pedidos')
                 'estado' => $item->estado,
+                'articulos' => DB::table('lineas_pedidos')
                                 ->join('articulos', 'lineas_pedidos.articulo_id' , '=', 'articulos.id')
                                 ->where('pedido_id', '=', $item->id)
                                 ->select('lineas_pedidos.id', 'articulos.pvp', 'articulos.nombre', 'lineas_pedidos.importe', 'lineas_pedidos.importe', 'lineas_pedidos.cantidad', 'lineas_pedidos.pedido_id')
                                 ->get()
             ]);
         });
+       
         return response()->json($res);
        
     }
