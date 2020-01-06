@@ -33,12 +33,14 @@ class DireccionController extends Controller
         $user = $request->user();
         $this->validarDireccion($request);
 
-        $user->direcciones()->save(new Direccion([
+        $direccion = new Direccion([
             'linea1' => $request->linea1,
             'linea2' => $request->linea2,
-            'cod_postal' => $request->cod_postal
-        ]));
-        return response()->json(null,201);
+            'cod_postal' => $request->cod_postal,
+        ]);
+        $user->direcciones()->save($direccion);
+
+        return response()->json($direccion,200);
     }
 
     private function validarDireccion(Request $request)
@@ -91,7 +93,7 @@ class DireccionController extends Controller
 
         $direccion->update($request->all());
 
-        return response()->json(null,201);
+        return response()->json($direccion,200);
     }
 
     /**

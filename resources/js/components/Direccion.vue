@@ -10,7 +10,7 @@
                       <p>Código Postal: {{direccion.cod_postal}}</p>
                   </v-card-text>
                   <v-card-actions>
-                      <v-btn text color="success" @click="seleccionarDireccion(direccion)">
+                      <v-btn text color="success" @click="seleccionarDireccion(direccion)" v-if="$route.name=='comprar'">
                           Seleccionar
                       </v-btn>
                       <v-btn text color="black" @click="editarDireccion(direccion)">
@@ -73,7 +73,6 @@ export default {
         axios.get('/api/direcciones')
             .then(res =>{
                 this.direcciones = res.data.data
-                console.log(res.data)
             }).catch(err =>{
                 console.log(err.response)
             })
@@ -84,7 +83,7 @@ export default {
         },
         editarDireccion(direccion){
             this.dialog = true
-            this.editedDireccion = direccion
+            this.editedDireccion = Object.assign({}, direccion)
         },
         eliminarDireccion(direccion){
             axios.delete('/api/direcciones/'+ direccion.id)
@@ -102,7 +101,7 @@ export default {
                         linea2: this.editedDireccion.linea2,
                         cod_postal: this.editedDireccion.cod_postal
                     }).then(res => {
-                        this.direcciones.push(this.editedDireccion);
+                        this.direcciones.push(res.data);
                     }).catch(err =>{
                         console.log(err.response)
                     })
@@ -112,8 +111,10 @@ export default {
                         linea2: this.editedDireccion.linea2,
                         cod_postal: this.editedDireccion.cod_postal
                     }).then(res =>{
-                        var index =this.direcciones.findIndex( d => d.id == this.editedDireccion.id)
-                        this.direcciones[index] = this.editedDireccion
+                        var index =this.direcciones.findIndex(d => d.id == res.data.id)
+                        console.log(this.direcciones[index])
+                        console.log(res.data)
+                        Object.assign(this.direcciones[index], res.data)
                     }).catch(err =>{
                         console.log(err.response)
                     })
