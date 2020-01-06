@@ -78,7 +78,7 @@
                                             <v-rating readonly :half-increments="true" color="orange" v-model="item.valoracion" justify-center></v-rating>
                                             <v-list-item-group v-if="user.id===item.user_id">
                                                 <v-btn color="success" class="mr-4" @click="swapEdit(index)"><v-icon class="mr-1">edit</v-icon></v-btn>
-                                                <v-btn color="red" class="mr-4" @click="deleteComment(item)"><v-icon class="mr-1">delete</v-icon></v-btn>
+                                                <v-btn color="error" class="mr-4" @click="deleteComment(item)"><v-icon class="mr-1">delete</v-icon></v-btn>
                                             </v-list-item-group>
                                         </v-list-item-content>
                                         
@@ -87,7 +87,7 @@
                                                 <v-rating :x-large="true" :half-increments="true" color="orange" v-model="valoracion" justify-center> </v-rating>
                                                 <v-textarea v-model="comentario" solo name="input-7-4" label="Comentario"></v-textarea>
                                                 <v-btn color="success" class="mr-4" @click="comentar(item.id)">Guardar</v-btn>
-                                                <v-btn color="red" class="mr-4" @click="swapEdit(-1)">Cancelar</v-btn>
+                                                <v-btn color="error" class="mr-4" @click="swapEdit(-1)">Cancelar</v-btn>
                                             </v-form>
                                         </v-list-item-content>
                                     </v-list-item>
