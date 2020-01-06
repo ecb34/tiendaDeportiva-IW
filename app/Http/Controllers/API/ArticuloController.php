@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Resources\Articulo as ArticuloResource;
 use App\Articulo;
+use App\Comentario;
 use Illuminate\Support\Facades\Validator;
 
 class ArticuloController extends Controller
@@ -22,7 +23,6 @@ class ArticuloController extends Controller
         }
         return ArticuloResource::collection(Articulo::all());
     }
-
 
     protected function validarArticulo(Request $request){
         $validator = Validator::make($request->all(), [
@@ -86,6 +86,69 @@ class ArticuloController extends Controller
         Articulo::find($id)->update($request->all());
 
         return response()->json(null, 201);
+    }
+
+    protected function setValoracion($articulo){
+        // SET VALORACION
+        $comentarios = $articulo->comentarios;
+        $valoracion = 0;
+
+        if(count($comentarios) > 0){
+            foreach($comentarios as $comentario) 
+            {
+                $valoracion += $comentario->valoracion;
+            }
+            $articulo->update([
+                'valoracion' => $valoracion/count($comentarios)
+            ]);
+        } else {
+            $articulo->update([
+                'valoracion' => 0
+            ]);
+        }
+    }
+
+    public function comentar(Request $request)
+    {
+        $user = $request->user();
+        $articulo = Articulo::find($request->articulo_id);
+        
+        if(!$articulo)
+            return response()->json(['message' => 'Articulo no existe'], 404);
+        $comentario = null;
+        if($request->comentario_id!=-1) { // Es que se ha decidido editar el comentario
+            $comentario = Comentario::find($request->comentario_id);
+            $comentario->texto = $request->comentario;
+            $comentario->valoracion = $request->valoracion;
+        } else {    // Es un nuevo comentario
+            $comentario = new Comentario([
+                'texto' => $request->comentario,
+                'valoracion' => $request->valoracion,
+                'articulo_id' => $articulo->id,
+                'user_id' => $user->id
+            ]);
+        }
+        $comentario->save();
+        $this->setValoracion($articulo);
+        
+        return response()->json([$comentario,$articulo->valoracion],200);
+    }
+
+    /**
+     * Quitar un comentario.
+     */
+    public function deleteComment(Request $request, $id){
+        $comentario = Comentario::find($id);
+        
+        if(!$comentario)
+            return response()->json(['message' => 'Comentario no existe'], 404);
+        
+        $articulo = $comentario->articulo;
+        $comentario->delete();
+        
+        $this->setValoracion($articulo);
+        
+        return response()->json($articulo->valoracion,201);
     }
 
     /**

@@ -65,7 +65,6 @@ export default {
     axios.get('/api/articulos?destacados=1')
         .then(response => {
           this.articulosRecomendados = response.data;
-          console.log(response.data)
         }).catch(err => {
           console.log(err)
         })
