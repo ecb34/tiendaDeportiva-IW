@@ -47,7 +47,7 @@ export default {
             },
             reglasMes: [
                 v => !!v || 'Campo obligatorio',
-                v => v < 12 || 'Número de 1 a 12',
+                v => v < 13 || 'Número de 1 a 12',
                 v => 0 < v || 'Número de 1 a 12'
             ],
             reglasAnyo: [
@@ -63,40 +63,39 @@ export default {
     methods: {
         seleccionarDireccion(direccion){
             this.direccion = direccion
+            this.error = false
         },
         realizarPago(){
             if(!this.direccion){
                 this.error = true;
                 this.mensajeError = 'No has seleccionado direccion de envio'
+                return
             }
             if(this.$refs.form.validate()){
-                /*axios.post('https://mysterious-castle-80612.herokuapp.com/',{
+                console.log(this.tarjeta.mes + this.tarjeta.anyo)
+                axios.post('https://mysterious-castle-80612.herokuapp.com/',{
                     cardNumber: this.tarjeta.numero,
                     expirationDate: this.tarjeta.mes + this.tarjeta.anyo,
                     cvs: this.tarjeta.cvs,
                     quantity: 10,
                     id: '123'
-                },{
-                    headers: {
-                        'cross-domain': 'true',
-                    }
                 }).then(res =>{
-                    console.log(res)
-                }).catch(err =>{
+                    switch(res.data.cod){
+                        //pago correcto
+                        case "01":
+                        //pago en espera...
+                        case "08":
+                            //axios.post('/api/pedidos?estado=pagado')
+                            //this.$router.go('/');
+                        break;
+                        default:
+                            this.error = true
+                            this.mensajeError = res.data.msg
+                        break;
+                    }
+                }).catch(err =>{//segun su api no deberia entrar...
                     console.log(err)
-                })*/
-               var init = { method: 'POST',
-                body: {
-                    cardNumber: this.tarjeta.numero,
-                        expirationDate: this.tarjeta.mes + this.tarjeta.anyo,
-                        cvs: this.tarjeta.cvs,
-                        quantity: 10,
-                        id: '123'
-                },
-                mode: 'cors',
-                cache: 'default' };
-                fetch('https://mysterious-castle-80612.herokuapp.com/', init).then(res => res.json())
-                    .catch(error => console.error('Error:', error))
+                })
             }
         }
     },
