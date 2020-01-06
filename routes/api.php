@@ -31,7 +31,7 @@ Route::group(['middleware' => 'auth:api'], function(){
     Route::delete('user/listadeseos/{id}', 'API\ListaDeseosController@destroy');
 
     Route::post('articulo/comentar', 'API\ArticuloController@comentar');
-    Route::delete('articulo/deleteComment', 'API\ArticuloController@deleteComment');
+    Route::delete('articulo/comentarios/{id}', 'API\ArticuloController@deleteComment');
 });
 
 ///// Ejemplo///////

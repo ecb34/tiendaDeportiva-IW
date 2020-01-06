@@ -131,14 +131,14 @@ class ArticuloController extends Controller
         }
         $articulo->update();
 
-        return response()->json(null,201);
+        return response()->json($comentario,200);
     }
 
     /**
      * Quitar un comentario.
      */
-    public function deleteComment(Request $request){
-        $comentario = Comentario::find($request->comentario_id);
+    public function deleteComment(Request $request, $id){
+        $comentario = Comentario::find($id);
         
         if(!$comentario)
             return response()->json(['message' => 'Comentario no existe'], 404);

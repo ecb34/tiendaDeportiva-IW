@@ -78,7 +78,7 @@
                                             <v-rating readonly :half-increments="true" color="orange" v-model="item.valoracion" justify-center></v-rating>
                                             <v-list-item-group v-if="user.id===item.user_id">
                                                 <v-btn color="success" class="mr-4" @click="swapEdit(index)"><v-icon class="mr-1">edit</v-icon></v-btn>
-                                                <v-btn color="red" class="mr-4" @click="deleteComment(item.id)"><v-icon class="mr-1">delete</v-icon></v-btn>
+                                                <v-btn color="red" class="mr-4" @click="deleteComment(item)"><v-icon class="mr-1">delete</v-icon></v-btn>
                                             </v-list-item-group>
                                         </v-list-item-content>
                                         
@@ -191,7 +191,8 @@
                 }).then(res =>{
                     this.mostrar_snackbar = true
                     this.snackbar = (this.edit==-1? 'Comentario guardado' : 'Comentario editado')
-                    this.$router.go() // refrescar pagina
+                    this.listaComentarios.push(res.data);
+                    //this.$router.go() // refrescar pagina
                 }).catch(err =>{
                     console.log(err.response);
                 })
@@ -201,13 +202,12 @@
                 console.log(this.listaComentarios)
                 this.edit = i;
             },
-            deleteComment: function(i){
-                axios.delete('api/articulo/deleteComment', {
-                    'comentario_id': i
-                }).then(res =>{
+            deleteComment: function(comentario){
+                axios.delete('/api/articulo/comentarios/'+comentario.id)
+                    .then(res =>{
                     this.mostrar_snackbar = true
                     this.snackbar = 'Comentario borrado'
-                    this.$router.go()   // Refrescar pagina
+                    this.listaComentarios.splice(this.listaComentarios.indexOf(comentario), 1)
                 }).catch(err =>{
                     console.log(err.response);
                 })
