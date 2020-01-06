@@ -114,7 +114,14 @@ export default new Router({
         {
             path: '/pedidos',
             name: 'Pedidos',
-            component: Pedidos
+            component: Pedidos,
+            beforeEnter(to,from,next){
+                if(Store.getters.loggedIn){
+                    next()
+                }else{
+                    next({name: '401'})
+                }
+            }
         },
         {
             path: '/perfil',

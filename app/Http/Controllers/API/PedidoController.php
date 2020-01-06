@@ -30,10 +30,8 @@ class PedidoController extends Controller
                 'articulos' => DB::table('lineas_pedidos')
                                 ->join('articulos', 'lineas_pedidos.articulo_id' , '=', 'articulos.id')
                                 ->where('pedido_id', '=', $item->id)
-                                ->select('lineas_pedidos.id', 'articulos.nombre', 'lineas_pedidos.importe', 'lineas_pedidos.importe', 'lineas_pedidos.cantidad', 'lineas_pedidos.pedido_id')
+                                ->select('lineas_pedidos.id', 'articulos.pvp', 'articulos.nombre', 'lineas_pedidos.importe', 'lineas_pedidos.importe', 'lineas_pedidos.cantidad', 'lineas_pedidos.pedido_id')
                                 ->get()
-                                
-                               
             ]);
         });
        

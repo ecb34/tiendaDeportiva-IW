@@ -26,11 +26,11 @@ Route::get('categoriasrecomendadas', 'API\CategoriaController@categoriasRecomend
 
 
 Route::group(['middleware' => 'auth:api'], function(){
+    //pedidos
     Route::get('user/pedidos', 'API\PedidoController@index');
     Route::post('user/pedidos', 'API\PedidoController@store');
 
-    //Route::get('user/pedidos/{pedido_id}/articulos', 'API\LineaPedidoControllet@show');
-
+    //lista deseos
     Route::get('user/listadeseos', 'API\ListaDeseosController@index');
     Route::post('user/listadeseos', 'API\ListaDeseosController@store');
     Route::delete('user/listadeseos/{id}', 'API\ListaDeseosController@destroy');
