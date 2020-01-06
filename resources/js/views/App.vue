@@ -33,6 +33,9 @@
                             <v-list-item to="/listadeseos">
                                 <v-list-item-title>Lista de deseos</v-list-item-title>
                             </v-list-item>
+                            <v-list-item to="/pedidos">
+                                <v-list-item-title>Mis Pedidos</v-list-item-title>
+                            </v-list-item>
                             <v-list-item to="/perfil">
                                 <v-list-item-title>Mi Cuenta</v-list-item-title>
                             </v-list-item>

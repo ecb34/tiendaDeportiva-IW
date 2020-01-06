@@ -13,14 +13,27 @@ class PedidoController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $user = $request->user();
+        $pedidos = $user->pedidos;
+        $res = $pedidos->map(function ($item){
+            return collect([
+                'id' => $item->id,
+                'fecha' => $item->fecha,
+                'articulos' => DB::table('lineas_pedidos')
+                'estado' => $item->estado,
+                                ->join('articulos', 'lineas_pedidos.articulo_id' , '=', 'articulos.id')
+                                ->where('pedido_id', '=', $item->id)
+                                ->select('lineas_pedidos.id', 'articulos.pvp', 'articulos.nombre', 'lineas_pedidos.importe', 'lineas_pedidos.importe', 'lineas_pedidos.cantidad', 'lineas_pedidos.pedido_id')
+                                ->get()
+            ]);
+        });
+        return response()->json($res);
+       
     }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -160,4 +173,5 @@ class PedidoController extends Controller
     {
         //
     }
+
 }
