@@ -85,8 +85,8 @@ export default {
                         case "01":
                         //pago en espera...
                         case "08":
-                            //axios.post('/api/pedidos?estado=pagado')
-                            //this.$router.go('/');
+                            //axios.post('/api/pedidos')
+                            this.$router.push({ name: 'home', params: { snackbar: 'Pedido realizado correctamente' }})
                         break;
                         default:
                             this.error = true

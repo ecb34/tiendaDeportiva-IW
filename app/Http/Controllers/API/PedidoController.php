@@ -5,11 +5,9 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use App\User;
 use App\Pedido;
-
-use Illuminate\Support\Facades\Log;
-use Illuminate\Console\Command;
 
 class PedidoController extends Controller
 {
@@ -46,8 +44,19 @@ class PedidoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user = $request->user();
+
+        $carrito = $user->pedidos()->where('estado', 'cesta')->first();
+
+        //cambio el carrito a pedido...
+        $carrito->update([
+            'estado' => $request->estado
+        ]);
+
+        //crear nuevo carrito?
+        return response()->json(null,201);
     }
+
 
     /**
      * Display the specified resource.

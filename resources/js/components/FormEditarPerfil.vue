@@ -125,7 +125,7 @@ export default {
           password: this.password,
           password_confirmation: this.password_confirmation
         }).then((res =>{
-           this.$router.push({ name: 'Perfil', params: { mostrar_snackbar: true }})
+           this.$router.push({ name: 'Perfil'})
         })).catch(err =>{
           console.log(err.response)
           //TODO por ahora el unico error que deberia pasar en el servidor..

@@ -24,10 +24,7 @@
     </carousel>
   </div>
   <v-snackbar v-model="mostrar_snackbar" color="success" top class="title">
-        Te has registrado exitosamente
-      <v-btn dark flat @click="mostrar_snackbar = false">
-          Cerrar
-      </v-btn>
+        {{snackbar}}
   </v-snackbar>
 </v-container>
 </template>
@@ -37,8 +34,8 @@ import carousel from 'vue-owl-carousel'
 export default {
   components: { carousel },
   props:{
-    mostrar_snackbar: {
-      type: Boolean
+    snackbar: {
+      type: String
     }
   },
   data () {
@@ -68,6 +65,11 @@ export default {
         }).catch(err => {
           console.log(err)
         })
+  },
+  computed: {
+    mostrar_snackbar() {
+      return !!this.snackbar 
+    }
   },
   methods: {
   }
