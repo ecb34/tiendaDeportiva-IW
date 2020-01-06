@@ -8,6 +8,7 @@ import DetalleArticulo from './components/DetalleArticulo'
 import Contacto from './components/Contacto'
 import Cookies from './components/PoliticaCookies'
 import Tiendas from './components/Tiendas'
+import Pedidos from './components/Pedidos'
 import Registro from './components/Registro'
 import Carrito from './components/Carrito'
 import ListaDeseos from './components/ListaDeseos'
@@ -102,6 +103,18 @@ export default new Router({
             path: '/editarPerfil',
             name: 'editarPerfil',
             component: FormEditarPerfil,
+            beforeEnter(to,from,next){
+                if(Store.getters.loggedIn){
+                    next()
+                }else{
+                    next({name: '401'})
+                }
+            }
+        },
+        {
+            path: '/pedidos',
+            name: 'Pedidos',
+            component: Pedidos,
             beforeEnter(to,from,next){
                 if(Store.getters.loggedIn){
                     next()
