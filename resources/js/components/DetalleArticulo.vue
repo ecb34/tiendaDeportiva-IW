@@ -220,11 +220,19 @@
         },
         async created() {
             try {
+                // Obtenemos el usuario logueado.
+                try{ 
+                    const res = await axios.get("/api/auth/user")
+                    this.user = res.data.user
+                }catch(err){ 
+                    // En caso de que no esté logueado ponemos user.id a -1 para que se muestren las cosas...
+                    this.user.id = -1
+                    console.log(err)
+                }
                 //lista de articulos
                 //const res = await axios.get('/api/articulos');
                 //this.listaArticulos = res.data.data;
-                const res = await axios.get("/api/auth/user")
-                this.user = res.data.user
+                
                 //articulo con ID especifica, recuperamos las imagenes del articulo
                 const res2 = await axios.get('/api/articulos/' + this.$route.params.id);
                 this.articulo = res2.data.data;
