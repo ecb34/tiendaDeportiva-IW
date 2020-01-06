@@ -45,12 +45,12 @@
         <v-row>
             <v-col cols="8">
                 <v-divider class="mb-4 mt-2"></v-divider>
-                <v-tabs grow="true" color="cyan" dark slider-color="yellow">
+                <v-tabs :grow="true" dark slider-color="yellow">
                     <v-tab ripple>
                         Descripcion Detallada
                     </v-tab>
                     <v-tab ripple>
-                        <v-badge>
+                        <v-badge :color="badgeColor" :content="numComentarios">
                             Comentarios
                         </v-badge>
                     </v-tab>
@@ -143,14 +143,16 @@
         name: 'articulo',
         data() {
             return {
+                badgeColor: "",
                 user: {},
-                contadorImagen: 0,
+                contadorImagen: "0",
                 articulo: {},
                 listaArticulos: [],
                 comentario: "",
                 valoracion: 2.5,
                 edit: -1,
                 listaComentarios: [],
+                numComentarios: 0,
                 listaArticulosRelacionados: ["https://picsum.photos/id/11/500/300", "https://picsum.photos/510/300?random",
                     'http://d26lpennugtm8s.cloudfront.net/stores/008/632/products/lchl14-negra-11-5ef53327e0e0a6e96515128489853509-640-0.jpg',
                     'https://ae01.alicdn.com/kf/HTB1yJ3PzByWBuNkSmFPq6xguVXa1.jpg?width=800&height=800&hash=1600'
@@ -194,6 +196,8 @@
                     this.edit==-1? this.listaComentarios.push(res.data[0]) : (this.listaComentarios[index]=res.data[0]);
                     this.articulo.valoracion = res.data[1];
                     this.edit=-1;
+                    this.numComentarios = this.listaComentarios.length;
+                    this.numComentarios>0 ? this.badgeColor="blue" : this.badgeColor="";
                     //this.$router.go() // refrescar pagina
                 }).catch(err =>{
                     console.log(err.response);
@@ -209,6 +213,8 @@
                     this.snackbar = 'Comentario borrado'
                     this.listaComentarios.splice(this.listaComentarios.indexOf(comentario), 1)
                     this.articulo.valoracion = res.data;
+                    this.numComentarios = this.listaComentarios.length;
+                    this.numComentarios>0 ? this.badgeColor="blue" : this.badgeColor="";
                 }).catch(err =>{
                     console.log(err.response);
                 })
@@ -240,6 +246,8 @@
                 this.listaImagenes = this.articulo.imagenes;
                 this.imagen = this.listaImagenes[0].url;
                 this.listaComentarios = this.articulo.comentarios;
+                this.numComentarios = this.listaComentarios.length;
+                this.numComentarios>0 ? this.badgeColor="blue" : this.badgeColor="";
             } catch (err) {
                 console.log(err.response);
             }
