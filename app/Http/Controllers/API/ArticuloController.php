@@ -21,7 +21,7 @@ class ArticuloController extends Controller
         if($request->query('destacados')){
             return Articulo::orderBy('valoracion', 'desc')->with('imagenes')->take(12)->get();
         }
-        return ArticuloResource::collection(Articulo::all());
+        return Articulo::with('imagenes')->get();
     }
 
     protected function validarArticulo(Request $request){

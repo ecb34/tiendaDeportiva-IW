@@ -86,7 +86,7 @@ export default {
         methods: {
             filtrarArticulos: function(articulo){
                 if(this.$route.query.q){
-                    return articulo.categoria.name.toUpperCase().includes(this.$route.query.q.toUpperCase()) || articulo.nombre.toUpperCase().includes(this.$route.query.q.toUpperCase())
+                    return articulo.nombre.toUpperCase().includes(this.$route.query.q.toUpperCase())
                 }else if(this.$route.name === 'hombre' && (articulo.genero == 0 || articulo.genero == 2)){
                     return true;
                 }else if(this.$route.name === 'mujer' && (articulo.genero == 1 || articulo.genero == 2)){
@@ -101,7 +101,8 @@ export default {
                 this.loading = true
                 axios.get('/api/articulos')
                 .then(response => {
-                    this.listaArticulos = response.data.data
+                    console.log(response.data)
+                    this.listaArticulos = response.data
                         .filter(this.filtrarArticulos)
                     this.loading = false;
                     this.listaArticulosSinFiltro = this.listaArticulos
@@ -132,7 +133,7 @@ export default {
                 if(this.selection.length == 0) this.listaArticulos = this.listaArticulosSinFiltro
                 else{
                     this.listaArticulos = this.listaArticulosSinFiltro.filter((articulo) =>{
-                        return this.selection.some( s => s.id == articulo.categoria.id)    
+                        return this.selection.some( s => s.id == articulo.categoria_id)    
                     })
                 }
             }
