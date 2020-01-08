@@ -37,9 +37,10 @@
             </div>
         </v-row>
         <v-row>
-            <v-col cols="10"></v-col>
-            <v-col cols="2">
-                TOTAL: {{total}}€
+            <v-col cols="9"></v-col>
+            <v-col cols="3">
+                <b>TOTAL: {{total}}€</b>
+                <v-btn color="primary" @click="tramitarPedido">Tramitar Pedido</v-btn>
             </v-col>
         </v-row>
     </v-container>
@@ -53,7 +54,6 @@
             return {
                 listaArticulos: [],
                 total: -1
-
             }
         },
         mounted() {
@@ -70,6 +70,7 @@
                     var index = this.listaArticulos.findIndex(a => a.articulo_id == articulo.id)
                     this.listaArticulos[index].importe = importe
                     this.listaArticulos[index].cantidad++
+                    this.total = parseFloat(this.total)
                     this.total += articulo.pvp
                     this.total = this.total.toFixed(2)
                 }).catch(err =>{
@@ -101,13 +102,17 @@
                 axios.get('/api/user/carrito')
                 .then(response => {
                     this.listaArticulos = response.data.data.lineas
-                    this.total = this.listaArticulos.reduce((res,art) => {
+                    this.total = parseFloat(this.listaArticulos.reduce((res,art) => {
                         return res + art.importe
-                    },0).toFixed(2)
+                    },0)).toFixed(2)
                 })
                 .catch(function (error) {
                     console.log(error.response);
                 });
+            },
+            tramitarPedido(){
+                this.$store.commit('setPrecioTotal', this.total)
+                this.$router.push({name: 'comprar'})
             }
         }
     }

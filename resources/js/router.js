@@ -139,6 +139,7 @@ export default new Router({
         {
             path: '/comprar',
             name: 'comprar',
+            props: true,
             component: Compra,
             beforeEnter(to,from,next){
                 if(Store.getters.loggedIn){

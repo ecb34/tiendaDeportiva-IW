@@ -56,6 +56,7 @@ class PedidoController extends Controller
         $user = $request->user();
 
         $carrito = $user->pedidos()->where('estado', 'cesta')->first();
+        
 
         //cambio el carrito a pedido...
         $carrito->update([

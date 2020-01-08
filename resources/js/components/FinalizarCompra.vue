@@ -5,11 +5,12 @@
       </div>
       <direccion v-else @seleccionarDireccion="seleccionarDireccion"></direccion>
       <div class="mt-10">
+        <h1 class="mb-2">Pago total: {{$store.getters.getPrecioTotal}}€</h1>
         <h1>Información de pago</h1>
         <v-form ref="form" v-model="valid">
             <v-row>
                 <v-col cols="8">
-                     <v-text-field v-model="tarjeta.numero" label="Número tarjeta" :rules="reglaGeneral" maxlength="16" prepend-icon="mdi-card"></v-text-field>
+                     <v-text-field v-model="tarjeta.numero" label="Número tarjeta" :rules="reglaGeneral" maxlength="16" prepend-icon="mdi-credit-card"></v-text-field>
                 </v-col>
                 <v-col cols="1">
                     <v-text-field v-model="tarjeta.mes" label="MM"  :rules="reglasMes"></v-text-field>
@@ -83,10 +84,25 @@ export default {
                     switch(res.data.cod){
                         //pago correcto
                         case "01":
+                            axios.post('/api/user/pedidos', {
+                                'estado': 'pagado'
+                            }).then(res =>{
+                                this.$router.push({ name: 'home', params: { snackbar: 'Pedido realizado correctamente' }})
+                            }).catch(err =>{
+                                console.log(err.response)
+                            })
+                            
+                        break;
                         //pago en espera...
                         case "08":
-                            //axios.post('/api/pedidos')
-                            this.$router.push({ name: 'home', params: { snackbar: 'Pedido realizado correctamente' }})
+                            axios.post('/api/pedidos', {
+                                'estado': 'pendiente'
+                            }).then(res =>{
+                                this.$router.push({ name: 'home', params: { snackbar: 'Pedido realizado correctamente' }})
+                            }).catch(err =>{
+                                console.log(err.response)
+                            })
+                            
                         break;
                         default:
                             this.error = true
