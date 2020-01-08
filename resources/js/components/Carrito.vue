@@ -12,7 +12,7 @@
                                 <th class="text-left">Descripcion</th>
                                 <th class="text-left">Precio</th>
                                 <th class="text-left">Cantidad</th>
-                                <th class="text-left">Total</th>
+                                <th class="text-left">Subtotal</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -36,6 +36,12 @@
                 </v-simple-table>
             </div>
         </v-row>
+        <v-row>
+            <v-col cols="10"></v-col>
+            <v-col cols="2">
+                TOTAL: {{total}}€
+            </v-col>
+        </v-row>
     </v-container>
 </template>
 
@@ -45,12 +51,10 @@
         name: 'Carrito',
         data() {
             return {
-                listaArticulos: []
+                listaArticulos: [],
+                total: -1
 
             }
-        },
-        ready: function () {
-
         },
         mounted() {
             this.traerCarrito()
@@ -62,9 +66,12 @@
                     'pvp': articulo.pvp,
                     'cantidad': 1
                 }).then(res =>{
+                    var importe = parseFloat(res.data.importe).toFixed(2)
                     var index = this.listaArticulos.findIndex(a => a.articulo_id == articulo.id)
-                    this.listaArticulos[index].importe = parseFloat(res.data.importe).toFixed(2)
+                    this.listaArticulos[index].importe = importe
                     this.listaArticulos[index].cantidad++
+                    this.total += articulo.pvp
+                    this.total = this.total.toFixed(2)
                 }).catch(err =>{
                     console.log(err.response);
                 })
@@ -77,12 +84,15 @@
                 }).then(res =>{
                     var index = this.listaArticulos.findIndex(a => a.articulo_id == articulo.id)
                     if(res.data.importe){
-                        this.listaArticulos[index].importe = parseFloat(res.data.importe).toFixed(2)
+                        var importe = parseFloat(res.data.importe).toFixed(2)
+                        this.listaArticulos[index].importe = importe
                         this.listaArticulos[index].cantidad--
+                        
                     }else{
                         this.listaArticulos.splice(index,1)
                     }
-                    
+                    this.total -= articulo.pvp
+                    this.total = this.total.toFixed(2)
                 }).catch(err =>{
                     console.log(err.response);
                 })
@@ -91,6 +101,9 @@
                 axios.get('/api/user/carrito')
                 .then(response => {
                     this.listaArticulos = response.data.data.lineas
+                    this.total = this.listaArticulos.reduce((res,art) => {
+                        return res + art.importe
+                    },0).toFixed(2)
                 })
                 .catch(function (error) {
                     console.log(error.response);
