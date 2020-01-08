@@ -9,7 +9,7 @@ class LineaPedido extends Model
     protected $table = 'lineas_pedidos';
 
     protected $fillable = [
-        'id', 'importe','cantidad', 'pedido_id'
+        'id', 'importe','cantidad', 'articulo_id', 'pedido_id'
     ];
 
     public function pedido()
