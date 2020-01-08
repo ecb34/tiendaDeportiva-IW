@@ -3,9 +3,9 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Http\Resources\LineaPedido as LineaPedidoResource;
+use App\Http\Resources\Articulo as ArticuloResource;
 
-class Pedido extends JsonResource
+class LineaPedido extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,11 +15,9 @@ class Pedido extends JsonResource
      */
     public function toArray($request)
     {
+        //return parent::toArray($request);
         return [
-            'id' => $this->id,
-            'fecha' => $this->fecha,
-            'estado' => $this->estado,
-            'lineas' => LineaPedidoResource::collection($this->lineaPedidos)
+            'articulo' => new ArticuloResource($this->articulo)
         ];
     }
 }

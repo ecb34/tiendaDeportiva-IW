@@ -80,7 +80,8 @@ class PedidoController extends Controller
         if (!$carrito) {
             $carrito = $this->crearCarrito($user);
         }
-        return $carrito;
+        //return $carrito;
+        return new PedidoResource($carrito);
     }
 
     public function addArticuloCarrito(Request $request)
