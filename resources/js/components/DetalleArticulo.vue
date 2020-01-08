@@ -44,12 +44,12 @@
         <v-row>
             <v-col cols="8">
                 <v-divider class="mb-4 mt-2"></v-divider>
-                <v-tabs grow="true" color="cyan" dark slider-color="yellow">
+                <v-tabs :grow="true" color="cyan" dark slider-color="yellow">
                     <v-tab ripple>
                         Descripcion Detallada
                     </v-tab>
                     <v-tab ripple>
-                        <v-badge>
+                        <v-badge :content="listaComentarios.length">
                             Comentarios
                         </v-badge>
                     </v-tab>
@@ -104,7 +104,7 @@
                         </v-card>
                     </v-tab-item>
                 </v-tabs>
-                <p class="display-1">Articulos relacionados</p>
+                <p class="display-1 mt-3">Articulos relacionados</p>
                 <v-row>
                     <v-card v-for="articulo in this.listaArticulos" v-bind:key="articulo.id" class="mx-auto mb-6"
                         max-width="250">
