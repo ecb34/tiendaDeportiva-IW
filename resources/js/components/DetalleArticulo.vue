@@ -34,7 +34,7 @@
                 </v-row>
                 <v-row>
                     <v-btn class="mr-4 white--text" color="green draken-4" :disabled="!loggedIn">Comprar</v-btn>
-                    <v-btn color="primary" :disabled="!loggedIn">Añadir al carrito</v-btn>
+                    <v-btn color="primary" :disabled="!loggedIn" @click="addArticuloToCarrito()">Añadir al carrito</v-btn>
                 </v-row>
                 <v-row class="mt-3">
                     <v-btn color="white" :disabled="!loggedIn" @click="addListaDeseos()">Añadir a la Lista de Deseos</v-btn>
@@ -174,6 +174,23 @@
                 }).then(res =>{
                     this.mostrar_snackbar = true
                     this.snackbar = 'Añadido a lista de deseos'
+                }).catch(err =>{
+                    if(err.response.status == 400){
+                        this.mostrar_snackbar = true
+                        this.snackbar = 'El artículo ya está en la lista de deseos'
+                    }
+                    console.log(err.response);
+                })
+            },
+            addArticuloToCarrito() {
+                console.log(this.articulo.id);
+                axios.post('/api/user/carrito',{
+                    'articulo_id': this.articulo.id,
+                    'pvp': this.articulo.pvp,
+                    'cantidad': 1
+                }).then(res =>{
+                    this.mostrar_snackbar = true
+                    this.snackbar = 'Añadido a carrito'
                 }).catch(err =>{
                     if(err.response.status == 400){
                         this.mostrar_snackbar = true
