@@ -17,6 +17,11 @@ class LineaPedido extends JsonResource
     {
         //return parent::toArray($request);
         return [
+            'id' => $this->id,
+            'importe' => $this->importe,
+            'cantidad' => $this->cantidad,
+            'articulo_id' => $this->articulo_id,
+            'pedido_id' => $this->pedido_id,
             'articulo' => new ArticuloResource($this->articulo)
         ];
     }

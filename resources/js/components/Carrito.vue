@@ -18,16 +18,16 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="item in listaArticulos" :key="item.id">
+                            <tr v-for="item in listaArticulos" :key="item.articulo.id">
                                 <td width="20%">
-                                    <v-img v-bind:src="item.imagenes[0].url" max-width="150" max-height="150">
+                                    <v-img v-bind:src="item.articulo.imagenes[0].url" max-width="150" max-height="150">
                                     </v-img>
                                 </td>
-                                <td width="10%">{{ item.nombre }}</td>
-                                <td class="" width="20%">{{ item.descripcion }}</td>
-                                <td width="20%">{{ item.pvp }}</td>
-                                <td width="10%">Cantidad</td>
-                                <td width="20%">Total</td>
+                                <td width="10%">{{ item.articulo.nombre }}</td>
+                                <td class="" width="20%">{{ item.articulo.descripcion }}</td>
+                                <td width="20%">{{ item.articulo.pvp }}</td>
+                                <td width="20%">{{item.cantidad}}</td>
+                                <td width="20%">{{item.importe}}</td>
                             </tr>
                         </tbody>
                     </template>
@@ -59,8 +59,9 @@
         mounted() {
             axios.get('/api/user/carrito')
                 .then(response => {
-                   
-                    console.log(response.data)
+                    this.listaArticulos = response.data.data.lineas
+                    console.log(response.data.data)
+
                    
                 })
                 .catch(function (error) {

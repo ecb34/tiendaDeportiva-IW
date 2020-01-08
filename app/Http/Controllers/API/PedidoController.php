@@ -91,19 +91,20 @@ class PedidoController extends Controller
         if(!$carrito){
             $carrito = $this->crearCarrito($user);
         }
-        $importe = $request->cantidad * $request->pvp;
+        //$importe = $request->cantidad * $request->pvp;
 
         //miramos si existe una linea de pedido con el articulo a añadir...
         $lineaPedido = $carrito->lineaPedidos()->where('articulo_id', $request->articulo_id)->first();
         //si existe la linea de pedido, actualizar el importe y cantidad, sino crear una nueva
         if($lineaPedido){
             $lineaPedido->update([
-                'importe' => $importe,
-                'cantidad' => $request->cantidad
+                'cantidad' => $lineaPedido->cantidad + 1,
+                'importe' => $request->pvp * ($lineaPedido->cantidad + 1)
+                //'cantidad' => $lineaPedido->cantidad + $request->cantidad
             ]);
         }else{
             $linea = new LineaPedido([
-                'importe' => $importe,
+                'importe' => $request->cantidad * $request->pvp,
                 'cantidad' => $request->cantidad,
                 'articulo_id' => $request->articulo_id,
                 'pedido_id' => $carrito->id
