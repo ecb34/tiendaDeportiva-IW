@@ -171,6 +171,7 @@ class PedidoController extends Controller
         return response()->json(null, 201);
     }
 
+
     private function crearCarrito($user)
     {
         $carrito = new Pedido([
@@ -219,4 +220,5 @@ class PedidoController extends Controller
     {
         //
     }
+
 }

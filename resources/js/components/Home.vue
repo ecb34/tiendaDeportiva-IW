@@ -67,8 +67,13 @@ export default {
         })
   },
   computed: {
-    mostrar_snackbar() {
-      return !!this.snackbar 
+    mostrar_snackbar: {
+      get(){
+         return !!this.snackbar
+       },
+      set(value){
+         return value
+      }  
     }
   },
   methods: {

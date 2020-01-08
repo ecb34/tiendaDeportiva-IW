@@ -18,7 +18,7 @@
                 :search="search"
             >
             <template v-slot:item.action="{ item }">
-                <v-btn color="success" @click="addCarrito(item.id)">
+                <v-btn color="success" @click="addCarrito(item)">
                     <v-icon class="mr-2">
                         mdi-cart
                     </v-icon>
@@ -67,8 +67,17 @@ export default {
                 })
     },
     methods: {
-        addCarrito(id){
-
+        addCarrito(articulo){
+            axios.post('/api/user/carrito',{
+                'articulo_id': articulo.id,
+                'pvp': articulo.pvp,
+                'cantidad': 1
+            }).then(res =>{
+                this.eliminarArticulo(articulo)
+            }).catch(err =>{
+                console.log(err.response)
+            })
+            
         },
         eliminarArticulo(articulo){
             axios.delete('/api/user/listadeseos/' + articulo.id)
