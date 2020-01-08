@@ -48,12 +48,18 @@
         </div>
       </div>
     </div>
+    <direccion></direccion>
   </div>
+  
 </template>
 
 <script>
 import axios from "axios";
+import Direccion from "./Direccion"
 export default {
+  components: {
+    Direccion
+  },
   data: () => ({
     user: {},
     totalPedidos: {},

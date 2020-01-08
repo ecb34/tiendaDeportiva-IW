@@ -1,6 +1,5 @@
 <template>
-    <v-container fluid>
-        
+    <v-container fluid>    
         <v-row>
             <v-col cols="1">
                 <v-hover v-for="index in listaImagenes.length" v-bind:key="index" class="mb-4"
@@ -45,12 +44,12 @@
         <v-row>
             <v-col cols="8">
                 <v-divider class="mb-4 mt-2"></v-divider>
-                <v-tabs grow="true" color="cyan" dark slider-color="yellow">
+                <v-tabs :grow="true" color="cyan" dark slider-color="yellow">
                     <v-tab ripple>
                         Descripcion Detallada
                     </v-tab>
                     <v-tab ripple>
-                        <v-badge>
+                        <v-badge :content="listaComentarios.length">
                             Comentarios
                         </v-badge>
                     </v-tab>
@@ -67,7 +66,7 @@
                         <v-card text>
                             <v-list three-line>
                                 <template v-for="(item, index) in listaComentarios" :v-bind="index">
-                                    <v-list-item :key="item.title" @click="">
+                                    <v-list-item :key="item.title">
                                         <v-list-item-avatar>
                                             <v-img src="https://cdn.onlinewebfonts.com/svg/img_184513.png"></v-img>
                                         </v-list-item-avatar>
@@ -105,7 +104,7 @@
                         </v-card>
                     </v-tab-item>
                 </v-tabs>
-                <p class="display-1">Articulos relacionados</p>
+                <p class="display-1 mt-3">Articulos relacionados</p>
                 <v-row>
                     <v-card v-for="articulo in this.listaArticulos" v-bind:key="articulo.id" class="mx-auto mb-6"
                         max-width="250">
@@ -183,7 +182,6 @@
                 })
             },
             addArticuloToCarrito() {
-                console.log(this.articulo.id);
                 axios.post('/api/user/carrito',{
                     'articulo_id': this.articulo.id,
                     'pvp': this.articulo.pvp,
@@ -211,7 +209,6 @@
                     this.edit==-1? this.listaComentarios.push(res.data[0]) : (this.listaComentarios[index]=res.data[0]);
                     this.articulo.valoracion = res.data[1];
                     this.edit=-1;
-                    //this.$router.go() // refrescar pagina
                 }).catch(err =>{
                     console.log(err.response);
                 })

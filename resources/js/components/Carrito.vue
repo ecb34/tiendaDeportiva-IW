@@ -1,7 +1,5 @@
 <template>
     <v-container>
-
-
         <h1>Cesta</h1>
         <v-row align="center" justify="center">
             <div class="elevation-1">
@@ -14,7 +12,7 @@
                                 <th class="text-left">Descripcion</th>
                                 <th class="text-left">Precio</th>
                                 <th class="text-left">Cantidad</th>
-                                <th class="text-left">Total</th>
+                                <th class="text-left">Subtotal</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -38,12 +36,13 @@
                 </v-simple-table>
             </div>
         </v-row>
-
-
-
-
-
-
+        <v-row>
+            <v-col cols="9"></v-col>
+            <v-col cols="3">
+                <b>TOTAL: {{total}}€</b>
+                <v-btn color="primary" @click="tramitarPedido">Tramitar Pedido</v-btn>
+            </v-col>
+        </v-row>
     </v-container>
 </template>
 
@@ -53,50 +52,49 @@
         name: 'Carrito',
         data() {
             return {
-                listaArticulos: []
-
+                listaArticulos: [],
+                total: -1
             }
-        },
-        ready: function () {
-
         },
         mounted() {
             this.traerCarrito()
         },
         methods: {
             addArticuloToCarrito(articulo) {
-                console.log(articulo.id);
                 axios.post('/api/user/carrito',{
                     'articulo_id': articulo.id,
                     'pvp': articulo.pvp,
                     'cantidad': 1
                 }).then(res =>{
-                    this.traerCarrito()
-                    //this.mostrar_snackbar = true
-                    //this.snackbar = 'Añadido a carrito'
+                    var importe = parseFloat(res.data.importe).toFixed(2)
+                    var index = this.listaArticulos.findIndex(a => a.articulo_id == articulo.id)
+                    this.listaArticulos[index].importe = importe
+                    this.listaArticulos[index].cantidad++
+                    this.total = parseFloat(this.total)
+                    this.total += articulo.pvp
+                    this.total = this.total.toFixed(2)
                 }).catch(err =>{
-                    if(err.response.status == 400){
-                        //this.mostrar_snackbar = true
-                       // this.snackbar = 'El artículo ya está en la lista de deseos'
-                    }
                     console.log(err.response);
                 })
             },
             restarArticuloToCarrito(articulo) {
-                console.log(articulo.id);
                 axios.post('/api/user/carrito/restar',{
                     'articulo_id': articulo.id,
                     'pvp': articulo.pvp,
                     'cantidad': 1
                 }).then(res =>{
-                    this.traerCarrito()
-                    //this.mostrar_snackbar = true
-                    //this.snackbar = 'Añadido a carrito'
-                }).catch(err =>{
-                    if(err.response.status == 400){
-                        //this.mostrar_snackbar = true
-                       // this.snackbar = 'El artículo ya está en la lista de deseos'
+                    var index = this.listaArticulos.findIndex(a => a.articulo_id == articulo.id)
+                    if(res.data.importe){
+                        var importe = parseFloat(res.data.importe).toFixed(2)
+                        this.listaArticulos[index].importe = importe
+                        this.listaArticulos[index].cantidad--
+                        
+                    }else{
+                        this.listaArticulos.splice(index,1)
                     }
+                    this.total -= articulo.pvp
+                    this.total = this.total.toFixed(2)
+                }).catch(err =>{
                     console.log(err.response);
                 })
             },
@@ -104,13 +102,17 @@
                 axios.get('/api/user/carrito')
                 .then(response => {
                     this.listaArticulos = response.data.data.lineas
-                    console.log(response.data.data)
-
-
+                    this.total = parseFloat(this.listaArticulos.reduce((res,art) => {
+                        return res + art.importe
+                    },0)).toFixed(2)
                 })
                 .catch(function (error) {
                     console.log(error.response);
                 });
+            },
+            tramitarPedido(){
+                this.$store.commit('setPrecioTotal', this.total)
+                this.$router.push({name: 'comprar'})
             }
         }
     }

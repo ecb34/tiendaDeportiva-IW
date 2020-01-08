@@ -32,7 +32,8 @@
                     prepend-icon="mdi-lock"
                     type="password"
                   ></v-text-field>
-                  <span>{{error}}</span>
+                  <v-checkbox v-model="credenciales.remember_me" label="Recordarme"></v-checkbox>
+                  <v-alert type="error" v-if="error != ''">{{error}}</v-alert>
                 </v-form>
               </v-card-text>
               <v-card-actions>
@@ -52,7 +53,8 @@ export default {
             dialog: false,
             credenciales: {
                 email: '',
-                password: ''
+                password: '',
+                remember_me: false
             },
             error: ''
         }

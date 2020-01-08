@@ -119,7 +119,7 @@ export default {
             'X-Requested-With' : 'XMLHttpRequest'
           }
         }).then((res =>{
-           this.$router.push({ name: 'home', params: { mostrar_snackbar: true }})
+           this.$router.push({ name: 'home', params: { snackbar: 'Registrado correctamente' }})
         })).catch(err =>{
           //TODO por ahora el unico error que deberia pasar en el servidor..
           this.errorServer = 'El email ya existe'

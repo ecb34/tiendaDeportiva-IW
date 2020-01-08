@@ -9,6 +9,7 @@ export default new Vuex.Store({
     //* SE USA localstorage para que guarde la sesion.. quitarlo?
     state: {
         token : localStorage.getItem('token') || null,
+        precioTotal: localStorage.getItem('precio') || -1
     },
     //Getters are function which consult the variables of the state.
     getters: {
@@ -17,11 +18,18 @@ export default new Vuex.Store({
         },
         getToken(state){
             return state.token
+        },
+        getPrecioTotal(state){
+            return state.precioTotal
         }
     },
     mutations: {
         setToken(state, token){
             state.token = token
+        },
+        setPrecioTotal(state,precioTotal){
+            state.precioTotal = precioTotal
+            localStorage.setItem('precio', precioTotal)
         }
     },
     actions: {

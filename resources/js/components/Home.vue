@@ -1,5 +1,5 @@
 <template>
-<v-container>
+<div>
     <v-carousel>
       <v-carousel-item v-for="(item,i) in items"
         :key="i"
@@ -10,7 +10,7 @@
     </v-carousel>
   <h2 class="mt-3">Artículos Recomendados</h2>
   <div v-if="articulosRecomendados.length > 0">
-    <carousel class="mt-5" :loop="true" :items="4" :nav="false">
+    <carousel class="mt-5" :loop="false" :items="6" :nav="false">
         <div v-for="articulo in articulosRecomendados" :key="articulo.id">
            <v-tooltip bottom color="primary">
               <template v-slot:activator="{ on }">
@@ -24,12 +24,9 @@
     </carousel>
   </div>
   <v-snackbar v-model="mostrar_snackbar" color="success" top class="title">
-        Te has registrado exitosamente
-      <v-btn dark flat @click="mostrar_snackbar = false">
-          Cerrar
-      </v-btn>
+        {{snackbar}}
   </v-snackbar>
-</v-container>
+</div>
 </template>
 
 <script>
@@ -37,8 +34,8 @@ import carousel from 'vue-owl-carousel'
 export default {
   components: { carousel },
   props:{
-    mostrar_snackbar: {
-      type: Boolean
+    snackbar: {
+      type: String
     }
   },
   data () {
@@ -68,6 +65,16 @@ export default {
         }).catch(err => {
           console.log(err)
         })
+  },
+  computed: {
+    mostrar_snackbar: {
+      get(){
+         return !!this.snackbar
+       },
+      set(value){
+         return value
+      }  
+    }
   },
   methods: {
   }

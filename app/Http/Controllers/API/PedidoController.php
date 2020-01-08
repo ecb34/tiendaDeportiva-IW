@@ -3,16 +3,12 @@
 namespace App\Http\Controllers\API;
 
 use App\Pedido;
-use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Resources\Pedido as PedidoResource;
 use App\LineaPedido;
 use DateTime;
-
-use Illuminate\Support\Facades\Log;
-use Illuminate\Console\Command;
 
 class PedidoController extends Controller
 {
@@ -24,7 +20,7 @@ class PedidoController extends Controller
     {
         $user = $request->user();
         $pedidos = $user->pedidos;
-        $res = $pedidos->map(function ($item) {
+        $res = $pedidos->where('estado','!=','cesta')->map(function ($item) {
             return collect([
                 'id' => $item->id,
                 'fecha' => $item->fecha,
@@ -57,7 +53,20 @@ class PedidoController extends Controller
      */
     public function store(Request $request)
     {
+        $user = $request->user();
+
+        $carrito = $user->pedidos()->where('estado', 'cesta')->first();
+        
+
+        //cambio el carrito a pedido...
+        $carrito->update([
+            'estado' => $request->estado
+        ]);
+
+        //crear nuevo carrito?
+        return response()->json(null,201);
     }
+
 
     /**
      * Display the specified resource.
@@ -90,7 +99,6 @@ class PedidoController extends Controller
         if (!$carrito) {
             $carrito = $this->crearCarrito($user);
         }
-        //$importe = $request->cantidad * $request->pvp;
 
         //miramos si existe una linea de pedido con el articulo a añadir...
         $lineaPedido = $carrito->lineaPedidos()->where('articulo_id', $request->articulo_id)->first();
@@ -99,18 +107,17 @@ class PedidoController extends Controller
             $lineaPedido->update([
                 'cantidad' => $lineaPedido->cantidad + 1,
                 'importe' => $request->pvp * ($lineaPedido->cantidad + 1)
-                //'cantidad' => $lineaPedido->cantidad + $request->cantidad
             ]);
         } else {
-            $linea = new LineaPedido([
+            $lineaPedido = new LineaPedido([
                 'importe' => $request->cantidad * $request->pvp,
                 'cantidad' => $request->cantidad,
                 'articulo_id' => $request->articulo_id,
                 'pedido_id' => $carrito->id
             ]);
-            $linea->save();
+            $lineaPedido->save();
         }
-        return response()->json(null, 201);
+        return response()->json(['importe' => $lineaPedido->importe], 200);
     }
 
     public function restarArticuloCarrito(Request $request)
@@ -134,11 +141,13 @@ class PedidoController extends Controller
 
         if ($cantidad < 1) {
             $lineaPedido->delete();
+            return response()->json(null,201);
         } else {
             $lineaPedido->cantidad = $cantidad;
+            $lineaPedido->importe = $lineaPedido->importe - $request->pvp;
             $lineaPedido->save();
-        }
-        return response()->json(null, 201);
+            return response()->json(['importe' => $lineaPedido->importe], 200);
+        }     
     }
 
     public function borrarArticuloCarrito(Request $request)
@@ -161,6 +170,7 @@ class PedidoController extends Controller
 
         return response()->json(null, 201);
     }
+
 
     private function crearCarrito($user)
     {
@@ -210,4 +220,5 @@ class PedidoController extends Controller
     {
         //
     }
+
 }

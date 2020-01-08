@@ -12,6 +12,7 @@ import Pedidos from './components/Pedidos'
 import Registro from './components/Registro'
 import Carrito from './components/Carrito'
 import ListaDeseos from './components/ListaDeseos'
+import Compra from './components/FinalizarCompra'
 import Store from './store/index'
 import NotFound from './components/NotFoundError'
 import Unauthorized from './components/UnauthorizedError'
@@ -127,6 +128,19 @@ export default new Router({
             path: '/perfil',
             name: 'Perfil',
             component: Perfil,
+            beforeEnter(to,from,next){
+                if(Store.getters.loggedIn){
+                    next()
+                }else{
+                    next({name: '401'})
+                }
+            }
+        },
+        {
+            path: '/comprar',
+            name: 'comprar',
+            props: true,
+            component: Compra,
             beforeEnter(to,from,next){
                 if(Store.getters.loggedIn){
                     next()
