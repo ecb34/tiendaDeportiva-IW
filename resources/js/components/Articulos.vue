@@ -38,7 +38,7 @@
                                     Ver
                                 </v-btn>
 
-                                <v-btn color="green" text>
+                                <v-btn color="green" text @click="addArticuloToCarrito(articulo)">
                                     Añadir a la cesta
                                 </v-btn>
                                 </v-card-actions>
@@ -47,9 +47,13 @@
                     </v-row>
                 </v-col>
             </v-row>
+            <v-snackbar v-model="mostrar_snackbar" color="success" top class="title">
+                {{snackbar}}
+                <v-btn dark text @click="mostrar_snackbar = false">
+                    Cerrar
+                </v-btn>
+            </v-snackbar>
         </v-content>
-    
-        
 </template>
 
 <script>
@@ -59,6 +63,8 @@ export default {
 
     data(){
         return{
+            mostrar_snackbar: false,
+            snackbar: '',
             listaArticulos: [],
             listaArticulosSinFiltro: [],
             selectionType: 'leaf',
@@ -97,14 +103,25 @@ export default {
                 .then(response => {
                     this.listaArticulos = response.data.data
                         .filter(this.filtrarArticulos)
-                    console.log(this.listaArticulos)
                     this.loading = false;
                     this.listaArticulosSinFiltro = this.listaArticulos
                 })
                 .catch(function (error) {
                     console.log(error);
                 });
-            }
+            },
+            addArticuloToCarrito(articulo) {
+                axios.post('/api/user/carrito',{
+                    'articulo_id': articulo.id,
+                    'pvp': articulo.pvp,
+                    'cantidad': 1
+                }).then(res =>{
+                    this.mostrar_snackbar = true
+                    this.snackbar = 'Añadido a carrito'
+                }).catch(err =>{
+                    console.log(err.response);
+                })
+            },
         },
          watch: {
             $route(to, from) {

@@ -20,7 +20,7 @@ class PedidoController extends Controller
     {
         $user = $request->user();
         $pedidos = $user->pedidos;
-        $res = $pedidos->map(function ($item) {
+        $res = $pedidos->where('estado','!=','cesta')->map(function ($item) {
             return collect([
                 'id' => $item->id,
                 'fecha' => $item->fecha,

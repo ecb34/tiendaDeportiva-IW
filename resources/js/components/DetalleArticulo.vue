@@ -182,7 +182,6 @@
                 })
             },
             addArticuloToCarrito() {
-                console.log(this.articulo.id);
                 axios.post('/api/user/carrito',{
                     'articulo_id': this.articulo.id,
                     'pvp': this.articulo.pvp,
