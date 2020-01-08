@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\API;
 
 use App\Pedido;
-use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -99,7 +98,6 @@ class PedidoController extends Controller
         if (!$carrito) {
             $carrito = $this->crearCarrito($user);
         }
-        //$importe = $request->cantidad * $request->pvp;
 
         //miramos si existe una linea de pedido con el articulo a añadir...
         $lineaPedido = $carrito->lineaPedidos()->where('articulo_id', $request->articulo_id)->first();
@@ -108,18 +106,17 @@ class PedidoController extends Controller
             $lineaPedido->update([
                 'cantidad' => $lineaPedido->cantidad + 1,
                 'importe' => $request->pvp * ($lineaPedido->cantidad + 1)
-                //'cantidad' => $lineaPedido->cantidad + $request->cantidad
             ]);
         } else {
-            $linea = new LineaPedido([
+            $lineaPedido = new LineaPedido([
                 'importe' => $request->cantidad * $request->pvp,
                 'cantidad' => $request->cantidad,
                 'articulo_id' => $request->articulo_id,
                 'pedido_id' => $carrito->id
             ]);
-            $linea->save();
+            $lineaPedido->save();
         }
-        return response()->json(null, 201);
+        return response()->json(['importe' => $lineaPedido->importe], 200);
     }
 
     public function restarArticuloCarrito(Request $request)
@@ -143,11 +140,13 @@ class PedidoController extends Controller
 
         if ($cantidad < 1) {
             $lineaPedido->delete();
+            return response()->json(null,201);
         } else {
             $lineaPedido->cantidad = $cantidad;
+            $lineaPedido->importe = $lineaPedido->importe - $request->pvp;
             $lineaPedido->save();
-        }
-        return response()->json(null, 201);
+            return response()->json(['importe' => $lineaPedido->importe], 200);
+        }     
     }
 
     public function borrarArticuloCarrito(Request $request)

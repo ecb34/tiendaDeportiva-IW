@@ -1,6 +1,5 @@
 <template>
-    <v-container fluid>
-        
+    <v-container fluid>    
         <v-row>
             <v-col cols="1">
                 <v-hover v-for="index in listaImagenes.length" v-bind:key="index" class="mb-4"
@@ -67,7 +66,7 @@
                         <v-card text>
                             <v-list three-line>
                                 <template v-for="(item, index) in listaComentarios" :v-bind="index">
-                                    <v-list-item :key="item.title" @click="">
+                                    <v-list-item :key="item.title">
                                         <v-list-item-avatar>
                                             <v-img src="https://cdn.onlinewebfonts.com/svg/img_184513.png"></v-img>
                                         </v-list-item-avatar>
@@ -211,7 +210,6 @@
                     this.edit==-1? this.listaComentarios.push(res.data[0]) : (this.listaComentarios[index]=res.data[0]);
                     this.articulo.valoracion = res.data[1];
                     this.edit=-1;
-                    //this.$router.go() // refrescar pagina
                 }).catch(err =>{
                     console.log(err.response);
                 })

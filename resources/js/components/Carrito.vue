@@ -1,7 +1,5 @@
 <template>
     <v-container>
-
-
         <h1>Cesta</h1>
         <v-row align="center" justify="center">
             <div class="elevation-1">
@@ -38,12 +36,6 @@
                 </v-simple-table>
             </div>
         </v-row>
-
-
-
-
-
-
     </v-container>
 </template>
 
@@ -65,38 +57,33 @@
         },
         methods: {
             addArticuloToCarrito(articulo) {
-                console.log(articulo.id);
                 axios.post('/api/user/carrito',{
                     'articulo_id': articulo.id,
                     'pvp': articulo.pvp,
                     'cantidad': 1
                 }).then(res =>{
-                    this.traerCarrito()
-                    //this.mostrar_snackbar = true
-                    //this.snackbar = 'Añadido a carrito'
+                    var index = this.listaArticulos.findIndex(a => a.articulo_id == articulo.id)
+                    this.listaArticulos[index].importe = parseFloat(res.data.importe).toFixed(2)
+                    this.listaArticulos[index].cantidad++
                 }).catch(err =>{
-                    if(err.response.status == 400){
-                        //this.mostrar_snackbar = true
-                       // this.snackbar = 'El artículo ya está en la lista de deseos'
-                    }
                     console.log(err.response);
                 })
             },
             restarArticuloToCarrito(articulo) {
-                console.log(articulo.id);
                 axios.post('/api/user/carrito/restar',{
                     'articulo_id': articulo.id,
                     'pvp': articulo.pvp,
                     'cantidad': 1
                 }).then(res =>{
-                    this.traerCarrito()
-                    //this.mostrar_snackbar = true
-                    //this.snackbar = 'Añadido a carrito'
-                }).catch(err =>{
-                    if(err.response.status == 400){
-                        //this.mostrar_snackbar = true
-                       // this.snackbar = 'El artículo ya está en la lista de deseos'
+                    var index = this.listaArticulos.findIndex(a => a.articulo_id == articulo.id)
+                    if(res.data.importe){
+                        this.listaArticulos[index].importe = parseFloat(res.data.importe).toFixed(2)
+                        this.listaArticulos[index].cantidad--
+                    }else{
+                        this.listaArticulos.splice(index,1)
                     }
+                    
+                }).catch(err =>{
                     console.log(err.response);
                 })
             },
@@ -104,9 +91,6 @@
                 axios.get('/api/user/carrito')
                 .then(response => {
                     this.listaArticulos = response.data.data.lineas
-                    console.log(response.data.data)
-
-
                 })
                 .catch(function (error) {
                     console.log(error.response);
