@@ -2,15 +2,33 @@
     <v-content>
             <v-row>
                 <v-col cols="12" sm="2">
-                    <v-treeview
+                    <v-row v-if="loading" justify="center">
+                        <v-progress-circular
+                        :width="4"
+                        :size="100"
+                        color="primary"
+                        indeterminate
+                        ></v-progress-circular>
+                    </v-row>
+                    <v-treeview v-else
                     v-model="selection"
                     :items="items"
                     :selection-type="selectionType"
                     selectable
                     return-object
-                    open-all
                     ></v-treeview>
+                    <h2 class="mt-3 ml-3">Precio</h2>
+                    <v-range-slider
+                    v-model="rangoPrecio"
+                    :max="500"
+                    :min="0"
+                    hide-details
+                    thumb-label="always"
+                    :thumb-size="24"
+                    class="mt-3"
+                    ></v-range-slider>
                 </v-col>
+                <v-divider></v-divider>
                 <v-col cols="12" sm="10">
                     <h1 v-if="listaArticulos.length === 0 && !loading">No hay articulos de esta categoría</h1>
                     <v-row v-if="loading" justify="center">
@@ -69,6 +87,7 @@ export default {
             listaArticulosSinFiltro: [],
             selectionType: 'leaf',
             selection: [],
+            rangoPrecio: [0,500],
             items:[],
             loading: true
         }

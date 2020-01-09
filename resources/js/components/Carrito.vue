@@ -1,7 +1,9 @@
 <template>
     <v-container>
         <h1>Cesta</h1>
-        <v-row align="center" justify="center">
+        <h1 v-if="listaArticulos.length == 0" justify-center>No hay articulos</h1>
+        <div v-else>
+        <v-row align="center" justify="center" >
             <div class="elevation-1">
                 <v-simple-table>
                     <template v-slot:default>
@@ -43,6 +45,7 @@
                 <v-btn color="primary" @click="tramitarPedido">Tramitar Pedido</v-btn>
             </v-col>
         </v-row>
+        </div>
     </v-container>
 </template>
 
