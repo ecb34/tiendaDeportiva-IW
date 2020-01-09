@@ -46,7 +46,7 @@
                     </v-menu>
                     
                     <v-btn @click="logout()" icon>
-                        <v-icon>mdi-logout</v-icon>
+                        <v-icon color="error">mdi-logout</v-icon>
                     </v-btn>
                 </div>
 

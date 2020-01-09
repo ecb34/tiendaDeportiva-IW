@@ -1,14 +1,9 @@
 <template>
     <v-container>
         <h1>Cesta</h1>
-<<<<<<< HEAD
-        <h1 align="center" v-if="listaArticulos.length < 1">No hay articulos en la cesta</h1>
-        <v-row align="center" justify="center" v-if="listaArticulos.length > 0">
-=======
-        <h1 v-if="listaArticulos.length == 0" justify-center>No hay articulos</h1>
+        <h1 align="center" v-if="listaArticulos.length == 0">No hay articulos en la cesta</h1>
         <div v-else>
-        <v-row align="center" justify="center" >
->>>>>>> master
+        <v-row align="center" justify="center">
             <div class="elevation-1">
                 <v-simple-table>
                     <template v-slot:default>
@@ -20,7 +15,7 @@
                                 <th class="text-left">Precio</th>
                                 <th class="text-left">Cantidad</th>
                                 <th class="text-left">Subtotal</th>
-                                <th class="text-left">Eliminar</th>
+                                <th class="text-left"></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -41,8 +36,8 @@
                                 </td>
                                 <td width="20%">{{item.importe}}€</td>
                                 <td>
-                                    <v-btn color="primary" @click="borrarArticulo(item.articulo)">
-                                        <v-icon :color="blue">mdi-delete</v-icon>
+                                    <v-btn color="error" @click="borrarArticulo(item.articulo)">
+                                        <v-icon>mdi-delete</v-icon>
                                     </v-btn>
                                 </td>
                                 
@@ -52,7 +47,7 @@
                 </v-simple-table>
             </div>
         </v-row>
-        <v-row v-if="listaArticulos.length > 0">
+        <v-row>
             <v-col cols="9"></v-col>
             <v-col cols="3">
                 <b>TOTAL: {{total}}€</b>
@@ -132,20 +127,10 @@
                 this.$router.push({ name: 'comprar' })
             },
             borrarArticulo(articulo) {
-                axios.delete('/api/user/carrito', {
-                    'articulo_id': articulo.id
-                }).then(res => {
-                    /*var index = this.listaArticulos.findIndex(a => a.articulo_id == articulo.id)
-                    if (res.data.importe) {
-                        var importe = parseFloat(res.data.importe).toFixed(2)
-                        this.listaArticulos[index].importe = importe
-                        this.listaArticulos[index].cantidad--
-
-                    } else {
-                        this.listaArticulos.splice(index, 1)
-                    }
-                    this.total -= articulo.pvp
-                    this.total = this.total.toFixed(2)*/
+                axios.delete('/api/user/carrito/'+ articulo.id).then(res => {
+                  this.listaArticulos.splice(this.listaArticulos.findIndex(a => a.articulo_id == articulo.id),1)
+                  this.total -= articulo.pvp
+                  this.total = this.total.toFixed(2)
                 }).catch(err => {
                     console.log(err.response);
                 })

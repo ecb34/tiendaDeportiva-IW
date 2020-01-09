@@ -150,7 +150,7 @@ class PedidoController extends Controller
         }     
     }
 
-    public function borrarArticuloCarrito(Request $request)
+    public function borrarArticuloCarrito(Request $request, $id)
     {
         $user = $request->user();
         $carrito = $user->pedidos()->where('estado', 'cesta')->first();
@@ -160,7 +160,7 @@ class PedidoController extends Controller
             return response()->json(['message', 'Carrito no existe'], 404);
         }
 
-        $lineaPedido = $carrito->lineaPedidos()->where('articulo_id', $request->articulo_id)->first();
+        $lineaPedido = $carrito->lineaPedidos()->where('articulo_id', $id)->first();
         //no existe linea de pedido con ese articulo...
         if (!$lineaPedido) {
             return response()->json(['message', 'Articulo no existe'], 404);
