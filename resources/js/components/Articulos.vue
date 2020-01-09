@@ -10,25 +10,28 @@
                         indeterminate
                         ></v-progress-circular>
                     </v-row>
-                    <v-treeview v-else
-                    v-model="selection"
-                    :items="items"
-                    :selection-type="selectionType"
-                    selectable
-                    return-object
-                    ></v-treeview>
-                    <h2 class="mt-3 ml-3">Precio</h2>
-                    <v-range-slider
-                    v-model="rangoPrecio"
-                    :max="500"
-                    :min="0"
-                    hide-details
-                    thumb-label="always"
-                    :thumb-size="24"
-                    class="mt-3"
-                    ></v-range-slider>
+                    <div v-else>
+                        <h2 class="mt-3 ml-3">Categorias</h2>
+                        <v-treeview 
+                        v-model="selection"
+                        :items="items"
+                        :selection-type="selectionType"
+                        selectable
+                        return-object
+                        ></v-treeview>
+                        
+                        <h2 class="mt-3 ml-3">Precio</h2>
+                        <v-range-slider
+                        v-model="rangoPrecio"
+                        :max="this.max"
+                        :min="0"
+                        hide-details
+                        thumb-label="always"
+                        :thumb-size="24"
+                        class="mt-3"
+                        ></v-range-slider>
+                    </div>
                 </v-col>
-                <v-divider></v-divider>
                 <v-col cols="12" sm="10">
                     <h1 v-if="listaArticulos.length === 0 && !loading">No hay articulos de esta categoría</h1>
                     <v-row v-if="loading" justify="center">
@@ -87,8 +90,9 @@ export default {
             listaArticulosSinFiltro: [],
             selectionType: 'leaf',
             selection: [],
-            rangoPrecio: [0,500],
+            rangoPrecio: [0, 0],
             items:[],
+            max: 0,
             loading: true
         }
     },
@@ -123,6 +127,12 @@ export default {
                     console.log(response.data)
                     this.listaArticulos = response.data
                         .filter(this.filtrarArticulos)
+                    this.max = this.listaArticulos.reduce((res, current) =>{
+                        return (current.pvp > res) ? current.pvp : res
+                    }, -1)
+                    this.rangoPrecio[1] = this.max
+                    console.log(this.rangoPrecio[1])
+                    console.log(this.max)
                     this.loading = false;
                     this.listaArticulosSinFiltro = this.listaArticulos
                 })
@@ -142,19 +152,36 @@ export default {
                     console.log(err.response);
                 })
             },
-        },
-         watch: {
-            $route(to, from) {
-                this.selection = [];
-                this.traerArticulos();
-            },
-            selection(){
+            filtrarPorCategoria(){
                 if(this.selection.length == 0) this.listaArticulos = this.listaArticulosSinFiltro
                 else{
                     this.listaArticulos = this.listaArticulosSinFiltro.filter((articulo) =>{
                         return this.selection.some( s => s.id == articulo.categoria_id)    
                     })
                 }
+            },
+            filtrarPorPrecio(){
+                this.listaArticulos = this.listaArticulos.filter(articulo => {
+                    return (articulo.pvp >= this.rangoPrecio[0]) && (articulo.pvp <= this.rangoPrecio[1])
+                })
+            },
+            filtroGeneral(){
+                this.filtrarPorCategoria()
+                this.filtrarPorPrecio()
+                console.log(this.listaArticulos)
+            }
+        },
+         watch: {
+            $route(to, from) {
+                this.selection = [];
+                this.rangoPrecio = [0,500]
+                this.traerArticulos();
+            },
+            selection(){
+                this.filtroGeneral()
+            },
+            rangoPrecio(){
+                this.filtroGeneral()
             }
          }
 
