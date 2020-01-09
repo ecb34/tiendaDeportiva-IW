@@ -1,9 +1,14 @@
 <template>
     <v-container>
         <h1>Cesta</h1>
+<<<<<<< HEAD
+        <h1 align="center" v-if="listaArticulos.length < 1">No hay articulos en la cesta</h1>
+        <v-row align="center" justify="center" v-if="listaArticulos.length > 0">
+=======
         <h1 v-if="listaArticulos.length == 0" justify-center>No hay articulos</h1>
         <div v-else>
         <v-row align="center" justify="center" >
+>>>>>>> master
             <div class="elevation-1">
                 <v-simple-table>
                     <template v-slot:default>
@@ -15,6 +20,7 @@
                                 <th class="text-left">Precio</th>
                                 <th class="text-left">Cantidad</th>
                                 <th class="text-left">Subtotal</th>
+                                <th class="text-left">Eliminar</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -27,18 +33,26 @@
                                 <td class="" width="20%">{{ item.articulo.descripcion }}</td>
                                 <td width="20%">{{ item.articulo.pvp }} €</td>
                                 <td width="20%">
-                                    <v-icon size="25" grey @click="restarArticuloToCarrito(item.articulo)">mdi-minus</v-icon>
+                                    <v-icon size="25" grey @click="restarArticuloToCarrito(item.articulo)">mdi-minus
+                                    </v-icon>
                                     {{item.cantidad}}
-                                    <v-icon size="25" grey @click="addArticuloToCarrito(item.articulo)">mdi-plus</v-icon>
+                                    <v-icon size="25" grey @click="addArticuloToCarrito(item.articulo)">mdi-plus
+                                    </v-icon>
                                 </td>
                                 <td width="20%">{{item.importe}}€</td>
+                                <td>
+                                    <v-btn color="primary" @click="borrarArticulo(item.articulo)">
+                                        <v-icon :color="blue">mdi-delete</v-icon>
+                                    </v-btn>
+                                </td>
+                                
                             </tr>
                         </tbody>
                     </template>
                 </v-simple-table>
             </div>
         </v-row>
-        <v-row>
+        <v-row v-if="listaArticulos.length > 0">
             <v-col cols="9"></v-col>
             <v-col cols="3">
                 <b>TOTAL: {{total}}€</b>
@@ -64,11 +78,11 @@
         },
         methods: {
             addArticuloToCarrito(articulo) {
-                axios.post('/api/user/carrito',{
+                axios.post('/api/user/carrito', {
                     'articulo_id': articulo.id,
                     'pvp': articulo.pvp,
                     'cantidad': 1
-                }).then(res =>{
+                }).then(res => {
                     var importe = parseFloat(res.data.importe).toFixed(2)
                     var index = this.listaArticulos.findIndex(a => a.articulo_id == articulo.id)
                     this.listaArticulos[index].importe = importe
@@ -76,49 +90,69 @@
                     this.total = parseFloat(this.total)
                     this.total += articulo.pvp
                     this.total = this.total.toFixed(2)
-                }).catch(err =>{
+                }).catch(err => {
                     console.log(err.response);
                 })
             },
             restarArticuloToCarrito(articulo) {
-                axios.post('/api/user/carrito/restar',{
+                axios.post('/api/user/carrito/restar', {
                     'articulo_id': articulo.id,
                     'pvp': articulo.pvp,
                     'cantidad': 1
-                }).then(res =>{
+                }).then(res => {
                     var index = this.listaArticulos.findIndex(a => a.articulo_id == articulo.id)
-                    if(res.data.importe){
+                    if (res.data.importe) {
                         var importe = parseFloat(res.data.importe).toFixed(2)
                         this.listaArticulos[index].importe = importe
                         this.listaArticulos[index].cantidad--
-                        
-                    }else{
-                        this.listaArticulos.splice(index,1)
+
+                    } else {
+                        this.listaArticulos.splice(index, 1)
                     }
                     this.total -= articulo.pvp
                     this.total = this.total.toFixed(2)
-                }).catch(err =>{
+                }).catch(err => {
                     console.log(err.response);
                 })
             },
-            traerCarrito(){
+            traerCarrito() {
                 axios.get('/api/user/carrito')
-                .then(response => {
-                    this.listaArticulos = response.data.data.lineas
-                    this.total = parseFloat(this.listaArticulos.reduce((res,art) => {
-                        return res + art.importe
-                    },0)).toFixed(2)
-                })
-                .catch(function (error) {
-                    console.log(error.response);
-                });
+                    .then(response => {
+                        this.listaArticulos = response.data.data.lineas
+                        this.total = parseFloat(this.listaArticulos.reduce((res, art) => {
+                            return res + art.importe
+                        }, 0)).toFixed(2)
+                    })
+                    .catch(function (error) {
+                        console.log(error.response);
+                    });
             },
-            tramitarPedido(){
+            tramitarPedido() {
                 this.$store.commit('setPrecioTotal', this.total)
-                this.$router.push({name: 'comprar'})
+                this.$router.push({ name: 'comprar' })
+            },
+            borrarArticulo(articulo) {
+                axios.delete('/api/user/carrito', {
+                    'articulo_id': articulo.id
+                }).then(res => {
+                    /*var index = this.listaArticulos.findIndex(a => a.articulo_id == articulo.id)
+                    if (res.data.importe) {
+                        var importe = parseFloat(res.data.importe).toFixed(2)
+                        this.listaArticulos[index].importe = importe
+                        this.listaArticulos[index].cantidad--
+
+                    } else {
+                        this.listaArticulos.splice(index, 1)
+                    }
+                    this.total -= articulo.pvp
+                    this.total = this.total.toFixed(2)*/
+                }).catch(err => {
+                    console.log(err.response);
+                })
             }
         }
     }
+    
 </script>
 
 <style>
