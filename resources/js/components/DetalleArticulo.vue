@@ -32,11 +32,14 @@
                     <v-rating readonly :half-increments="true" color="orange" v-model="articulo.valoracion" justify-center></v-rating>
                 </v-row>
                 <v-row>
-                    <v-btn class="mr-4 white--text" color="green draken-4" :disabled="!loggedIn">Comprar</v-btn>
-                    <v-btn color="primary" :disabled="!loggedIn" @click="addArticuloToCarrito()">Añadir al carrito</v-btn>
+                    <v-btn color="success" :disabled="!loggedIn" @click="addArticuloToCarrito()">
+                        <v-icon>mdi-cart</v-icon>Añadir al carrito
+                    </v-btn>
                 </v-row>
-                <v-row class="mt-3">
-                    <v-btn color="white" :disabled="!loggedIn" @click="addListaDeseos()">Añadir a la Lista de Deseos</v-btn>
+                <v-row class="mt-5">
+                    <v-btn color="pink" class="white--text" :disabled="!loggedIn" @click="addListaDeseos()">
+                        <v-icon>mdi-heart</v-icon> Añadir a Deseados
+                    </v-btn>
                 </v-row>
                 <v-divider class="mb-4 mt-2 green"></v-divider>
             </v-col>
@@ -46,9 +49,6 @@
                 <v-divider class="mb-4 mt-2"></v-divider>
                 <v-tabs :grow="true" color="cyan" dark slider-color="yellow">
                     <v-tab ripple>
-                        Descripcion Detallada
-                    </v-tab>
-                    <v-tab ripple>
                         <v-badge :content="listaComentarios.length">
                             Comentarios
                         </v-badge>
@@ -56,12 +56,6 @@
                     <v-tab v-if="loggedIn" ripple>
                         Comentar
                     </v-tab>
-
-                    <v-tab-item>
-                        <v-card text>
-                            <v-card-text>{{articulo.descripcion}}</v-card-text>
-                        </v-card>
-                    </v-tab-item>
                     <v-tab-item>
                         <v-card text>
                             <v-list three-line>
