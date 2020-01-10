@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Marca;
 use Illuminate\Http\Request;
 
 class MarcaController extends Controller
@@ -14,7 +15,7 @@ class MarcaController extends Controller
      */
     public function index()
     {
-        //
+        return Marca::collection(Marca::all());
     }
 
     /**

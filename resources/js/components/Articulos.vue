@@ -30,6 +30,19 @@
                         :thumb-size="24"
                         class="mt-3"
                         ></v-range-slider>
+
+                        <h2>Valoración</h2>
+                         <v-rating 
+                         v-model="rating"
+                         ></v-rating>
+
+                        <h2>Marcas</h2>
+                        <v-checkbox v-for="marca in marcas" 
+                        :key="marca.id" 
+                        v-model="selected" 
+                        :label="marca.nombre" 
+                        ></v-checkbox>
+
                     </div>
                 </v-col>
                 <v-col cols="12" sm="10">
@@ -52,6 +65,12 @@
 
                                 <v-card-text class="text--primary">
                                     {{articulo.descripcion}}
+                                    <span class="grey--text text--lighten-2 caption mr-2">
+                                        ({{ rating }})
+                                    </span>
+                                    <v-rating
+                                    v-bind:value="articulo.valoracion"
+                                    ></v-rating>
                                 </v-card-text>
 
                                 <v-card-actions>
@@ -93,13 +112,16 @@ export default {
             rangoPrecio: [0, 0],
             items:[],
             max: 0,
-            loading: true
+            loading: true,
+            rating: 0,
+            rating_articulo: 0,
+            marcas: []
         }
     },
     async created(){
         try{
             this.traerArticulos();
-            
+            this.traerMarcas();
             const cat = await axios.get('/api/categorias');
             this.items = cat.data;
         }catch(err){
@@ -120,21 +142,29 @@ export default {
 
                 return false;
             },
+            traerMarcas: function () {
+                axios.get('/api/marcas')
+                .then(response => {
+                    console.log(response.data)
+                    this.marcas = response.data
+                })
+                //console.log(this.marcas)
+            },
             traerArticulos: function (){
                 this.loading = true
                 axios.get('/api/articulos')
                 .then(response => {
-                    console.log(response.data)
                     this.listaArticulos = response.data
                         .filter(this.filtrarArticulos)
                     this.max = this.listaArticulos.reduce((res, current) =>{
                         return (current.pvp > res) ? current.pvp : res
                     }, -1)
                     this.rangoPrecio[1] = this.max
-                    console.log(this.rangoPrecio[1])
-                    console.log(this.max)
                     this.loading = false;
                     this.listaArticulosSinFiltro = this.listaArticulos
+                    this.ratingMax = this.listaArticulos.reduce((res, current) =>{
+                        return (current.valoracion > res) ? current.valoracion : res
+                    }, -1)
                 })
                 .catch(function (error) {
                     console.log(error);
@@ -162,26 +192,39 @@ export default {
             },
             filtrarPorPrecio(){
                 this.listaArticulos = this.listaArticulos.filter(articulo => {
-                    return (articulo.pvp >= this.rangoPrecio[0]) && (articulo.pvp <= this.rangoPrecio[1])
+                    return (articulo.pvp >= this.rangoPrecio[0]) && (articulo.pvp <= this.rangoPrecio[1]) 
+                            &&
+                            (this.rating == 0)? articulo.valoracion >= 0 && articulo.valoracion < 1 : 
+                            (this.rating == 1)? articulo.valoracion >= 1 && articulo.valoracion < 2 :
+                            (this.rating == 2)? articulo.valoracion >= 2 && articulo.valoracion < 3 :
+                            (this.rating == 3)? articulo.valoracion >= 3 && articulo.valoracion < 4 :
+                            (this.rating == 4)? articulo.valoracion >= 4 && articulo.valoracion < 5 :
+                            (this.rating == 5)? articulo.valoracion == 5  : 0
+
                 })
             },
+            
             filtroGeneral(){
                 this.filtrarPorCategoria()
                 this.filtrarPorPrecio()
-                console.log(this.listaArticulos)
             }
         },
          watch: {
             $route(to, from) {
                 this.selection = [];
                 this.rangoPrecio = [0,500]
-                this.traerArticulos();
+                this.rating = 0
+                this.traerArticulos()
+                this.traerMarcas
             },
             selection(){
                 this.filtroGeneral()
             },
             rangoPrecio(){
                 this.filtroGeneral()
+            },
+            rating(){
+               this.filtroGeneral()
             }
          }
 
