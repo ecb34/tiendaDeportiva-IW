@@ -1,8 +1,8 @@
 <template>
     <v-content>
-            <v-row>
+            <v-row justify="center">
                 <v-col cols="12" sm="2">
-                    <v-row v-if="loading" justify="center">
+                     <v-row v-if="loading" justify="center">
                         <v-progress-circular
                         :width="4"
                         :size="100"
@@ -10,29 +10,60 @@
                         indeterminate
                         ></v-progress-circular>
                     </v-row>
-                    <div v-else>
-                        <h2 class="mt-3 ml-3">Categorias</h2>
-                        <v-treeview 
-                        v-model="selection"
-                        :items="items"
-                        :selection-type="selectionType"
-                        selectable
-                        return-object
-                        ></v-treeview>
-                        
-                        <h2 class="mt-3 ml-3">Precio</h2>
-                        <v-range-slider
-                        v-model="rangoPrecio"
-                        :max="this.max"
-                        :min="0"
-                        hide-details
-                        thumb-label="always"
-                        :thumb-size="24"
-                        class="mt-3"
-                        ></v-range-slider>
-                    </div>
+                    <v-expansion-panels
+                    v-else
+                    multiple
+                    v-model="panel"
+                    >
+                        <v-expansion-panel>
+                            <v-expansion-panel-header>Categorias</v-expansion-panel-header>
+                            <v-expansion-panel-content>
+                            <v-treeview 
+                                v-model="selection"
+                                :items="items"
+                                :selection-type="selectionType"
+                                selectable
+                                return-object
+                            ></v-treeview>
+                            </v-expansion-panel-content>
+                        </v-expansion-panel>
+                        <v-expansion-panel>
+                            <v-expansion-panel-header>Precio</v-expansion-panel-header>
+                            <v-expansion-panel-content>
+                                    <v-range-slider
+                                    v-model="rangoPrecio"
+                                    :max="this.max"
+                                    :min="0"
+                                    hide-details
+                                    thumb-label="always"
+                                    :thumb-size="24"
+                                    class="mt-3"
+                                    ></v-range-slider>
+                            </v-expansion-panel-content>
+                        </v-expansion-panel>
+                        <v-expansion-panel>
+                            <v-expansion-panel-header>Valoración</v-expansion-panel-header>
+                            <v-expansion-panel-content>
+                                <v-rating 
+                                v-model="rating"
+                                ></v-rating>
+                            </v-expansion-panel-content>
+                        </v-expansion-panel>
+                        <v-expansion-panel>
+                            <v-expansion-panel-header>Marcas</v-expansion-panel-header>
+                            <v-expansion-panel-content>
+                                <v-checkbox v-for="marca in marcas" 
+                                :key="marca.id" 
+                                v-model="selected_marca" 
+                                :label="marca.nombre" 
+                                :value="marca.id"
+                                ></v-checkbox>
+                            </v-expansion-panel-content>
+                        </v-expansion-panel>
+                    </v-expansion-panels>
+                    
                 </v-col>
-                <v-col cols="12" sm="10">
+                <v-col cols="12" sm="7">
                     <h1 v-if="listaArticulos.length === 0 && !loading">No hay articulos de esta categoría</h1>
                     <v-row v-if="loading" justify="center">
                         <v-progress-circular
@@ -44,7 +75,11 @@
                     </v-row>
                     <v-row v-else>
                         <v-col v-for="articulo in this.listaArticulos" v-bind:key="articulo.id" cols="12" sm="4">
-                            <v-card class="mx-auto" max-width="400">
+                            <!--
+                            <v-card 
+                            class="mx-auto" 
+                            max-width="400"
+                            :elevation="6">
                                 <v-img class="orange--text align-end" height="200px"  v-bind:src="articulo.imagenes[0].url">
                                 <v-card-title>{{articulo.nombre}}</v-card-title>
                                 </v-img>
@@ -52,6 +87,12 @@
 
                                 <v-card-text class="text--primary">
                                     {{articulo.descripcion}}
+                                    <span class="grey--text text--lighten-2 caption mr-2">
+                                        ({{ rating }})
+                                    </span>
+                                    <v-rating
+                                    v-bind:value="articulo.valoracion"
+                                    ></v-rating>
                                 </v-card-text>
 
                                 <v-card-actions>
@@ -63,7 +104,73 @@
                                     Añadir a la cesta
                                 </v-btn>
                                 </v-card-actions>
-                            </v-card>
+                            </v-card>-->
+                            <v-hover v-slot:default="{ hover }">
+                                <v-card
+                                class="mx-auto"
+                                color="grey lighten-4"
+                                max-width="600"
+                                height="100%"
+                                >
+                                <router-link :to="`/articulos/${articulo.id}`">
+                                <v-img
+                                    :aspect-ratio="16/9"
+                                    v-bind:src="articulo.imagenes[0].url"
+                                >
+                                    <v-expand-transition>
+                                    <div
+                                        v-if="hover"
+                                        class="d-flex transition-fast-in-fast-out orange darken-2 v-card--reveal display-3 white--text"
+                                        style="height: 100%;"
+                                    >
+                                        Ver
+                                    </div>
+                                    </v-expand-transition>
+                                </v-img>
+                                </router-link>
+                                <v-card-text
+                                    class="pt-6"
+                                    style="position: relative;"
+                                >   
+                                    <v-btn
+                                    absolute
+                                    color="orange"
+                                    class="white--text"
+                                    fab
+                                    large
+                                    right
+                                    top
+                                    @click="addArticuloToCarrito(articulo)"
+                                    >
+                                    <v-icon>mdi-cart</v-icon>
+                                    </v-btn>
+                                    
+                                    <h3 class="display-1 font-weight-light orange--text mb-2">{{articulo.nombre.substring(0,15)}}</h3>
+                                    <div class="font-weight-light title mb-2">
+                                        {{articulo.descripcion.substring(0,100)}}...
+                                    </div>
+                                </v-card-text>
+                                
+                                <v-card-actions 
+                                class="pa-3"
+                                height="10%">
+                                    Valoración
+                                    <v-spacer></v-spacer>
+                                    <v-rating
+                                    readonly
+                                    v-bind:value="articulo.valoracion"
+                                    ></v-rating>
+                                </v-card-actions>
+                                
+                                <v-card-text
+                                    class="pt-6 display-2 text-center"
+                                    style="position: relative;"
+                                   
+                                >   
+                                {{articulo.pvp}}€
+                                </v-card-text>
+                                </v-card>
+                            </v-hover>
                         </v-col>
                     </v-row>
                 </v-col>
@@ -93,13 +200,17 @@ export default {
             rangoPrecio: [0, 0],
             items:[],
             max: 0,
-            loading: true
+            loading: true,
+            rating: 0,
+            marcas: [],
+            selected_marca: [],
+            panel:[0,1,2,3]
         }
     },
     async created(){
         try{
             this.traerArticulos();
-            
+            this.traerMarcas();
             const cat = await axios.get('/api/categorias');
             this.items = cat.data;
         }catch(err){
@@ -120,19 +231,23 @@ export default {
 
                 return false;
             },
+            traerMarcas: function () {
+                axios.get('/api/marcas')
+                .then(response => {
+                    this.marcas = response.data.data
+                })
+            },
             traerArticulos: function (){
                 this.loading = true
                 axios.get('/api/articulos')
                 .then(response => {
-                    console.log(response.data)
                     this.listaArticulos = response.data
                         .filter(this.filtrarArticulos)
                     this.max = this.listaArticulos.reduce((res, current) =>{
                         return (current.pvp > res) ? current.pvp : res
                     }, -1)
+                    
                     this.rangoPrecio[1] = this.max
-                    console.log(this.rangoPrecio[1])
-                    console.log(this.max)
                     this.loading = false;
                     this.listaArticulosSinFiltro = this.listaArticulos
                 })
@@ -162,32 +277,53 @@ export default {
             },
             filtrarPorPrecio(){
                 this.listaArticulos = this.listaArticulos.filter(articulo => {
-                    return (articulo.pvp >= this.rangoPrecio[0]) && (articulo.pvp <= this.rangoPrecio[1])
+
+                    let marca = (this.selected_marca.length != 0)? this.selected_marca.includes(articulo.marca_id):true
+                    let precio = (articulo.pvp >= this.rangoPrecio[0]) && (articulo.pvp <= this.rangoPrecio[1]) 
+                    let valoracion = this.rating <= articulo.valoracion
+                            
+                    return  marca && precio && valoracion
+                            
                 })
             },
+            
             filtroGeneral(){
                 this.filtrarPorCategoria()
                 this.filtrarPorPrecio()
-                console.log(this.listaArticulos)
             }
         },
          watch: {
             $route(to, from) {
                 this.selection = [];
                 this.rangoPrecio = [0,500]
-                this.traerArticulos();
+                this.rating = 0
+                this.selected_marca = []
+                this.traerArticulos()
+                this.traerMarcas
             },
             selection(){
                 this.filtroGeneral()
             },
             rangoPrecio(){
                 this.filtroGeneral()
+            },
+            rating(){
+               this.filtroGeneral()
+            },
+            selected_marca(){
+                this.filtroGeneral()
             }
          }
 
     }
 </script>
-
 <style>
-
+.v-card--reveal {
+  align-items: center;
+  bottom: 0;
+  justify-content: center;
+  opacity: .5;
+  position: absolute;
+  width: 100%;
+}
 </style>
