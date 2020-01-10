@@ -111,7 +111,7 @@
                         <v-img class="orange--text align-end" v-bind:src="articulo.imagenes[0].url">
                             <v-card-title>{{articulo.nombre}}</v-card-title>
                         </v-img>
-                        <v-card-subtitle class="pb-0">{{articulo.pvp}}</v-card-subtitle>
+                        <v-card-subtitle class="pb-0">{{articulo.pvp}}€</v-card-subtitle>
                         <v-card-text class="text--primary">
                             {{articulo.descripcion}}
                         </v-card-text>
@@ -244,9 +244,7 @@
                     this.user.id = -1
                     console.log(err)
                 }
-                //lista de articulos
-                //const res = await axios.get('/api/articulos');
-                //this.listaArticulos = res.data.data;
+                
                 
                 //articulo con ID especifica, recuperamos las imagenes del articulo
                 const res2 = await axios.get('/api/articulos/' + this.$route.params.id);
@@ -254,6 +252,13 @@
                 this.listaImagenes = this.articulo.imagenes;
                 this.imagen = this.listaImagenes[0].url;
                 this.listaComentarios = this.articulo.comentarios;
+                //lista de articulos recomendados
+                axios.get('/api/articulos?destacados=detalle&marca='+this.articulo.marca.id)
+                .then(response => {
+                    this.listaArticulos = response.data;
+                }).catch(err => {
+                    console.log(err.response)
+                })
             } catch (err) {
                 console.log(err.response);
             }

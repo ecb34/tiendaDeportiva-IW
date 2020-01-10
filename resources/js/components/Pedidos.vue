@@ -70,7 +70,6 @@ export default {
             });
         })
 
-        //console.log(this.pedidos)
     },
 }
 </script>
