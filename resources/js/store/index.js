@@ -55,7 +55,8 @@ export default new Vuex.Store({
                     context.commit('setToken', '')
                     resolve()
                 }).catch(err => {
-                    console.log(err)
+                    console.log(err.response)
+                    localStorage.removeItem('token')
                     reject(err)
                 })
             })

@@ -73,7 +73,6 @@ export default {
                 return
             }
             if(this.$refs.form.validate()){
-                console.log(this.tarjeta.mes + this.tarjeta.anyo)
                 axios.post('https://mysterious-castle-80612.herokuapp.com/',{
                     cardNumber: this.tarjeta.numero,
                     expirationDate: this.tarjeta.mes + this.tarjeta.anyo,

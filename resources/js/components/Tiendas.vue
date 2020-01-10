@@ -28,7 +28,6 @@ export default {
     }),
     methods: {
         mostrarMapa(item){
-            console.log(item)
             this.itemSelected = item
         }
     }

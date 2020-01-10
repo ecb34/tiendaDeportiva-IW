@@ -268,15 +268,13 @@ export default {
                 })
             },
             filtroGeneral(){
-                if(this.selection.length == 0) this.listaArticulos = this.listaArticulosSinFiltro
-                else{
-                    this.listaArticulos = this.listaArticulosSinFiltro.filter((articulo) =>{
-                        let marca = (this.selected_marca.length != 0)? this.selected_marca.includes(articulo.marca_id):true
-                        let precio = (articulo.pvp >= this.rangoPrecio[0]) && (articulo.pvp <= this.rangoPrecio[1]) 
-                        let valoracion = this.rating <= articulo.valoracion
-                        return this.selection.some( s => s.id == articulo.categoria_id) && marca && precio && valoracion
-                    })
-                }
+                this.listaArticulos = this.listaArticulosSinFiltro.filter((articulo) =>{
+                    let marca = (this.selected_marca.length != 0)? this.selected_marca.includes(articulo.marca_id):true
+                    let precio = (articulo.pvp >= this.rangoPrecio[0]) && (articulo.pvp <= this.rangoPrecio[1]) 
+                    let valoracion = this.rating <= articulo.valoracion
+                    let categoria = (this.selection.length != 0)? this.selection.some( s => s.id == articulo.categoria_id):true
+                    return categoria && marca && precio && valoracion
+                })
             }
         },
          watch: {
