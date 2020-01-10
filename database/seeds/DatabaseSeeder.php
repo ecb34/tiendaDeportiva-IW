@@ -27,8 +27,7 @@ class DatabaseSeeder extends Seeder
         $marcas = factory(App\Marca::class,2)->create();
         //$categorias = factory(App\Categoria::class,2)->create();
         $this->call(CategoriaTableSeeder::class);
-        $categorias = Categoria::whereNotNull('categoria_id')->get();
-
+        $categorias = Categoria::has('children','=',0)->get();
         $categoriasPadre = Categoria::whereNull('categoria_id')->get();
         for($i = 0; $i < count($categoriasPadre); ++$i){
             $categoriasPadre[$i]->imagen()->associate(factory(App\Imagen::class)->create()->id);
