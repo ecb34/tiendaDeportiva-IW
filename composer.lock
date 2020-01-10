@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "100227014c27b43e631b6ab5892dff24",
+    "content-hash": "ef5cc206f6502ff8313014d37d185a80",
     "packages": [
         {
             "name": "defuse/php-encryption",
@@ -443,6 +443,56 @@
             "time": "2017-06-27T22:17:23+00:00"
         },
         {
+            "name": "fzaninotto/faker",
+            "version": "v1.9.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/fzaninotto/Faker.git",
+                "reference": "fc10d778e4b84d5bd315dad194661e091d307c6f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/fc10d778e4b84d5bd315dad194661e091d307c6f",
+                "reference": "fc10d778e4b84d5bd315dad194661e091d307c6f",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.3.3 || ^7.0"
+            },
+            "require-dev": {
+                "ext-intl": "*",
+                "phpunit/phpunit": "^4.8.35 || ^5.7",
+                "squizlabs/php_codesniffer": "^2.9.2"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.9-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Faker\\": "src/Faker/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "François Zaninotto"
+                }
+            ],
+            "description": "Faker is a PHP library that generates fake data for you.",
+            "keywords": [
+                "data",
+                "faker",
+                "fixtures"
+            ],
+            "time": "2019-12-12T13:22:17+00:00"
+        },
+        {
             "name": "guzzlehttp/guzzle",
             "version": "6.5.2",
             "source": {
@@ -857,16 +907,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v6.10.0",
+            "version": "v6.10.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "ba2de9c702d7c90a39b70c9f7e6db8e9d4a1ea3b"
+                "reference": "fe45ad5bc89e5e1b08ab2c8687f9be01c9c84d14"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/ba2de9c702d7c90a39b70c9f7e6db8e9d4a1ea3b",
-                "reference": "ba2de9c702d7c90a39b70c9f7e6db8e9d4a1ea3b",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/fe45ad5bc89e5e1b08ab2c8687f9be01c9c84d14",
+                "reference": "fe45ad5bc89e5e1b08ab2c8687f9be01c9c84d14",
                 "shasum": ""
             },
             "require": {
@@ -1000,7 +1050,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2020-01-07T14:39:33+00:00"
+            "time": "2020-01-08T21:17:42+00:00"
         },
         {
             "name": "laravel/passport",
@@ -1251,16 +1301,16 @@
         },
         {
             "name": "league/commonmark",
-            "version": "1.1.2",
+            "version": "1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/commonmark.git",
-                "reference": "772e03fa9c6477ef5ef2d154fefd8a2a8d8ed03c"
+                "reference": "2533c389fd2a7573d4f7be279b1c33cf941c8dfc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/772e03fa9c6477ef5ef2d154fefd8a2a8d8ed03c",
-                "reference": "772e03fa9c6477ef5ef2d154fefd8a2a8d8ed03c",
+                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/2533c389fd2a7573d4f7be279b1c33cf941c8dfc",
+                "reference": "2533c389fd2a7573d4f7be279b1c33cf941c8dfc",
                 "shasum": ""
             },
             "require": {
@@ -1272,7 +1322,7 @@
             },
             "require-dev": {
                 "cebe/markdown": "~1.0",
-                "commonmark/commonmark.js": "0.29.0",
+                "commonmark/commonmark.js": "0.29.1",
                 "erusev/parsedown": "~1.0",
                 "ext-json": "*",
                 "michelf/php-markdown": "~1.4",
@@ -1291,7 +1341,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.2-dev"
+                    "dev-master": "1.3-dev"
                 }
             },
             "autoload": {
@@ -1318,7 +1368,7 @@
                 "markdown",
                 "parser"
             ],
-            "time": "2019-12-10T02:55:03+00:00"
+            "time": "2020-01-09T22:41:09+00:00"
         },
         {
             "name": "league/commonmark-ext-table",
@@ -1595,6 +1645,53 @@
                 "server"
             ],
             "time": "2019-07-13T18:58:26+00:00"
+        },
+        {
+            "name": "mbezhanov/faker-provider-collection",
+            "version": "1.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mbezhanov/faker-provider-collection.git",
+                "reference": "076c00f0d438f12ec7da0fdaadbfb7940913763e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mbezhanov/faker-provider-collection/zipball/076c00f0d438f12ec7da0fdaadbfb7940913763e",
+                "reference": "076c00f0d438f12ec7da0fdaadbfb7940913763e",
+                "shasum": ""
+            },
+            "require": {
+                "fzaninotto/faker": "^1.6",
+                "php": "^7.0"
+            },
+            "require-dev": {
+                "php-mock/php-mock": "^2.0",
+                "phpunit/phpunit": "^6.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Bezhanov\\Faker\\": "src/Faker"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Marin Bezhanov",
+                    "email": "marin.bezhanov@gmail.com",
+                    "homepage": "http://marinbezhanov.com"
+                }
+            ],
+            "description": "A collection of custom providers for the Faker library",
+            "keywords": [
+                "data",
+                "faker",
+                "fixtures"
+            ],
+            "time": "2018-11-22T06:55:34+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -5129,56 +5226,6 @@
             "time": "2019-12-29T10:00:00+00:00"
         },
         {
-            "name": "fzaninotto/faker",
-            "version": "v1.9.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/fzaninotto/Faker.git",
-                "reference": "fc10d778e4b84d5bd315dad194661e091d307c6f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/fc10d778e4b84d5bd315dad194661e091d307c6f",
-                "reference": "fc10d778e4b84d5bd315dad194661e091d307c6f",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^5.3.3 || ^7.0"
-            },
-            "require-dev": {
-                "ext-intl": "*",
-                "phpunit/phpunit": "^4.8.35 || ^5.7",
-                "squizlabs/php_codesniffer": "^2.9.2"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.9-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Faker\\": "src/Faker/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "François Zaninotto"
-                }
-            ],
-            "description": "Faker is a PHP library that generates fake data for you.",
-            "keywords": [
-                "data",
-                "faker",
-                "fixtures"
-            ],
-            "time": "2019-12-12T13:22:17+00:00"
-        },
-        {
             "name": "hamcrest/hamcrest-php",
             "version": "v2.0.0",
             "source": {
@@ -5352,53 +5399,6 @@
                 "debugbar"
             ],
             "time": "2019-09-24T14:55:42+00:00"
-        },
-        {
-            "name": "mbezhanov/faker-provider-collection",
-            "version": "1.2.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/mbezhanov/faker-provider-collection.git",
-                "reference": "076c00f0d438f12ec7da0fdaadbfb7940913763e"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/mbezhanov/faker-provider-collection/zipball/076c00f0d438f12ec7da0fdaadbfb7940913763e",
-                "reference": "076c00f0d438f12ec7da0fdaadbfb7940913763e",
-                "shasum": ""
-            },
-            "require": {
-                "fzaninotto/faker": "^1.6",
-                "php": "^7.0"
-            },
-            "require-dev": {
-                "php-mock/php-mock": "^2.0",
-                "phpunit/phpunit": "^6.2"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Bezhanov\\Faker\\": "src/Faker"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Marin Bezhanov",
-                    "email": "marin.bezhanov@gmail.com",
-                    "homepage": "http://marinbezhanov.com"
-                }
-            ],
-            "description": "A collection of custom providers for the Faker library",
-            "keywords": [
-                "data",
-                "faker",
-                "fixtures"
-            ],
-            "time": "2018-11-22T06:55:34+00:00"
         },
         {
             "name": "mockery/mockery",
