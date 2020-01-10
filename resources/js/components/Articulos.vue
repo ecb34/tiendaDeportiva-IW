@@ -11,7 +11,48 @@
                         ></v-progress-circular>
                     </v-row>
                     <div v-else>
-                        <h2 class="mt-3 ml-3">Categorias</h2>
+                        <v-expansion-panels
+                        multiple
+                        v-model="panel"
+                        >
+                        <v-expansion-panel>
+                            <v-expansion-panel-header>Categorias</v-expansion-panel-header>
+                            <v-expansion-panel-content>
+                             <v-treeview 
+                                v-model="selection"
+                                :items="items"
+                                :selection-type="selectionType"
+                                selectable
+                                return-object
+                            ></v-treeview>
+                            </v-expansion-panel-content>
+                        </v-expansion-panel>
+                        <v-expansion-panel>
+                            <v-expansion-panel-header>Precio</v-expansion-panel-header>
+                            <v-expansion-panel-content>
+                                <v-range-slider
+                                v-model="rangoPrecio"
+                                :max="this.max"
+                                :min="0"
+                                hide-details
+                                thumb-label="always"
+                                :thumb-size="24"
+                                class="mt-3"
+                                ></v-range-slider>
+                            </v-expansion-panel-content>
+                        </v-expansion-panel>
+                        <v-expansion-panel>
+                            <v-expansion-panel-header>Marcas</v-expansion-panel-header>
+                            <v-expansion-panel-content>
+                                <v-checkbox v-for="marca in marcas" 
+                                :key="marca.id" 
+                                v-model="selected_marca" 
+                                :label="marca.nombre" 
+                                :value="marca.id"
+                                ></v-checkbox>
+                            </v-expansion-panel-content>
+                        </v-expansion-panel>
+                        <!--<h2 class="mt-3 ml-3">Categorias</h2>
                         <v-treeview 
                         v-model="selection"
                         :items="items"
@@ -42,11 +83,11 @@
                         v-model="selected_marca" 
                         :label="marca.nombre" 
                         :value="marca.id"
-                        ></v-checkbox>
-
+                        ></v-checkbox>-->
+                        </v-expansion-panels>
                     </div>
                 </v-col>
-                <v-col cols="12" sm="10">
+                <v-col cols="12" sm="6">
                     <h1 v-if="listaArticulos.length === 0 && !loading">No hay articulos de esta categoría</h1>
                     <v-row v-if="loading" justify="center">
                         <v-progress-circular
@@ -58,7 +99,10 @@
                     </v-row>
                     <v-row v-else>
                         <v-col v-for="articulo in this.listaArticulos" v-bind:key="articulo.id" cols="12" sm="4">
-                            <v-card class="mx-auto" max-width="400">
+                            <v-card 
+                            class="mx-auto" 
+                            max-width="400"
+                            :elevation="6">
                                 <v-img class="orange--text align-end" height="200px"  v-bind:src="articulo.imagenes[0].url">
                                 <v-card-title>{{articulo.nombre}}</v-card-title>
                                 </v-img>
@@ -117,7 +161,8 @@ export default {
             rating: 0,
             rating_articulo: 0,
             marcas: [],
-            selected_marca: []
+            selected_marca: [],
+            panel:[0,1,2]
         }
     },
     async created(){
