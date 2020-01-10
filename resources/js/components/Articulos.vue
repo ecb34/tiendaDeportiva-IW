@@ -147,7 +147,6 @@ export default {
             traerMarcas: function () {
                 axios.get('/api/marcas')
                 .then(response => {
-                    
                     this.marcas = response.data.data
                 })
                 //console.log(this.marcas)
@@ -190,22 +189,15 @@ export default {
                 }
             },
             filtrarPorPrecio(){
-                
                 this.listaArticulos = this.listaArticulos.filter(articulo => {
 
                     let marca = (this.selected_marca.length != 0)? this.selected_marca.includes(articulo.marca_id):true
                     let precio = (articulo.pvp >= this.rangoPrecio[0]) && (articulo.pvp <= this.rangoPrecio[1]) 
-                    let valoracion =(this.rating == 0)? articulo.valoracion >= 0 && articulo.valoracion < 1 : 
-                                    (this.rating == 1)? articulo.valoracion >= 1 && articulo.valoracion < 2 :
-                                    (this.rating == 2)? articulo.valoracion >= 2 && articulo.valoracion < 3 :
-                                    (this.rating == 3)? articulo.valoracion >= 3 && articulo.valoracion < 4 :
-                                    (this.rating == 4)? articulo.valoracion >= 4 && articulo.valoracion < 5 :
-                                    articulo.valoracion == 5 
+                    let valoracion = this.rating <= articulo.valoracion
                             
                     return  marca && precio && valoracion
                             
                 })
-                //console.log(this.listaArticulos)
             },
             
             filtroGeneral(){
