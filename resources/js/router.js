@@ -16,6 +16,9 @@ import Compra from './components/FinalizarCompra'
 import Store from './store/index'
 import NotFound from './components/NotFoundError'
 import Unauthorized from './components/UnauthorizedError'
+import Admin from './components/Admin'
+import CrearArticulo from './components/CrearArticulo'
+import EditarArticulo from './components/EditarArticulo'
 
 Vue.use(Router);
 
@@ -64,6 +67,24 @@ export default new Router({
             path: '/mujer',
             name: 'mujer',
             component: Articulos,
+            props: true
+        },
+        {
+            path: '/admin',
+            name: 'admin',
+            component: Admin,
+            props: true
+        },
+        {
+            path: '/NuevoArticulo',
+            name: 'nuevo',
+            component: CrearArticulo,
+            props: true
+        },
+        {
+            path: '/editarArticulo',
+            name: 'editarArticulo',
+            component: EditarArticulo,
             props: true
         },
         {

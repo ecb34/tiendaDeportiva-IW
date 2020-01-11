@@ -23,6 +23,12 @@ class CategoriaController extends Controller
         return response()->json($children);
     }
 
+    public function categoriasNohijos()
+    {
+        $categorias = Categoria::has('children','=',0)->get();
+        return response()->json($categorias);
+    }
+
     public function categoriasRecomendadas()
     {
         //solo queremos las categorias padre
