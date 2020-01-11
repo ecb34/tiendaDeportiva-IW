@@ -82,7 +82,7 @@ export default new Router({
             props: true
         },
         {
-            path: '/editarArticulo',
+            path: '/editarArticulo/:id',
             name: 'editarArticulo',
             component: EditarArticulo,
             props: true

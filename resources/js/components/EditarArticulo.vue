@@ -4,14 +4,19 @@
             <v-form ref="form" v-model="valid">
                 <v-row>
                     <v-col>
-                    <v-card-text>
+                      <v-card-text>
                         <v-text-field v-model="nombre" :rules="[rules.required, rules.counter]" label="Nombre del articulo*" required></v-text-field>
-                    </v-card-text>
+                      </v-card-text>
                     </v-col>
                     <v-col>
-                    <v-card-text>
+                      <v-card-text>
                         <v-text-field v-model="precio" :rules="[rules.required, rules.pvp]" label="€*"></v-text-field>
-                    </v-card-text>
+                      </v-card-text>
+                    </v-col>
+                    <v-col>
+                      <v-card-text>
+                        <v-text-field v-model="codigo" :rules="[rules.codigoMax, rules.codigoRul]" label="Codigo del articulo*"></v-text-field>
+                      </v-card-text>
                     </v-col>
                 </v-row>
                 <v-row>
@@ -57,9 +62,7 @@
                             required
                         ></v-autocomplete>
                         </v-card-text>
-                    </v-col>
-                        </v-row>
-                        <v-row>
+                    </v-col>  
                     <v-col>
                         <v-card-text>
                           <v-autocomplete
@@ -103,7 +106,7 @@
                     </v-row>
                 </v-container>
                 <div align="right">
-                    <v-btn :disabled="!valid" color="success" class="mr-4" @click="validar">Crear articulo</v-btn>
+                    <v-btn :disabled="!valid" color="success" class="mr-4" @click="validar">Guardar cambios</v-btn>
                     <br><br>
                 </div>
                 </v-card>
@@ -119,9 +122,11 @@ export default {
         valid: true,
         nombre: '',
         precio: '',
-        generos: [{nombre: "Unisex",  id: "2"}, 
-        {nombre: "Hombre",  id: "0"}, 
-        {nombre: "Mujer",  id: "1"}],
+        codigo: '',
+        valoracion: '',
+        generos: [{nombre: 'Unisex',  id: '2'}, 
+        {nombre: 'Hombre',  id: '0'}, 
+        {nombre: 'Mujer',  id: '1'}],
         genero: null,
         categorias: [],
         categoria: null,
@@ -129,21 +134,30 @@ export default {
         marcas: [],
         marca: null,
         rules: {
+          requiredcod: value=>  !!value && value!=0 || 'Campo requerido.',
           required: value => !!value || 'Campo requerido.',
-          counter: value => value.length <= 20 || 'Maximo 20 caracteres',
+          counter: value => value.length <= 30 || 'Maximo 30 caracteres',
+          codigoMax: value => value.length == 8 || 'Debe contener exactamente 8 digitos',
+          codigoRul: value => {
+            const pattern = /^(([0-9]*))$/
+            return pattern.test(value) || 'Codigo invalido, solo se permiten digitos.'
+          },
           counterdesc: value => value.length <= 150 || 'Maximo 200 caracteres',
           pvp: value => {
             const pattern = /^(([0-9]*)|(([0-9]*)\.([0-9]*)))$/
             return pattern.test(value) || 'Precio invalido.'
           },
+          reglasPvp: v => v >= 0 || 'Max no puede ser negativo',
         },
+        tab: null,
         selectedFile: null,
         errorServer: '',
         snackbar: false,
+        error: '',
       }
     },
-    mounted(){
-    axios.get('/api/categorias')
+    mounted (){
+      axios.get('/api/categorias')
         .then(response => {
           this.categorias = response.data;
           console.log(response.data)
@@ -151,33 +165,53 @@ export default {
           console.log(err)
         })
 
-    axios.get('/api/marcas')
+      axios.get('/api/marcas')
         .then(response => {
           this.marcas = response.data;
           console.log(response.data)
         }).catch(err => {
           console.log(err)
         })
-    
-  },
+    },
+    async created(){
+
+      try{
+        var res = await axios.get("/api/articulos/" + this.$route.params.id)
+        console.log(res.data)
+        this.nombre = res.data.nombre
+        this.codigo = res.data.codigo
+        this.precio = res.data.pvp
+        this.genero = res.data.genero
+        this.descripcion = res.data.descripcion
+        this.categoria = res.data.categoria_id
+        this.marca = res.data.marca_id
+        this.valoracion = res.data.valoracion
+      }catch(err){
+
+      }
+    },
     methods: {
         selectedImage(event) {
             this.selectedFile=event.target.files[0]
         },
         validar() {
             if (this.$refs.form.validate()) {
-                //llamada a signup
-                axios.put("/api/articulos/validarArticulo", {
+                axios.put("/api/articulos", {
                   nombre: this.nombre,
-                  pvp: this.precio,
+                  pvp: parseFloat(this.precio),
+                  codigo: this.codigo,
                   descripcion: this.descripcion,
-                  marca_id: this.marca.id,
-                  categoria_id: this.categoria.id,
-                }).then((res =>{
-                  this.$router.push({ name: 'nuevo', params: { mostrar_snackbar: true }})
+                  marca_id: this.marca,
+                  categoria_id: this.categoria,
+                  genero: parseInt(this.genero),
+                  valoracion: this.valoracion
+                }, this.$route.params.id
+                ).then((res =>{
+                  //console.log(res.data)
+                  this.$router.push({ name: 'admin', params: { mostrar_snackbar: 'Articulo editado' }})
                 })).catch(err =>{
                   console.log(err.response)
-                  this.errorServer = 'Error???'
+                  this.error = 'Error al crear el articulo'
                   this.snackbar = true;
                 })
             }

@@ -29,12 +29,12 @@
           @page-count="pageCount = $event"
         >
         <template v-slot:item.action="{ item }">
-          <v-btn color="secondary" @click="editarArticulo(item)">
+          <v-btn color="secondary" :to="`/editarArticulo/${item.id}`">
               <v-icon class="mr-2">
                 mdi-pen
               </v-icon>
           </v-btn>
-          <v-btn color="error" :to="'Admin/'+item.id">
+          <v-btn color="error" @click="eliminarArticulo(item)">
               <v-icon class="mr-2">
                 delete
               </v-icon>
@@ -104,14 +104,6 @@
                     console.log(err.response)
                 })
         },
-        /*editarArticulo(articulo){
-            axios.update('/api/articulos/update' + articulo.id)
-                .then(res =>{
-                  //pasar los campos modificados
-                }).catch(err =>{
-                    console.log(err.response)
-                })
-        }*/
     },
   }
 </script>

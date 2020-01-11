@@ -169,7 +169,7 @@
         rules: {
           requiredcod: value=>  !!value && value!=0 || 'Campo requerido.',
           required: value => !!value || 'Campo requerido.',
-          counter: value => value.length <= 20 || 'Maximo 20 caracteres',
+          counter: value => value.length <= 30 || 'Maximo 30 caracteres',
           codigoMax: value => value.length == 8 || 'Debe contener exactamente 8 digitos',
           codigoRul: value => {
             const pattern = /^(([0-9]*))$/
@@ -205,8 +205,7 @@
         }).catch(err => {
           console.log(err)
         })
-    
-  },
+    },
     methods: {
         selectedImage(event) {
             this.selectedFile=event.target.files[0]
@@ -215,13 +214,13 @@
             if (this.$refs.form.validate()) {
                 //llamada a signup
                 axios.post("/api/articulos", {
-                  'nombre': this.nombre,
-                  'pvp': parseFloat(this.precio),
-                  'codigo': this.codigo,
-                  'descripcion': this.descripcion,
-                  'marca_id': this.marca,
-                  'categoria_id': this.categoria,
-                  'genero': parseInt(this.genero),
+                  nombre: this.nombre,
+                  pvp: parseFloat(this.precio),
+                  codigo: this.codigo,
+                  descripcion: this.descripcion,
+                  marca_id: this.marca,
+                  categoria_id: this.categoria,
+                  genero: parseInt(this.genero),
                 }).then((res =>{
                   //console.log(res.data)
                   this.$router.push({ name: 'admin', params: { mostrar_snackbar: 'Articulo creado' }})
