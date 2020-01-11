@@ -58,9 +58,8 @@ __webpack_require__.r(__webpack_exports__);
       listaArticulosSinFiltro: [],
       mostrar_snackbar: false,
       snackbar: "",
-      //panel: [0, 1, 2, 3],
-      panel: [false, 1, 2, false],
-      // Con false se indica que los paneles han de estar plegados
+      panel: [1, 2],
+      // Con [1,2] se indica que paneles han de estar expandidos
       loading: true,
       // filtrado de categorias
       selection: [],

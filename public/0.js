@@ -179,7 +179,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "v-col",
-    { attrs: { cols: "12", xs: "12", sm: "6", md: "4", lg: "3", xl: "2" } },
+    { attrs: { cols: "12", xs: "12", sm: "6", md: "4", lg: "3" } },
     [
       _c("v-hover", {
         scopedSlots: _vm._u([
