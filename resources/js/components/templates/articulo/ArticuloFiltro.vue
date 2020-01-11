@@ -166,10 +166,6 @@ export default {
   },
   watch: {
     $route(to, from) {
-      this.selection = [];
-      this.rangoPrecio = [0, 500]
-      this.rating = 0;
-      this.selected_marca = [];
       this.traerArticulos();
     },
     selection() {

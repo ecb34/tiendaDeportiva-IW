@@ -5,13 +5,13 @@
         <v-text-field 
           v-model="min" 
           :rules="reglasMin" 
-          label="$Min."
+          label="€Min."
           type="number">
         </v-text-field>
         <v-text-field 
           v-model="max" 
           :rules="reglasMax" 
-          label="$Max."
+          label="€Max."
           type="number">
         </v-text-field>
         
@@ -28,7 +28,7 @@ export default {
   data() {
     // Datos que devuelve la vista EJ: Un objeto nuevo/modificado/borrado
     return {
-      min: 0,
+      min: "",
       reglasMin: [
          //v => !!v || 'Required',
          v => v >= 0 || 'Min no puede ser negativo',

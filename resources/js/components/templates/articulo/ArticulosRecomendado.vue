@@ -24,19 +24,18 @@ import carousel from 'vue-owl-carousel'
 export default {
   components: { carousel },
   // Parametros de la vista
-  props:{
-    snackbar: {
-      type: String
-    }
-  },
+  props: [
+    'snackbar',
+    'vista'
+  ],
   data() { 
       // Respuesta
       return {
         articulosRecomendados: []
       }
     },
-  mounted(){
-    axios.get('/api/articulos?destacados=1')
+  async mounted(){
+    axios.get('/api/articulos?destacados=home')
         .then(response => {
           this.articulosRecomendados = response.data;
         }).catch(err => {

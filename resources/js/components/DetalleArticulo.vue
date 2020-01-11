@@ -208,6 +208,8 @@
                     this.snackbar = (this.edit==-1? 'Comentario guardado' : 'Comentario editado')
                     this.edit==-1? this.listaComentarios.push(res.data[0]) : (this.listaComentarios[index]=res.data[0]);
                     this.articulo.valoracion = res.data[1];
+                    this.valoracion = 2.5;
+                    this.comentario = "";
                     this.edit=-1;
                 }).catch(err =>{
                     console.log(err.response);

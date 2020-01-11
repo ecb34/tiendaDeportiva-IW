@@ -85,7 +85,7 @@ export default {
 
         }
     },
-    mounted() { 
+    async mounted() { 
         console.log('DetalleMD montado.')
     },
         methods: {

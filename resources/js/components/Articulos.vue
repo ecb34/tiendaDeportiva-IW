@@ -63,9 +63,10 @@ export default {
         methods: {
             // Obtiene la lista enviada por el filtro
             getArticulos(articulosOrdenados) {
+                this.loading = true
                 this.articulos = articulosOrdenados;
-                this.loading = false
                 console.log("ArticulosOrdenados cargados", articulosOrdenados)
+                this.loading = false
             }
         },
          watch: {

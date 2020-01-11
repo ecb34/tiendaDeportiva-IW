@@ -26,14 +26,13 @@ export default {
       selection: []
     };
   },
-  async mounted() {
+  async created() {
     try {
       console.log("Filtro marcas montado")
     
       const items = await axios.get("/api/marcas");
       this.marcas = items.data.data;
 
-      //this.traerMarcas();
     } catch (err) {}
   },
   methods: {
