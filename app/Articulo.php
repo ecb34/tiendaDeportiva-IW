@@ -8,7 +8,7 @@ class Articulo extends Model
 {
     // Eloquent se encarga de almacenar los datos en el atributo
     protected $fillable = [
-        'id', 'codigo', 'nombre', 'pvp', 'descripcion', 'valoracion', 'genero'
+        'id', 'codigo', 'nombre', 'pvp', 'descripcion', 'valoracion', 'genero', 'marca_id', 'categoria_id'
     ];
 
     /**** INICIO Relaciones Articulos ****/

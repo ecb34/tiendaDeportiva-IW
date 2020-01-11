@@ -61,7 +61,12 @@
                       </v-col>
                       <v-col>
                         <v-card-text>
-                          <v-text-field v-model="precio" :rules="[rules.required, rules.pvp]" label="€*"></v-text-field>
+                          <v-text-field v-model="precio" type="number" :rules="[rules.required, rules.reglasPvp]" label="€*"></v-text-field>
+                        </v-card-text>
+                      </v-col>
+                      <v-col>
+                        <v-card-text>
+                          <v-text-field v-model="codigo" :rules="[rules.codigoMax, rules.codigoRul]" label="Codigo del articulo*"></v-text-field>
                         </v-card-text>
                       </v-col>
                   </v-row>
@@ -109,14 +114,20 @@
                         ></v-autocomplete>
                       </v-card-text>
                     </v-col>
-                  </v-row>
-                  <v-row>
                     <v-col>
                       <v-card-text>
-                        <v-text-field v-model="genero" :rules="[rules.required, rules.counter]" label="Genero*" required></v-text-field>
+                        <v-autocomplete
+                          ref="genero"
+                          v-model="genero"
+                          :rules="[() => !!genero || 'Dato requerido']"
+                          :items="generos"
+                          item-text="nombre"
+                          item-value="id"
+                          label="Genero"
+                          placeholder="Seleccionar genero"
+                          required
+                        ></v-autocomplete>
                       </v-card-text>
-                    </v-col>
-                    <v-col>
                     </v-col>
                   </v-row>
             </v-card>
@@ -125,16 +136,14 @@
               :timeout=2000
               color= "error"
             >
-              {{errorServer}}
+              {{error}}
             </v-snackbar>
           </v-container>
         </v-tab-item>
-        
         <div align="right">
           <v-btn :disabled="!valid" color="success" class="mr-4" @click="validar">Crear articulo</v-btn>
           <br><br>
         </div>
-
       </v-form>
     </v-tabs-items>
   </v-card>
@@ -147,25 +156,37 @@
         valid: true,
         nombre: '',
         precio: '',
-        genero: '',
+        codigo: '',
+        generos: [{nombre: "Unisex",  id: '2'}, 
+        {nombre: "Hombre",  id: '0'}, 
+        {nombre: "Mujer",  id: '1'}],
+        genero: null,
         categorias: [],
         categoria: null,
         descripcion: '',
         marcas: [],
         marca: null,
         rules: {
+          requiredcod: value=>  !!value && value!=0 || 'Campo requerido.',
           required: value => !!value || 'Campo requerido.',
           counter: value => value.length <= 20 || 'Maximo 20 caracteres',
+          codigoMax: value => value.length == 8 || 'Debe contener exactamente 8 digitos',
+          codigoRul: value => {
+            const pattern = /^(([0-9]*))$/
+            return pattern.test(value) || 'Codigo invalido, solo se permiten digitos.'
+          },
           counterdesc: value => value.length <= 150 || 'Maximo 200 caracteres',
           pvp: value => {
             const pattern = /^(([0-9]*)|(([0-9]*)\.([0-9]*)))$/
             return pattern.test(value) || 'Precio invalido.'
           },
+          reglasPvp: v => v >= 0 || 'Max no puede ser negativo',
         },
         tab: null,
         selectedFile: null,
         errorServer: '',
         snackbar: false,
+        error: '',
       }
     },
     mounted(){
@@ -193,17 +214,20 @@
         validar() {
             if (this.$refs.form.validate()) {
                 //llamada a signup
-                axios.put("/api/articulos/validarArticulo", {
-                  nombre: this.nombre,
-                  pvp: this.precio,
-                  descripcion: this.descripcion,
-                  marca_id: this.marca.id,
-                  categoria_id: this.categoria.id,
+                axios.post("/api/articulos", {
+                  'nombre': this.nombre,
+                  'pvp': parseFloat(this.precio),
+                  'codigo': this.codigo,
+                  'descripcion': this.descripcion,
+                  'marca_id': this.marca,
+                  'categoria_id': this.categoria,
+                  'genero': parseInt(this.genero),
                 }).then((res =>{
-                  this.$router.push({ name: 'nuevo', params: { mostrar_snackbar: true }})
+                  //console.log(res.data)
+                  this.$router.push({ name: 'admin', params: { mostrar_snackbar: 'Articulo creado' }})
                 })).catch(err =>{
                   console.log(err.response)
-                  this.errorServer = 'Error???'
+                  this.error = 'Error al crear el articulo'
                   this.snackbar = true;
                 })
             }

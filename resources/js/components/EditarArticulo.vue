@@ -62,7 +62,17 @@
                         <v-row>
                     <v-col>
                         <v-card-text>
-                            <v-text-field v-model="genero" :rules="[rules.required, rules.counter]" label="Genero*" required></v-text-field>
+                          <v-autocomplete
+                          ref="genero"
+                          v-model="genero"
+                          :rules="[() => !!genero || 'Dato requerido']"
+                          :items="generos"
+                          item-text="nombre"
+                          item-value="id"
+                          label="Genero"
+                          placeholder="Seleccionar genero"
+                          required
+                          ></v-autocomplete>
                         </v-card-text>
                     </v-col>
                     <v-col>
@@ -109,7 +119,10 @@ export default {
         valid: true,
         nombre: '',
         precio: '',
-        genero: '',
+        generos: [{nombre: "Unisex",  id: "2"}, 
+        {nombre: "Hombre",  id: "0"}, 
+        {nombre: "Mujer",  id: "1"}],
+        genero: null,
         categorias: [],
         categoria: null,
         descripcion: '',

@@ -26,12 +26,14 @@ class ArticuloController extends Controller
 
     protected function validarArticulo(Request $request){
         $validator = Validator::make($request->all(), [
-            'codigo' => 'required|unique',
+            'codigo' => 'required|unique:articulos',
             'pvp' => 'required',
             'nombre' => 'required',
             'descripcion' => 'nullable|max:150',
             'marca_id' => 'nullable',
-            'categoria_id' => 'nullable'
+            'categoria_id' => 'nullable',
+            'genero' => 'nullable',
+            'valoracion'=> 'required'
         ]);
 
         if ($validator->fails()) {
@@ -55,6 +57,8 @@ class ArticuloController extends Controller
             'descripcion' => $request->descripcion,
             'marca_id' => $request->marca_id,
             'categoria_id' => $request->categoria_id,
+            'genero' => $request->genero,
+            'valoracion'=> 0
         ]);
 
         $articulo->save();

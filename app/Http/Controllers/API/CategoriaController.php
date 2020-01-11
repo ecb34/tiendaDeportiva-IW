@@ -23,7 +23,7 @@ class CategoriaController extends Controller
         return response()->json($children);
     }
 
-    public function categoriasNohijos()
+    public function categoriassinhijos()
     {
         $categorias = Categoria::has('children','=',0)->get();
         return response()->json($categorias);

@@ -23,7 +23,7 @@ Route::apiResources([
     'users' => 'API\UserController'
 ]);//excluye las rutas que devuelven html (create,edit...)
 Route::get('categoriasrecomendadas', 'API\CategoriaController@categoriasRecomendadas');
-
+Route::get('categoriassinhijos', 'API\CategoriaController@categoriassinhijos');
 
 Route::group(['middleware' => 'auth:api'], function(){
 
