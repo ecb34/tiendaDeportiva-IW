@@ -81,6 +81,42 @@
                     <v-col>
                     </v-col>
                 </v-row>
+                <br>
+                <v-file-input
+                  v-model="files"
+                  color="deep-purple accent-4"
+                  counter
+                  :rules="[
+                    rules.maxTam,
+                    rules.requiredcod,
+                    rules.fileRule,
+                  ]"
+                  label="File input"
+                  multiple
+                  placeholder="Select your files"
+                  prepend-icon="mdi-paperclip"
+                  outlined
+                  :show-size="1000"
+                >
+                  <template v-slot:selection="{ index, text }">
+                    <v-chip
+                      v-if="index < 2"
+                      color="deep-purple accent-4"
+                      dark
+                      label
+                      small
+                    >
+                      {{ text }}
+                    </v-chip>
+
+                    <span
+                      v-else-if="index === 2"
+                      class="overline grey--text text--darken-3 mx-2"
+                    >
+                      +{{ files.length - 2 }} File(s)
+                    </span>
+                  </template>
+                </v-file-input>
                 <v-card>
                 <v-container fluid>
                     <v-row dense>
@@ -134,6 +170,7 @@ export default {
         marcas: [],
         marca: null,
         rules: {
+          maxTam: value => !value || value.size < 2000000 || 'Avatar size should be less than 2 MB!',
           requiredcod: value=>  !!value && value!=0 || 'Campo requerido.',
           required: value => !!value || 'Campo requerido.',
           counter: value => value.length <= 30 || 'Maximo 30 caracteres',
@@ -141,6 +178,10 @@ export default {
           codigoRul: value => {
             const pattern = /^(([0-9]*))$/
             return pattern.test(value) || 'Codigo invalido, solo se permiten digitos.'
+          },
+          fileRule: value =>{
+            const pattern = /^(https?:\/\/)?www\.([\da-z\.-]+)\.([a-z\.]{2,6})\/[\w \.-]+?\.pdf$/
+            return pattern.test(value) || 'Formato incorrecto.'
           },
           counterdesc: value => value.length <= 150 || 'Maximo 200 caracteres',
           pvp: value => {
@@ -151,6 +192,7 @@ export default {
         },
         tab: null,
         selectedFile: null,
+        files: [], 
         errorServer: '',
         snackbar: false,
         error: '',
@@ -185,9 +227,17 @@ export default {
         this.descripcion = res.data.descripcion
         this.categoria = res.data.categoria_id
         this.marca = res.data.marca_id
-        this.valoracion = res.data.valoracion
+        //this.valoracion = res.data.valoracion
       }catch(err){
+        console.log(err)
+      }
 
+      try{
+        var res = await axios.get('/api/documentos/' + this.$route.params.id)
+        console.log(res)
+        files = res
+      }catch(err){
+        console.log(err)
       }
     },
     methods: {

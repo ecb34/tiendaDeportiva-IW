@@ -63,7 +63,7 @@ class ArticuloController extends Controller
 
         $articulo->save();
 
-        return response()->json(null, 201);//el 201 es no content
+        return response()->json($articulo, 201);//el 201 es no content
     }
 
     /**

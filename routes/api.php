@@ -20,7 +20,9 @@ Route::apiResources([
     'articulos' => 'API\ArticuloController',
     'categorias'=> 'API\CategoriaController',
     'marcas' => 'API\MarcaController',
-    'users' => 'API\UserController'
+    'users' => 'API\UserController',
+    'imagenes' => 'API\ImagenController',
+    'documentos' => 'API\DocumentoController',
 ]);//excluye las rutas que devuelven html (create,edit...)
 Route::get('categoriasrecomendadas', 'API\CategoriaController@categoriasRecomendadas');
 Route::get('categoriassinhijos', 'API\CategoriaController@categoriassinhijos');

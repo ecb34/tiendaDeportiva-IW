@@ -24,28 +24,12 @@
         <v-tab-item :value="'tab-3'">
           <v-card flat>
               <v-container fluid>
-                  <input style="display: none" type="file" @change="selectedImage" ref="fileInput">
-                  <v-btn @click="$refs.fileInput.click()">
-                      Buscar imagen
-                  </v-btn>
+                  <input style="display: none" type="file" multiple @change="selectImage" accept="image/*" ref="fileInput">
+                  <v-btn @click="pickFile" color="primary" class="primary">Buscar imagen</v-btn>    
                   <v-row>
-                  <v-col cols="6" sm="4">
-                      <v-img
-                      v-model="selectedFile"
-                      src="https://cdn.vuetifyjs.com/images/parallax/material2.jpg"
-                      gradient="to top right, rgba(100,115,201,.33), rgba(25,32,72,.7)"
-                      ></v-img>
-                  </v-col>
-                  <v-col cols="6" sm="4">
-                      <v-img src="https://cdn.vuetifyjs.com/images/parallax/material2.jpg">
-                      <div class="fill-height bottom-gradient"></div>
-                      </v-img>
-                  </v-col>
-                  <v-col cols="6" sm="4">
-                      <v-img src="https://cdn.vuetifyjs.com/images/parallax/material2.jpg">
-                      <div class="fill-height repeating-gradient"></div>
-                      </v-img>
-                  </v-col>
+                    <v-col cols="6" sm="4">
+                      <img :src="selectedFile" height="auto" width="100%">
+                    </v-col>
                   </v-row>
               </v-container>
           </v-card>
@@ -130,6 +114,42 @@
                       </v-card-text>
                     </v-col>
                   </v-row>
+                  <br>
+                  <v-file-input
+                      v-model="files"
+                      color="deep-purple accent-4"
+                      counter
+                      :rules="[
+                        rules.maxTam,
+                        rules.requiredcod,
+                        rules.fileRule,
+                      ]"
+                      label="File input"
+                      multiple
+                      placeholder="Select your files"
+                      prepend-icon="mdi-paperclip"
+                      outlined
+                      :show-size="1000"
+                    >
+                      <template v-slot:selection="{ index, text }">
+                        <v-chip
+                          v-if="index < 2"
+                          color="deep-purple accent-4"
+                          dark
+                          label
+                          small
+                        >
+                          {{ text }}
+                        </v-chip>
+
+                        <span
+                          v-else-if="index === 2"
+                          class="overline grey--text text--darken-3 mx-2"
+                        >
+                          +{{ files.length - 2 }} File(s)
+                        </span>
+                      </template>
+                    </v-file-input>
             </v-card>
             <v-snackbar
               v-model="snackbar"
@@ -167,6 +187,7 @@
         marcas: [],
         marca: null,
         rules: {
+          maxTam: value => !value || value.size < 2000000 || 'Avatar size should be less than 2 MB!',
           requiredcod: value=>  !!value && value!=0 || 'Campo requerido.',
           required: value => !!value || 'Campo requerido.',
           counter: value => value.length <= 30 || 'Maximo 30 caracteres',
@@ -174,6 +195,10 @@
           codigoRul: value => {
             const pattern = /^(([0-9]*))$/
             return pattern.test(value) || 'Codigo invalido, solo se permiten digitos.'
+          },
+          fileRule: value =>{
+            const pattern = /^(https?:\/\/)?www\.([\da-z\.-]+)\.([a-z\.]{2,6})\/[\w \.-]+?\.pdf$/
+            return pattern.test(value) || 'Formato incorrecto.'
           },
           counterdesc: value => value.length <= 150 || 'Maximo 200 caracteres',
           pvp: value => {
@@ -184,6 +209,8 @@
         },
         tab: null,
         selectedFile: null,
+        files: [],
+        imagenes: [],
         errorServer: '',
         snackbar: false,
         error: '',
@@ -207,9 +234,37 @@
         })
     },
     methods: {
-        selectedImage(event) {
-            this.selectedFile=event.target.files[0]
+        pickFile(){
+          this.$refs.fileInput.click()
         },
+        selectImage(event) {
+            
+            let image = event.target.files[0]
+            let reader = new FileReader()
+            reader.readAsDataURL(image)
+            reader.onload = event => {
+              this.selectedFile = event.target.result
+            }
+            console.log(this.selectedFile)
+        },
+        /*selectImage(event) {
+
+          for(let i=0;i<event.target.files.length;i++){
+            this.files[i] = event.target.files[i]
+          }
+
+          for(let j=0;j<this.files.length;j++){
+            let reader = new FileReader()
+            reader.readAsDataURL(this.files[j])
+            reader.onload = event => {
+              this.imagenes[j] = event.target.result
+            }
+          }
+            console.log(this.files)
+        },
+        removeFile( key ){
+          this.files.splice( key, 1 );
+        },*/
         validar() {
             if (this.$refs.form.validate()) {
                 //llamada a signup
@@ -222,6 +277,27 @@
                   categoria_id: this.categoria,
                   genero: parseInt(this.genero),
                 }).then((res =>{
+
+                   /*for( var i = 0; i < this.files.length; i++ ){
+                    let file = this.files[i];
+
+                    formData.append('files[' + i + ']', file);
+                  }
+
+                  axios.post( '/api/imagenes/'+res.data.id,
+                    formData,
+                    {
+                      headers: {
+                          'Content-Type': 'multipart/form-data'
+                      }
+                    }
+                  ).then(res =>{
+                    console.log(res.data)
+                  })
+                  .catch(res =>{
+                    console.log(res.data)
+                  });*/
+
                   //console.log(res.data)
                   this.$router.push({ name: 'admin', params: { mostrar_snackbar: 'Articulo creado' }})
                 })).catch(err =>{
