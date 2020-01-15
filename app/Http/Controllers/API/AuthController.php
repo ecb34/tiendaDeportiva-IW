@@ -6,6 +6,7 @@ use App\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\User as ResourcesUser;
 use Illuminate\Http\Request;
 
 class AuthController extends Controller
@@ -18,16 +19,18 @@ class AuthController extends Controller
             'fecha_nacimiento' => 'date',
             'password' => 'required|string|confirmed',
         ]);
+        $rol = $request->rol != null ? $request->rol : 'usuario';
         $user = new User([
             'nombre'     => $request->nombre,
             'email'    => $request->email,
             'apellido' => $request->apellido,
             'fecha_nacimiento' => $request->fechaNacimiento,
             'telefono' => $request->telefono,
+            'rol' => $rol,
             'password' => bcrypt($request->password),
         ]);
         $user->save();
-        return response()->json(['mensaje' => 'Usuario creado correctamente'], 201);
+        return response()->json($user, 200);
     }    
     
     public function login(Request $request)

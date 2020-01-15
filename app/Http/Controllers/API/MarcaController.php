@@ -86,6 +86,7 @@ class MarcaController extends Controller
         if(!$marca){
             return response()->json(['message', 'marca no encontrada'],404);
         }
+        $marca->delete();
 
         return response()->json(null,201);
     }
