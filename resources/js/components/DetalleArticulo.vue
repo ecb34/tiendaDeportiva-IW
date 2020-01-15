@@ -141,17 +141,11 @@
                 articulo: {},
                 listaArticulos: [],
                 comentario: "",
-                valoracion: 2.5,
+                valoracion: 0,
                 edit: -1,
                 listaComentarios: [],
-                listaArticulosRelacionados: ["https://picsum.photos/id/11/500/300", "https://picsum.photos/510/300?random",
-                    'http://d26lpennugtm8s.cloudfront.net/stores/008/632/products/lchl14-negra-11-5ef53327e0e0a6e96515128489853509-640-0.jpg',
-                    'https://ae01.alicdn.com/kf/HTB1yJ3PzByWBuNkSmFPq6xguVXa1.jpg?width=800&height=800&hash=1600'
-                ],
-                listaImagenes: ["https://picsum.photos/id/11/500/300", "https://picsum.photos/510/300?random",
-                    'http://d26lpennugtm8s.cloudfront.net/stores/008/632/products/lchl14-negra-11-5ef53327e0e0a6e96515128489853509-640-0.jpg',
-                    'https://ae01.alicdn.com/kf/HTB1yJ3PzByWBuNkSmFPq6xguVXa1.jpg?width=800&height=800&hash=1600'
-                ],
+                listaArticulosRelacionados: [],
+                listaImagenes: [],
                 imagen: '',
                 snackbar: '',
                 mostrar_snackbar: false
@@ -202,6 +196,8 @@
                     this.snackbar = (this.edit==-1? 'Comentario guardado' : 'Comentario editado')
                     this.edit==-1? this.listaComentarios.push(res.data[0]) : (this.listaComentarios[index]=res.data[0]);
                     this.articulo.valoracion = res.data[1];
+                    this.comentario = ""
+                    this.valoracion = 0
                     this.edit=-1;
                 }).catch(err =>{
                     console.log(err.response);

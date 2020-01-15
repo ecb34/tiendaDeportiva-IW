@@ -1,6 +1,6 @@
 <template>
     <v-content>
-            <v-row justify="center">
+            <v-row >
                 <v-col cols="12" sm="2">
                      <v-row v-if="loading" justify="center">
                         <v-progress-circular
@@ -63,8 +63,8 @@
                     </v-expansion-panels>
                     
                 </v-col>
-                <v-col cols="12" sm="7">
-                    <h1 v-if="listaArticulos.length === 0 && !loading">No hay articulos de esta categoría</h1>
+                <v-col cols="12" sm="10">
+                    <h1 v-if="listaArticulos.length === 0 && !loading">No hay articulos que cumplan los filtros</h1>
                     <v-row v-if="loading" justify="center">
                         <v-progress-circular
                         :width="4"
@@ -74,37 +74,7 @@
                         ></v-progress-circular>
                     </v-row>
                     <v-row v-else>
-                        <v-col v-for="articulo in this.listaArticulos" v-bind:key="articulo.id" cols="12" sm="4">
-                            <!--
-                            <v-card 
-                            class="mx-auto" 
-                            max-width="400"
-                            :elevation="6">
-                                <v-img class="orange--text align-end" height="200px"  v-bind:src="articulo.imagenes[0].url">
-                                <v-card-title>{{articulo.nombre}}</v-card-title>
-                                </v-img>
-                                <v-card-subtitle class="pb-0">{{articulo.pvp}}</v-card-subtitle>
-
-                                <v-card-text class="text--primary">
-                                    {{articulo.descripcion}}
-                                    <span class="grey--text text--lighten-2 caption mr-2">
-                                        ({{ rating }})
-                                    </span>
-                                    <v-rating
-                                    v-bind:value="articulo.valoracion"
-                                    ></v-rating>
-                                </v-card-text>
-
-                                <v-card-actions>
-                                <v-btn color="orange" text :to="`/articulos/${articulo.id}`">
-                                    Ver
-                                </v-btn>
-
-                                <v-btn color="green" text @click="addArticuloToCarrito(articulo)">
-                                    Añadir a la cesta
-                                </v-btn>
-                                </v-card-actions>
-                            </v-card>-->
+                        <v-col v-for="articulo in this.listaArticulos" v-bind:key="articulo.id" cols="12" sm="3">
                             <v-hover v-slot:default="{ hover }">
                                 <v-card
                                 class="mx-auto"

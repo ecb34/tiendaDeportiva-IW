@@ -59,12 +59,13 @@ export default {
         .get('/api/user/pedidos')
         .then((lista) => {
             lista.data.forEach((pedido) => {
+                var total_importe = parseFloat(pedido.articulos.reduce((res,a)=> {return res + (a.pvp * a.cantidad)}, 0)).toFixed(2)
                 this.pedidos.push({
                 pos: this.pos++, 
                 id: pedido.id,
                 estado: pedido.estado,
                 fecha: pedido.fecha,
-                total_importe : pedido.articulos.reduce(function(p, c){return parseFloat(p + c.pvp * c.cantidad).toFixed(2); }, 0),
+                total_importe : total_importe,
                 articulos: pedido.articulos
                 })
             });
