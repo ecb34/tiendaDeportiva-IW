@@ -66,7 +66,7 @@
                                         </v-list-item-avatar>
 
                                         <v-list-item-content>
-                                            <v-list-item-title v-text="item.user"></v-list-item-title>
+                                            <v-list-item-title>{{item.user}} - {{fechaFormateada(item.created_at)}}</v-list-item-title>
                                             <v-list-item-subtitle v-text="item.texto"></v-list-item-subtitle>
                                             <v-rating readonly :half-increments="true" color="orange" v-model="item.valoracion" justify-center></v-rating>
                                             <v-list-item-group v-if="user.id===item.user_id">
@@ -193,6 +193,7 @@
                     'comentario_id': id
                 }).then(res =>{
                     this.mostrar_snackbar = true
+                    res.data[0].user = this.user.nombre
                     this.snackbar = (this.edit==-1? 'Comentario guardado' : 'Comentario editado')
                     this.edit==-1? this.listaComentarios.push(res.data[0]) : (this.listaComentarios[index]=res.data[0]);
                     this.articulo.valoracion = res.data[1];
@@ -216,6 +217,15 @@
                 }).catch(err =>{
                     console.log(err.response);
                 })
+            },
+            fechaFormateada(fecha) {
+                if (fecha) {
+                    var split = fecha.split("T");
+                    split = split[0].split('-')
+                    return split[2] + "/" + split[1] + "/" + split[0];
+                }
+
+                return "";
             }
         },
         computed: {
