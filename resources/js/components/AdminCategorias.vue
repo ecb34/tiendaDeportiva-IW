@@ -8,6 +8,7 @@
         <v-text-field v-model="search" append-icon="search" label="Buscar" single-line hide-details></v-text-field>
       </v-card-title>
       <v-treeview
+        v-if="!loading"
         :headers="headers"
         :items="categorias"
         :loading="loading"
@@ -15,10 +16,14 @@
         loading-text="Cargando datos..."
         :search="search"
       >
+      <!-- Lista Categorias -->
+      
     <template slot="label" slot-scope="{ item }">
+      <span>{{item.name}}  </span>
       <v-btn @click="seleccionCategoria(item)">seleccionar</v-btn>
     </template>
     </v-treeview>
+    
     </v-card>
     <v-dialog v-model="dialog" max-width="800px">
         <v-card>

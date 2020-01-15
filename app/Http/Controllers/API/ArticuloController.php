@@ -76,7 +76,7 @@ class ArticuloController extends Controller
     {
         $articulo = Articulo::find($id);
 
-        return response()->json($articulo, 200);
+        return new ArticuloResource($articulo);
     }
 
     /**
