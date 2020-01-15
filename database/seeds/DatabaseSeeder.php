@@ -1,6 +1,7 @@
 <?php
 
 use App\Categoria;
+use App\User;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -14,6 +15,7 @@ class DatabaseSeeder extends Seeder
     {
 
         /******users y direcciones*******/
+        $this->call(UserTableSeeder::class);
         $users = factory(App\User::class, 5)->create();
         $users->each(function ($user) {
             $user
