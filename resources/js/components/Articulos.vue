@@ -16,6 +16,7 @@
                         v-model="selection"
                         :items="items"
                         :selection-type="selectionType"
+                        :open-on-click=true
                         selectable
                         return-object
                         ></v-treeview>
