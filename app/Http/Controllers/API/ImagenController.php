@@ -17,9 +17,9 @@ class ImagenController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        //return Imagen::where('articulo_id','=',$id)->get();
     }
 
     /**
@@ -38,15 +38,15 @@ class ImagenController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $idArticulo)
+    public function store(Request $request)
     {
         //$this->validarImagen($request);
 
         $imagen = new Imagen([
-            'nombre' => $request->fnombre,
-            'articulo_id' => $idArticulo,
-            'url' => $request->furl,
-            'image' => $request->fimage,
+            'nombre' => $request->nombre,
+            'articulo_id' => $request->articulo_id,
+            'url' => $request->url,
+            'image' => $request->image,
         ]);
 
         $imagen->save();
@@ -62,7 +62,7 @@ class ImagenController extends Controller
      */
     public function show($id)
     {
-        //
+        return Imagen::where('articulo_id','=',$id)->get();
     }
 
     /**
@@ -85,7 +85,9 @@ class ImagenController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        Imagen::find($id)->update($request->all());
+
+        return response()->json(null, 201);
     }
 
     /**

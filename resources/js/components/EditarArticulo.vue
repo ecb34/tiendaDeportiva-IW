@@ -87,9 +87,9 @@
                   color="deep-purple accent-4"
                   counter
                   :rules="[
-                    rules.maxTam,
-                    rules.requiredcod,
-                    rules.fileRule,
+                    //rules.maxTam,
+                    //rules.required,
+                    //rules.fileRule,
                   ]"
                   label="File input"
                   multiple
@@ -119,27 +119,56 @@
                 </v-file-input>
                 <v-card>
                 <v-container fluid>
-                    <v-row dense>
-                        <v-col>
-                        <v-card>
-                            <v-img
-                            src="https://cdn.vuetifyjs.com/images/parallax/material2.jpg"
-                            class="white--text align-end"
-                            gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
-                            height="200px"
-                            >
-                            <v-card-title>Mis imagenes</v-card-title>
-                            </v-img>
-                            
-                            <v-card-actions>
-                                <v-spacer></v-spacer>
-                                <v-btn icon>
-                                    <v-icon>mdi-heart</v-icon>
-                                </v-btn>
-                            </v-card-actions>
-                        </v-card>
-                        </v-col>
-                    </v-row>
+                  <v-row justify="space-between">
+                    <v-col cols="auto">
+                      <v-card
+                        class="mx-auto"
+                        max-width="400"
+                      >
+                        <input style="display: none" type="file" @change="selectMainImage" accept="image/*" ref="MainInput">
+                        <img :src="MainImage" height="auto" width="100%">
+
+                        <v-card-actions>
+                          <v-btn @click="MainFile" color="primary" class="primary">Buscar imagen</v-btn>
+
+                          <v-btn @click="removeMainImage" class="warning">Eliminar</v-btn>
+        
+                        </v-card-actions>
+                      </v-card>
+                    </v-col>
+                    <v-col cols="auto">
+                      <v-card
+                        class="mx-auto"
+                        max-width="400"
+                      >
+                        <input style="display: none" type="file" @change="selectSecondaryImage" accept="image/*" ref="SecondInput">
+                        <img :src="SecondaryImage" height="auto" width="100%">
+
+                        <v-card-actions>
+                          <v-btn @click="SecondFile" color="primary" class="primary">Buscar imagen</v-btn>
+
+                          <v-btn @click="removeSecondaryImage" class="warning">Eliminar</v-btn>
+        
+                        </v-card-actions>
+                      </v-card>
+                    </v-col>
+                    <v-col cols="auto">
+                      <v-card
+                        class="mx-auto"
+                        max-width="400"
+                      >
+                        <input style="display: none" type="file" @change="selectThirdImage" accept="image/*" ref="ThirdInput">
+                        <img :src="ThirdImage" height="auto" width="100%">
+
+                        <v-card-actions>
+                          <v-btn @click="ThirdFile" color="primary" class="primary">Buscar imagen</v-btn>
+
+                          <v-btn @click="removeThirdImage" class="warning">Eliminar</v-btn>
+        
+                        </v-card-actions>
+                      </v-card>
+                    </v-col>
+                  </v-row>
                 </v-container>
                 <div align="right">
                     <v-btn :disabled="!valid" color="success" class="mr-4" @click="validar">Guardar cambios</v-btn>
@@ -192,14 +221,23 @@ export default {
         },
         tab: null,
         selectedFile: null,
+        MainImage: null,
+        SecondaryImage: null,
+        ThirdImage: null,
+        imagenes: [],
+        storeMainimage: {nombre: '', imagen: null},
+        storeSecondImage: {nombre: '', imagen: null},
+        storeThirdImage: {nombre: '', imagen: null},
+        fileName: '',
         files: [], 
+        newFiles: [],
         errorServer: '',
         snackbar: false,
         error: '',
       }
     },
     mounted (){
-      axios.get('/api/categorias')
+      /*axios.get('/api/categorias')
         .then(response => {
           this.categorias = response.data;
           console.log(response.data)
@@ -214,6 +252,53 @@ export default {
         }).catch(err => {
           console.log(err)
         })
+
+      axios.get('/api/documentos/' + this.$route.params.id)
+        .then(response => {
+          console.log(response.data)
+          var filtroDocs = response.data.filter(function (el) {
+            return el.documento != null;
+          });
+          console.log(filtroDocs)
+          for(let i=0;i<filtroDocs.length;i++){
+            this.files[i]=filtroDocs[i].documento
+          }
+          console.log(this.files)
+        }).catch(err => {
+          console.log(err)
+        })
+
+      axios.get('/api/imagenes/' + this.$route.params.id)
+        .then(response => {
+          console.log(response.data)
+          this.imagenes = response.data.filter(function (el) {
+            return el.imagen != null;
+          });
+          for(let i=0;i<this.imagenes.length;i++){
+            if(i==0){
+              this.MainImage=imagePreview(this.imagenes[i])
+            }else if(i==1){
+              this.SecondaryImage=imagePreview(this.imagenes[i])
+            }else{
+              this.ThirdImage=imagePreview(this.imagenes[i])
+            }
+          }
+        }).catch(err => {
+          console.log(err)
+        })*/
+
+        /*axios.get("/api/articulos/" + this.$route.params.id)
+        .then(response => {
+          this.nombre = res.data.nombre
+        this.codigo = res.data.codigo
+        this.precio = res.data.pvp
+        this.genero = res.data.genero
+        this.descripcion = res.data.descripcion
+        this.categoria = res.data.categoria_id
+        this.marca = res.data.marca_id
+        }).catch(err => {
+          console.log(err)
+        })*/
     },
     async created(){
 
@@ -227,26 +312,148 @@ export default {
         this.descripcion = res.data.descripcion
         this.categoria = res.data.categoria_id
         this.marca = res.data.marca_id
-        //this.valoracion = res.data.valoracion
+      }catch(err){
+        console.log(err)
+      }
+      
+      try{
+        await axios.get('/api/categorias')
+          .then(response => {
+            this.categorias = response.data;
+            console.log(response.data)
+          })
       }catch(err){
         console.log(err)
       }
 
       try{
-        var res = await axios.get('/api/documentos/' + this.$route.params.id)
-        console.log(res)
-        files = res
+        await axios.get('/api/marcas')
+          .then(response => {
+            this.marcas = response.data;
+            console.log(response.data)
+          })
       }catch(err){
         console.log(err)
       }
+
+      try{
+        await axios.get('/api/documentos/' + this.$route.params.id)
+          .then(response => {
+            console.log(response.data)
+            var filtroDocs = response.data.filter(function (el) {
+              return el.documento != null;
+            });
+            console.log(filtroDocs)
+            for(let i=0;i<filtroDocs.length;i++){
+              this.files[i]=filtroDocs[i]
+            }
+            console.log(this.files)
+          }).catch(err => {
+            console.log(err)
+          })
+      }catch(err){
+        console.log(err)
+      }
+
+      try{
+        await axios.get('/api/imagenes/' + this.$route.params.id)
+          .then(response => {
+            console.log(response.data)
+            this.imagenes = response.data.filter(function (el) {
+              return el.imagen != null;
+            });
+            for(let i=0;i<this.imagenes.length;i++){
+              if(i==0){
+                this.MainImage=imagePreview(this.imagenes[i])
+              }else if(i==1){
+                this.SecondaryImage=imagePreview(this.imagenes[i])
+              }else{
+                this.ThirdImage=imagePreview(this.imagenes[i])
+              }
+            }
+          })
+      }catch(err){
+        console.log(err)
+      }
+
+      /*try{
+        var res = await axios.get('/api/documentos/' + this.$route.params.id)
+        console.log(res.data)
+        this.files = res.data.documento
+      }catch(err){
+        console.log(err)
+      }*/
     },
     methods: {
-        selectedImage(event) {
-            this.selectedFile=event.target.files[0]
+        MainFile(){
+          this.$refs.MainInput.click()
+        },
+        SecondFile(){
+          this.$refs.SecondInput.click()
+        },
+        ThirdFile(){
+          this.$refs.ThirdInput.click()
+        },
+        selectMainImage(event) {
+            
+            this.storeMainimage.imagen = event.target.files[0]
+            let reader = new FileReader()
+            this.storeMainimage.nombre = event.target.files[0].name
+            reader.readAsDataURL(this.storeMainimage.imagen)
+            reader.onload = e => {
+              this.MainImage = e.target.result
+            }
+            console.log(this.MainImage)
+        },
+        selectSecondaryImage(event) {
+            
+            this.storeSecondImage.imagen = event.target.files[0]
+            let reader = new FileReader()
+            this.storeSecondImage.nombre = event.target.files[0].name
+            reader.readAsDataURL(this.storeSecondImage.imagen)
+            reader.onload = e => {
+              this.SecondaryImage = e.target.result
+            }
+            console.log(this.SecondaryImage)
+        },
+        selectThirdImage(event) {
+            
+            this.storeThirdImage.imagen = event.target.files[0]
+            let reader = new FileReader()
+            this.storeThirdImage.nombre = event.target.files[0].name
+            reader.readAsDataURL(this.storeThirdImage.imagen)
+            reader.onload = e => {
+              this.ThirdImage = e.target.result
+            }
+            console.log(this.ThirdImage)
+        },
+        removeMainImage(){
+          this.MainImage=null
+          this.storeMainimage.nombre=''
+          this.storeMainimage.imagen=null
+        },
+        removeSecondaryImage(){
+          this.SecondaryImage=null
+          this.storeSecondImage.nombre=''
+          this.storeSecondImage.imagen=null
+        },
+        removeThirdImage(){
+          this.ThirdImage=null
+          this.storeThirdImage.nombre=''
+          this.storeThirdImage.imagen=null
+        },
+        imagePreview(imagen){
+          let reader = new FileReader()
+          reader.readAsDataURL(imagen.imagen)
+          reader.onload = e => {
+          let imgPreview = e.target.result
+          }
+          console.log(imgPreview)
+          return imgPreview
         },
         validar() {
             if (this.$refs.form.validate()) {
-                axios.put("/api/articulos", {
+                axios.put("/api/articulos/" + this.$route.params.id, {
                   nombre: this.nombre,
                   pvp: parseFloat(this.precio),
                   codigo: this.codigo,
@@ -254,8 +461,7 @@ export default {
                   marca_id: this.marca,
                   categoria_id: this.categoria,
                   genero: parseInt(this.genero),
-                  valoracion: this.valoracion
-                }, this.$route.params.id
+                }
                 ).then((res =>{
                   //console.log(res.data)
                   this.$router.push({ name: 'admin', params: { mostrar_snackbar: 'Articulo editado' }})
@@ -264,6 +470,52 @@ export default {
                   this.error = 'Error al crear el articulo'
                   this.snackbar = true;
                 })
+
+                if(this.files){
+                  for(let i=0;i<this.files.length;i++){
+                    axios.put( '/api/documentos/' + this.files[i].id,
+                      {
+                        nombre: this.files[i].name,
+                        articulo_id: this.$route.params.id,
+                        url: null,
+                        documento: this.files[i].documento
+                      },
+                      {
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        }
+                      }
+                    ).then(res =>{
+                      console.log(res.data)
+                    })
+                    .catch(res =>{
+                      console.log(res.data)
+                    });
+                  }
+                }
+
+                if(this.imagenes){
+                  for(let j=0;j<this.imagenes.length;j++){
+                    axios.put( '/api/imagenes/' + this.imagenes.id,
+                      {
+                        nombre: this.imagenes[j].name,
+                        articulo_id: this.$route.params.id,
+                        url: null,
+                        imagen: this.imagenes[j].imagen
+                      },
+                      {
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        }
+                      }
+                    ).then(res =>{
+                      console.log(res.data)
+                    })
+                    .catch(res =>{
+                      console.log(res.data)
+                    });
+                  }
+                }
             }
         },
     },

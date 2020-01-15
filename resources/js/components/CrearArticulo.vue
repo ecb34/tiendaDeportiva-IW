@@ -20,17 +20,60 @@
       </v-tab>
     </v-tabs>
     <v-tabs-items v-model="tab">
-      <v-form ref="form" v-model="valid">
+      <v-form enctype="multipart/form-data" ref="form" v-model="valid">
         <v-tab-item :value="'tab-3'">
           <v-card flat>
               <v-container fluid>
-                  <input style="display: none" type="file" multiple @change="selectImage" accept="image/*" ref="fileInput">
-                  <v-btn @click="pickFile" color="primary" class="primary">Buscar imagen</v-btn>    
-                  <v-row>
-                    <v-col cols="6" sm="4">
-                      <img :src="selectedFile" height="auto" width="100%">
-                    </v-col>
-                  </v-row>
+                <v-row justify="space-between">
+                  <v-col cols="auto">
+                    <v-card
+                      class="mx-auto"
+                      max-width="400"
+                    >
+                      <input style="display: none" type="file" @change="selectMainImage" accept="image/*" ref="MainInput">
+                      <img :src="MainImage" height="auto" width="100%">
+
+                      <v-card-actions>
+                        <v-btn @click="MainFile" color="primary" class="primary">Buscar imagen</v-btn>
+
+                        <v-btn @click="removeMainImage" class="warning">Eliminar</v-btn>
+      
+                      </v-card-actions>
+                    </v-card>
+                  </v-col>
+                  <v-col cols="auto">
+                    <v-card
+                      class="mx-auto"
+                      max-width="400"
+                    >
+                      <input style="display: none" type="file" @change="selectSecondaryImage" accept="image/*" ref="SecondInput">
+                      <img :src="SecondaryImage" height="auto" width="100%">
+
+                      <v-card-actions>
+                        <v-btn @click="SecondFile" color="primary" class="primary">Buscar imagen</v-btn>
+
+                        <v-btn @click="removeSecondaryImage" class="warning">Eliminar</v-btn>
+      
+                      </v-card-actions>
+                    </v-card>
+                  </v-col>
+                  <v-col cols="auto">
+                    <v-card
+                      class="mx-auto"
+                      max-width="400"
+                    >
+                      <input style="display: none" type="file" @change="selectThirdImage" accept="image/*" ref="ThirdInput">
+                      <img :src="ThirdImage" height="auto" width="100%">
+
+                      <v-card-actions>
+                        <v-btn @click="ThirdFile" color="primary" class="primary">Buscar imagen</v-btn>
+
+                        <v-btn @click="removeThirdImage" class="warning">Eliminar</v-btn>
+      
+                      </v-card-actions>
+                    </v-card>
+                  </v-col>
+                </v-row>
               </v-container>
           </v-card>
         </v-tab-item>
@@ -120,9 +163,9 @@
                       color="deep-purple accent-4"
                       counter
                       :rules="[
-                        rules.maxTam,
-                        rules.requiredcod,
-                        rules.fileRule,
+                        //rules.maxTam,
+                        //rules.required,
+                        //rules.fileRule,
                       ]"
                       label="File input"
                       multiple
@@ -170,6 +213,7 @@
 </template>
 
 <script>
+  import axios from "axios";
   export default {
     data () {
       return {
@@ -187,7 +231,7 @@
         marcas: [],
         marca: null,
         rules: {
-          maxTam: value => !value || value.size < 2000000 || 'Avatar size should be less than 2 MB!',
+          maxTam: value => !value || value.size < 20000000 || 'Doc size should be less than 20 MB!',
           requiredcod: value=>  !!value && value!=0 || 'Campo requerido.',
           required: value => !!value || 'Campo requerido.',
           counter: value => value.length <= 30 || 'Maximo 30 caracteres',
@@ -209,8 +253,15 @@
         },
         tab: null,
         selectedFile: null,
+        MainImage: null,
+        SecondaryImage: null,
+        ThirdImage: null,
         files: [],
         imagenes: [],
+        storeMainimage: {nombre: '', imagen: null},
+        storeSecondImage: {nombre: '', imagen: null},
+        storeThirdImage: {nombre: '', imagen: null},
+        fileName: '',
         errorServer: '',
         snackbar: false,
         error: '',
@@ -234,18 +285,62 @@
         })
     },
     methods: {
-        pickFile(){
-          this.$refs.fileInput.click()
+        MainFile(){
+          this.$refs.MainInput.click()
         },
-        selectImage(event) {
+        SecondFile(){
+          this.$refs.SecondInput.click()
+        },
+        ThirdFile(){
+          this.$refs.ThirdInput.click()
+        },
+        selectMainImage(event) {
             
-            let image = event.target.files[0]
+            this.storeMainimage.imagen = event.target.files[0]
             let reader = new FileReader()
-            reader.readAsDataURL(image)
-            reader.onload = event => {
-              this.selectedFile = event.target.result
+            this.storeMainimage.nombre = event.target.files[0].name
+            reader.readAsDataURL(this.storeMainimage.imagen)
+            reader.onload = e => {
+              this.MainImage = e.target.result
             }
-            console.log(this.selectedFile)
+            console.log(this.MainImage)
+        },
+        selectSecondaryImage(event) {
+            
+            this.storeSecondImage.imagen = event.target.files[0]
+            let reader = new FileReader()
+            this.storeSecondImage.nombre = event.target.files[0].name
+            reader.readAsDataURL(this.storeSecondImage.imagen)
+            reader.onload = e => {
+              this.SecondaryImage = e.target.result
+            }
+            console.log(this.SecondaryImage)
+        },
+        selectThirdImage(event) {
+            
+            this.storeThirdImage.imagen = event.target.files[0]
+            let reader = new FileReader()
+            this.storeThirdImage.nombre = event.target.files[0].name
+            reader.readAsDataURL(this.storeThirdImage.imagen)
+            reader.onload = e => {
+              this.ThirdImage = e.target.result
+            }
+            console.log(this.ThirdImage)
+        },
+        removeMainImage(){
+          this.MainImage=null
+          this.storeMainimage.nombre=''
+          this.storeMainimage.imagen=null
+        },
+        removeSecondaryImage(){
+          this.SecondaryImage=null
+          this.storeSecondImage.nombre=''
+          this.storeSecondImage.imagen=null
+        },
+        removeThirdImage(){
+          this.ThirdImage=null
+          this.storeThirdImage.nombre=''
+          this.storeThirdImage.imagen=null
         },
         /*selectImage(event) {
 
@@ -277,28 +372,63 @@
                   categoria_id: this.categoria,
                   genero: parseInt(this.genero),
                 }).then((res =>{
+                  console.log(res.data.id)
 
-                   /*for( var i = 0; i < this.files.length; i++ ){
-                    let file = this.files[i];
+                  this.imagenes.push(this.storeMainimage)
+                  this.imagenes.push(this.storeSecondImage)
+                  this.imagenes.push(this.storeThirdImage)
 
-                    formData.append('files[' + i + ']', file);
+                  var filtro = this.imagenes.filter(function (el) {
+                    return el.imagen != null;
+                  });
+                  console.log(this.files)
+                  console.log(filtro)
+                  if(filtro){
+                    for(let i=0;i<filtro.length;i++){
+                      axios.post( '/api/imagenes',
+                        {
+                          nombre: filtro[i].nombre,
+                          articulo_id: res.data.id,
+                          url: null,
+                          image: filtro[i].imagen
+                        },
+                        {
+                          headers: {
+                              'Content-Type': 'multipart/form-data'
+                          }
+                        }
+                      ).then(res =>{
+                        console.log(res.data)
+                      })
+                      .catch(res =>{
+                        console.log(res.data)
+                      });
+                    }
                   }
 
-                  axios.post( '/api/imagenes/'+res.data.id,
-                    formData,
-                    {
-                      headers: {
-                          'Content-Type': 'multipart/form-data'
-                      }
+                  if(this.files){
+                    for(let i=0;i<this.files.length;i++){
+                      axios.post( '/api/documentos',
+                        {
+                          nombre: this.files[i].name,
+                          articulo_id: res.data.id,
+                          url: null,
+                          documento: this.files[i]
+                        },
+                        {
+                          headers: {
+                              'Content-Type': 'multipart/form-data'
+                          }
+                        }
+                      ).then(res =>{
+                        console.log(res.data)
+                      })
+                      .catch(res =>{
+                        console.log(res.data)
+                      });
                     }
-                  ).then(res =>{
-                    console.log(res.data)
-                  })
-                  .catch(res =>{
-                    console.log(res.data)
-                  });*/
+                  }
 
-                  //console.log(res.data)
                   this.$router.push({ name: 'admin', params: { mostrar_snackbar: 'Articulo creado' }})
                 })).catch(err =>{
                   console.log(err.response)

@@ -17,7 +17,7 @@ class CreateDocumentosTable extends Migration
             $table->increments('id');
             $table->string('nombre');
             $table->binary('documento')->nullable();
-            $table->string('url')->unique();
+            $table->string('url')->nullable();
             $table->integer('articulo_id')->unsigned();
             $table->foreign('articulo_id')->references('id')->on('articulos')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();

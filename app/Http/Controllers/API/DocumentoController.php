@@ -17,9 +17,9 @@ class DocumentoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        //return Documento::where('articulo_id','=',$id)->get();
     }
 
     /**
@@ -38,15 +38,15 @@ class DocumentoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $idArticulo)
+    public function store(Request $request)
     {
         //$this->validarImagen($request);
 
         $documento = new Documento([
-            'nombre' => $request->fnombre,
-            'articulo_id' => $idArticulo,
-            'url' => $request->furl,
-            'image' => $request->fimage,
+            'nombre' => $request->nombre,
+            'articulo_id' => $request->articulo_id,
+            'url' => $request->url,
+            'documento' => $request->documento,
         ]);
 
         $documento->save();
@@ -62,7 +62,7 @@ class DocumentoController extends Controller
      */
     public function show($id)
     {
-        return response()->json(Documento::where('articulo_id','=',$id)->get(), 200);
+        return Documento::where('articulo_id','=',$id)->get();
     }
 
     /**
@@ -85,7 +85,9 @@ class DocumentoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        Documento::find($id)->update($request->all());
+
+        return response()->json(null, 201);
     }
 
     /**
