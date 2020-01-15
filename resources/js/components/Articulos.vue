@@ -1,7 +1,8 @@
 <template>
-    <v-content>
+    <v-container fluid>
+        <!-- Filtros -->
             <v-row >
-                <v-col cols="12" sm="2">
+                <v-col cols="12" xs="12" md="4">
                      <v-row v-if="loading" justify="center">
                         <v-progress-circular
                         :width="4"
@@ -44,9 +45,7 @@
                         <v-expansion-panel>
                             <v-expansion-panel-header>Valoración</v-expansion-panel-header>
                             <v-expansion-panel-content>
-                                <v-rating 
-                                v-model="rating"
-                                ></v-rating>
+                                <v-rating :half-increments=true v-model="rating"></v-rating>
                             </v-expansion-panel-content>
                         </v-expansion-panel>
                         <v-expansion-panel>
@@ -63,7 +62,8 @@
                     </v-expansion-panels>
                     
                 </v-col>
-                <v-col cols="12" sm="10">
+                <!-- Articulos -->
+                <v-col cols="12" xs="12" md="8">
                     <h1 v-if="listaArticulos.length === 0 && !loading">No hay articulos que cumplan los filtros</h1>
                     <v-row v-if="loading" justify="center">
                         <v-progress-circular
@@ -74,7 +74,7 @@
                         ></v-progress-circular>
                     </v-row>
                     <v-row v-else>
-                        <v-col v-for="articulo in this.listaArticulos" v-bind:key="articulo.id" cols="12" sm="3">
+                        <v-col v-for="articulo in this.listaArticulos" v-bind:key="articulo.id" cols="12" xs="12" sm="6" md="4" lg="3" >
                             <v-hover v-slot:default="{ hover }">
                                 <v-card
                                 class="mx-auto"
@@ -124,9 +124,8 @@
                                 <v-card-actions 
                                 class="pa-3"
                                 height="10%">
-                                    Valoración
-                                    <v-spacer></v-spacer>
                                     <v-rating
+                                    :half-increments=true
                                     readonly
                                     v-bind:value="articulo.valoracion"
                                     ></v-rating>
@@ -151,7 +150,7 @@
                     Cerrar
                 </v-btn>
             </v-snackbar>
-        </v-content>
+    </v-container>
 </template>
 
 <script>
