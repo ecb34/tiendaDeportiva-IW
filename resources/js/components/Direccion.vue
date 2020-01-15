@@ -112,8 +112,6 @@ export default {
                         cod_postal: this.editedDireccion.cod_postal
                     }).then(res =>{
                         var index =this.direcciones.findIndex(d => d.id == res.data.id)
-                        console.log(this.direcciones[index])
-                        console.log(res.data)
                         Object.assign(this.direcciones[index], res.data)
                     }).catch(err =>{
                         console.log(err.response)

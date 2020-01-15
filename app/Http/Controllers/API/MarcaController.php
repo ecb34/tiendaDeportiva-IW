@@ -6,6 +6,7 @@ use App\Marca;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Resources\Marca as MarcaResource;
+use Illuminate\Support\Facades\Validator;
 
 class MarcaController extends Controller
 {
@@ -29,7 +30,17 @@ class MarcaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validarMarca($request);
+
+        $marca = new Marca([
+            'nombre' => $request->nombre,
+            'empresa' => $request->empresa,
+            'logo' => $request->logo
+        ]);
+        
+        $marca->save();
+
+        return response()->json($marca,200);
     }
 
     /**
@@ -52,7 +63,14 @@ class MarcaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validarMarca($request);
+        $marca = Marca::find($id);
+        if(!$marca){
+            return response()->json(['message', 'marca no encontrada'],404);
+        }
+        $marca->update($request->all());
+
+        return response()->json($marca,200);
     }
 
     /**
@@ -63,6 +81,24 @@ class MarcaController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $marca = Marca::find($id);
+
+        if(!$marca){
+            return response()->json(['message', 'marca no encontrada'],404);
+        }
+
+        return response()->json(null,201);
+    }
+
+    private function validarMarca(Request $request){
+        $validator = Validator::make($request->all(),[
+            'nombre' => 'required',
+            'empresa' => 'required',
+            'logo' => 'nullable'
+        ]);
+
+        if($validator->fails()){
+            return response()->json(['message', 'Error en el formulario', 'error' => $validator->getMessageBag()], 400);
+        }
     }
 }
