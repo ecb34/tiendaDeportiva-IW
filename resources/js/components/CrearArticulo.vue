@@ -124,7 +124,11 @@ export default {
       nombre: "",
       precio: "",
       codigo: "",
-      generos: [],
+      generos: [
+        { nombre: "Hombre", id: "0" },
+        { nombre: "Mujer", id: "1" },
+        { nombre: "Unisex", id: "2" }
+      ],
       genero: null,
       categorias: [],
       categoria: null,
@@ -150,7 +154,6 @@ export default {
         },
         reglasPvp: v => v >= 0 || "Max no puede ser negativo"
       },
-      files: [],
       imagenes: '',
       errorServer: "",
       snackbar: false,
@@ -214,28 +217,46 @@ export default {
     validar() {
       if (this.$refs.form.validate()) {
         var imagenes = this.imagenes.split(' ');
-        //llamada para postear articulo
-        axios
-          .post("/api/articulos", {
-            nombre: this.nombre,
-            pvp: parseFloat(this.precio),
-            codigo: this.codigo,
-            descripcion: this.descripcion,
-            marca_id: this.marca,
-            categoria_id: this.categoria,
-            genero: parseInt(this.genero),
-            imagenes: imagenes
-          })
-          .then(res => {
-            this.$router.push({
-              name: "admin",
-              params: { mostrar_snackbar: "Articulo creado" }
+        if(this.$route.name == 'nuevo'){
+          
+          //llamada para postear articulo
+          axios
+            .post("/api/articulos", {
+              nombre: this.nombre,
+              pvp: parseFloat(this.precio),
+              codigo: this.codigo,
+              descripcion: this.descripcion,
+              marca_id: this.marca.id,
+              categoria_id: this.categoria.id,
+              genero: parseInt(this.genero),
+              imagenes: imagenes
             })
-          }).catch(err => {
-            console.log(err.response);
-            this.error = "Error al crear el articulo";
-            this.snackbar = true;
-          });
+            .then(res => {
+              this.$router.push({
+                name: "admin",
+                params: { mostrar_snackbar: "Articulo creado" }
+              })
+            }).catch(err => {
+              console.log(err.response);
+              this.error = "Error al crear el articulo";
+              this.snackbar = true;
+            });
+        }else{
+          axios.put("/api/articulos/"+ this.$route.params.id,{
+              nombre: this.nombre,
+              pvp: parseFloat(this.precio),
+              codigo: this.codigo,
+              descripcion: this.descripcion,
+              marca_id: this.marca.id ? this.marca.id : this.marca,
+              categoria_id: this.categoria.id ? this.categoria : this.categoria,
+              genero: parseInt(this.genero),
+              imagenes: imagenes
+          }).then(res =>{
+            console.log(res.data)
+          }).catch(err =>{
+            console.log(err.response)
+          })
+        }
       }
     }
   }
