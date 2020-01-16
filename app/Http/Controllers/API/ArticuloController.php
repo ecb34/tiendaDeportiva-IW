@@ -140,6 +140,12 @@ class ArticuloController extends Controller
         return response()->json([$comentario,$articulo->valoracion],200);
     }
 
+    public function showComentarios($id){
+        $comentarios = Articulo::find($id)->comentarios;
+
+        return response()->json($comentarios, 200);
+    }
+
     /**
      * Quitar un comentario.
      */
