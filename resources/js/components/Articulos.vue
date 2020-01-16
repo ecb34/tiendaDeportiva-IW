@@ -85,7 +85,8 @@
                                 <router-link :to="`/articulos/${articulo.id}`">
                                 <v-img
                                     :aspect-ratio="16/9"
-                                    v-bind:src="articulo.imagenes[0].url"
+                                    :alt="articulo.nombre"
+                                    :src="articulo.imagenes.length > 0? articulo.imagenes[0].url : ''"
                                 >
                                     <v-expand-transition>
                                     <div
@@ -215,7 +216,6 @@ export default {
                     this.max = this.listaArticulos.reduce((res, current) =>{
                         return (current.pvp > res) ? current.pvp : res
                     }, -1)
-                    
                     this.rangoPrecio[1] = this.max
                     this.loading = false;
                     this.listaArticulosSinFiltro = this.listaArticulos
