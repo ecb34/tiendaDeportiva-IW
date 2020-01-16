@@ -49,11 +49,7 @@
                 <v-divider class="mb-4 mt-2"></v-divider>
                 <v-tabs :grow="true" color="cyan" dark slider-color="yellow">
                     <v-tab ripple>
-                        Descripcion Detallada
-                    </v-tab>
-                    <v-tab ripple>
                         <v-badge v-if="listaComentarios.length > 0" :content="listaComentarios.length">
-
                             Comentarios
                         </v-badge>
                         <span v-else>
@@ -66,7 +62,7 @@
                     <v-tab-item>
                         <v-card text>
                             <v-list three-line>
-                                <v-card-text v-if="listaComentarios.length==0"> No hay ningún comentario todavía, dejanos tu opinión ;). </v-card-text>
+                                <v-card-text v-if="listaComentarios.length==0"> <h3>No hay ningún comentario todavía, dejanos tu opinión ;). </h3></v-card-text>
                                 <template v-for="(item, index) in listaComentarios" :v-bind="index">
 
                                     <v-list-item :key="item.title">
