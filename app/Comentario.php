@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Comentario extends Model
 {
     protected $fillable = [
-        'id', 'texto','valoracion', 'articulo_id', 'user_id'
+        'id', 'texto','valoracion', 'articulo_id', 'user_id', 'bloqueado'
     ];
 
     /**** INICIO Relaciones Comentarios ****/

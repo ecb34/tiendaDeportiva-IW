@@ -39,11 +39,51 @@
                 delete
               </v-icon>
           </v-btn>
+          <v-btn color="primary" @click="mostrarComentarios(item.id), dialog='true'">
+              <v-icon class="mr-2">
+                mdi-comment-outline
+              </v-icon>
+          </v-btn>
         </template>
         </v-data-table>
         <div class="text-center pt-2">
           <v-pagination v-model="page" :length="pageCount"></v-pagination>
         </div>
+        
+        <v-dialog v-model="dialog" persistent max-width="1300">
+            <v-card>
+                <v-card-title class="headline">Use Google's location service?</v-card-title>
+                <v-card-text>
+                    <v-data-table
+                        v-model="selected"
+                        :headers="headersComentarios"
+                        :items="listaComentarios"
+                        show-select
+                        class="elevation-1"
+                        hide-default-footer
+                        :loading="loading" loading-text="Cargando datos..."
+                    >
+                    <template v-slot:item.action="{ item }">
+                        <v-btn color="error" @click="deleteComment(item.id)">
+                            <v-icon class="mr-2">
+                                delete
+                            </v-icon>
+                        </v-btn>
+                        <v-btn color="error" @click="bloquearComment(item.id)">
+                            <v-icon class="mr-2">
+                                mdi-comment-remove-outline
+                            </v-icon>
+                        </v-btn>
+                    </template>
+                    </v-data-table>
+                </v-card-text>
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="green darken-1" text @click="dialog = false">Disagree</v-btn>
+                    <v-btn color="green darken-1" text @click="dialog = false">Agree</v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
     </v-container>
     <v-snackbar v-model="mostrar_snackbar" color="success" top class="title">
         {{snackbar}}
@@ -72,6 +112,14 @@
           { text: 'Actions', value: 'action', sortable: false },
         ],
         listaArticulos: [],
+        listaComentarios: [],
+        dialog: false,
+        selected: [],
+        headersComentarios: [
+            {text:'Comentarios', value:'comentarios'},
+            {text:'Actions', value:'action'},
+
+        ],
       }
     },
     mounted(){
@@ -104,6 +152,45 @@
                     console.log(err.response)
                 })
         },
+        mostrarComentarios(articulo_id){
+            axios.get('/api/articulo/' + articulo_id + '/comentarios')
+                .then(res =>{
+                    res.data.forEach(mensaje => {
+                        this.listaComentarios.push({
+                            id: mensaje.id,
+                            comentarios: mensaje.texto
+                        })
+                    });
+                    console.log(this.listaComentarios)
+                    
+                    
+                }).catch(err =>{
+                    console.log(err.response)
+                })
+        },
+        deleteComment(comentario_id){
+            axios.delete('/api/articulo/comentarios/'+comentario_id)
+                    .then(res =>{
+                    /*this.mostrar_snackbar = true
+                    this.snackbar = 'Comentario borrado'
+                    this.listaComentarios.splice(this.listaComentarios.indexOf(comentario), 1)
+                    this.articulo.valoracion = res.data;*/
+                }).catch(err =>{
+                    console.log(err.response);
+                })
+            },
+        bloquearComment(comentario_id){
+            axios.put('/api/articulo/comentarios/'+comentario_id+'/bloquear')
+                    .then(res =>{
+                        console.log(res.data)
+                    /*this.mostrar_snackbar = true
+                    this.snackbar = 'Comentario borrado'
+                    this.listaComentarios.splice(this.listaComentarios.indexOf(comentario), 1)
+                    this.articulo.valoracion = res.data;*/
+                }).catch(err =>{
+                    console.log(err.response);
+                })
+            },
     },
   }
 </script>
