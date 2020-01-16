@@ -19,7 +19,8 @@ class Comentario extends JsonResource
             'texto' => $this->texto,
             'valoracion' => $this->valoracion,
             'user' => $this->user->nombre,
-            'user_id' => $this->user->id
+            'user_id' => $this->user->id,
+            'created_at' => $this->created_at
         ];
     }
 }

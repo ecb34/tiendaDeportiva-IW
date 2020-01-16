@@ -1,6 +1,7 @@
 <?php
 
 use App\Categoria;
+use App\User;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -14,6 +15,7 @@ class DatabaseSeeder extends Seeder
     {
 
         /******users y direcciones*******/
+        $this->call(UserTableSeeder::class);
         $users = factory(App\User::class, 5)->create();
         $users->each(function ($user) {
             $user
@@ -54,11 +56,20 @@ class DatabaseSeeder extends Seeder
                 //agregar comentarios
                 $indexArticulo = rand(0, count($articulos) -1);
                 $indexUser = rand(0,count($users) -1);
-                factory(App\Comentario::class,2)->create([
+                $comentarios = factory(App\Comentario::class,2)->create([
                     'articulo_id'=>$articulos[$indexArticulo]->id,
                     'user_id'=>$users[$indexUser]->id 
                 ]);
-
+                $valoracion = 0.0;
+                foreach($comentarios as $comentario){
+                    $valoracion += $comentario->valoracion;
+                }
+                if($valoracion != 0.0){
+                    $articulos[$indexArticulo]->update([
+                        'valoracion' => $valoracion / count($comentarios)
+                    ]);
+                }
+                
                 //agregar lista deseos, a user aleatorio el articulo aleatorio
                 $users[$indexUser]->articulos()->save($articulos[$indexArticulo]);
                 

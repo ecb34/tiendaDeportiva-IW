@@ -1,6 +1,17 @@
 <template>
 <v-container fluid style="width: 30%">
-    <v-row justify="center">
+    <div v-if="pedidos.length === 0 && !loading" class="containerSize">
+        <h1>No hay pedidos realizados.</h1>
+    </div>
+    <v-row v-else justify="center">
+        <v-row v-if="loading" justify="center">
+            <v-progress-circular
+            :width="4"
+            :size="100"
+            color="primary"
+            indeterminate
+            ></v-progress-circular>
+        </v-row>
         <v-expansion-panels popout>
             <v-expansion-panel
             v-for="pedido in pedidos"
@@ -52,27 +63,32 @@ export default {
     name: 'Pedidos',
     data: () => ({
         pedidos: [],
-        pos: 0
+        pos: 0,
+        loading: true,
     }),
     created(){
         axios
         .get('/api/user/pedidos')
         .then((lista) => {
             lista.data.forEach((pedido) => {
+                var total_importe = parseFloat(pedido.articulos.reduce((res,a)=> {return res + (a.pvp * a.cantidad)}, 0)).toFixed(2)
                 this.pedidos.push({
                 pos: this.pos++, 
                 id: pedido.id,
                 estado: pedido.estado,
                 fecha: pedido.fecha,
-                total_importe : pedido.articulos.reduce(function(p, c){return parseFloat(p + c.pvp * c.cantidad).toFixed(2); }, 0),
+                total_importe : total_importe,
                 articulos: pedido.articulos
                 })
             });
+            this.loading = false;
         })
 
-        //console.log(this.pedidos)
     },
 }
 </script>
 <style>
+.containerSize{
+    height: 400px;
+  }
 </style>
