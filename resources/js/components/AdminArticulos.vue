@@ -52,7 +52,7 @@
         
         <v-dialog v-model="dialog" max-width="1300">
             <v-card>
-                <v-card-title class="headline">Use Google's location service?</v-card-title>
+                <v-card-title class="headline">Manejar comentarios visibles</v-card-title>
                 <v-card-text>
                     <v-data-table
                         :headers="headersComentarios"
