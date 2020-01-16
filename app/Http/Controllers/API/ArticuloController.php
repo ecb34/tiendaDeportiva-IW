@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Resources\Articulo as ArticuloResource;
 use App\Articulo;
 use App\Comentario;
+use App\Imagen;
 use Illuminate\Support\Facades\Validator;
 
 class ArticuloController extends Controller
@@ -35,7 +36,8 @@ class ArticuloController extends Controller
             'marca_id' => 'nullable',
             'categoria_id' => 'nullable',
             'genero' => 'nullable',
-            'valoracion'=> 'required'
+            'valoracion'=> 'required',
+            'imagenes' => 'nullable'
         ]);
 
         if ($validator->fails()) {
@@ -64,6 +66,12 @@ class ArticuloController extends Controller
         ]);
 
         $articulo->save();
+        foreach($request->imagenes as $imagenes){
+            $articulo->imagenes()->save(new Imagen([
+                'nombre' => $imagenes,
+                'url' => $imagenes
+            ]));
+        }
 
         return response()->json($articulo, 201);//el 201 es no content
     }

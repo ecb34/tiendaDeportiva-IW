@@ -29,7 +29,7 @@
           @page-count="pageCount = $event"
         >
         <template v-slot:item.action="{ item }">
-          <v-btn color="secondary" :to="`/editarArticulo/${item.id}`">
+          <v-btn color="secondary" @click="editarArticulo(item.id)">
               <v-icon class="mr-2">
                 mdi-pen
               </v-icon>
@@ -153,6 +153,9 @@
                 }).catch(err =>{
                     console.log(err.response)
                 })
+        },
+        editarArticulo(id){
+          this.$router.push({path: '/editarArticulo/'+id})
         },
         mostrarComentarios(articulo){
           this.listaComentarios = []

@@ -25,8 +25,17 @@ class CategoriaController extends Controller
 
     public function categoriassinhijos()
     {
-        $categorias = Categoria::has('children','=',0)->get();
-        return response()->json($categorias);
+        $categorias = Categoria::has('children','=',0)->with('categoria')->get();
+        return $categorias;
+        /*$nombresConcatenados = array();
+        foreach($categorias as $categoria_hija) {
+            $concatenar = $categoria_hija->name;
+            while($categoria_hija = $categoria_hija->categoria) { // Mientras tenga padre
+                $concatenar = $categoria_hija->name + "-" + $concatenar;
+            }
+            array_push($nombresConcatenados, $concatenar);
+        }
+        return response()->json($nombresConcatenados);*/
     }
 
     public function categoriasRecomendadas()
