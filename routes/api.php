@@ -45,7 +45,8 @@ Route::group(['middleware' => 'auth:api'], function(){
     Route::delete('user/carrito/{id}', 'API\PedidoController@borrarArticuloCarrito');
     
     //articulos
-    Route::get('articulo/{id}/comentarios', 'API\ArticuloController@showComentarios');
+    Route::put('articulo/comentarios/{id}/bloquear', 'API\ArticuloController@bloquearComentarios');
+    Route::get('articulo/{id}/comentarios', 'API\ArticuloController@mostrarComentarios');
     Route::post('articulo/comentar', 'API\ArticuloController@comentar');
     Route::delete('articulo/comentarios/{id}', 'API\ArticuloController@deleteComment');
 });

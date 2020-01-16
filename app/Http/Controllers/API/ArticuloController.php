@@ -140,10 +140,23 @@ class ArticuloController extends Controller
         return response()->json([$comentario,$articulo->valoracion],200);
     }
 
-    public function showComentarios($id){
+    public function mostrarComentarios($id){
         $comentarios = Articulo::find($id)->comentarios;
 
         return response()->json($comentarios, 200);
+    }
+
+    public function bloquearComentarios($id){
+        $comentario = Comentario::find($id);
+
+        if(!$comentario)
+            return response()->json(['message' => 'Comentario no existe'], 404);
+        
+        $comentario->update([
+            'bloqueado' => !$comentario->bloqueado
+        ]);
+
+        return response()->json($comentario, 200);
     }
 
     /**

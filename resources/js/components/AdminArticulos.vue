@@ -169,7 +169,7 @@
                 })
         },
         deleteComment(comentario_id){
-                axios.delete('/api/articulo/comentarios/'+comentario.id)
+            axios.delete('/api/articulo/comentarios/'+comentario_id)
                     .then(res =>{
                     /*this.mostrar_snackbar = true
                     this.snackbar = 'Comentario borrado'
@@ -179,9 +179,18 @@
                     console.log(err.response);
                 })
             },
-        bloquearCommnet(comentario_id){
-
-        }
+        bloquearComment(comentario_id){
+            axios.put('/api/articulo/comentarios/'+comentario_id+'/bloquear')
+                    .then(res =>{
+                        console.log(res.data)
+                    /*this.mostrar_snackbar = true
+                    this.snackbar = 'Comentario borrado'
+                    this.listaComentarios.splice(this.listaComentarios.indexOf(comentario), 1)
+                    this.articulo.valoracion = res.data;*/
+                }).catch(err =>{
+                    console.log(err.response);
+                })
+            },
     },
   }
 </script>
