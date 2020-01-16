@@ -39,7 +39,7 @@
                 delete
               </v-icon>
           </v-btn>
-          <v-btn color="primary" @click="mostrarComentarios(item.id), dialog='true'">
+          <v-btn color="primary" @click="mostrarComentarios(item), dialog='true'">
               <v-icon class="mr-2">
                 mdi-comment-outline
               </v-icon>
@@ -50,28 +50,32 @@
           <v-pagination v-model="page" :length="pageCount"></v-pagination>
         </div>
         
-        <v-dialog v-model="dialog" persistent max-width="1300">
+        <v-dialog v-model="dialog" max-width="1300">
             <v-card>
                 <v-card-title class="headline">Use Google's location service?</v-card-title>
                 <v-card-text>
                     <v-data-table
-                        v-model="selected"
                         :headers="headersComentarios"
                         :items="listaComentarios"
-                        show-select
+                       
                         class="elevation-1"
                         hide-default-footer
                         :loading="loading" loading-text="Cargando datos..."
                     >
                     <template v-slot:item.action="{ item }">
-                        <v-btn color="error" @click="deleteComment(item.id)">
+                        <v-btn color="error" @click="deleteComment(item)">
                             <v-icon class="mr-2">
                                 delete
                             </v-icon>
                         </v-btn>
-                        <v-btn color="error" @click="bloquearComment(item.id)">
+                        <v-btn v-if="item.bloqueado==true || item.bloqueado == 1" color="secondary" @click="bloquearComment(item)">
                             <v-icon class="mr-2">
                                 mdi-comment-remove-outline
+                            </v-icon>
+                        </v-btn>
+                        <v-btn v-else color="secondary" @click="bloquearComment(item)">
+                            <v-icon class="mr-2">
+                                mdi-comment-check-outline
                             </v-icon>
                         </v-btn>
                     </template>
@@ -79,8 +83,7 @@
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn color="green darken-1" text @click="dialog = false">Disagree</v-btn>
-                    <v-btn color="green darken-1" text @click="dialog = false">Agree</v-btn>
+                    <v-btn color="green darken-1" text @click="dialog = false">Cerrar</v-btn>
                 </v-card-actions>
             </v-card>
         </v-dialog>
@@ -114,9 +117,8 @@
         listaArticulos: [],
         listaComentarios: [],
         dialog: false,
-        selected: [],
         headersComentarios: [
-            {text:'Comentarios', value:'comentarios'},
+            {text:'Comentarios', value:'texto'},
             {text:'Actions', value:'action'},
 
         ],
@@ -152,41 +154,45 @@
                     console.log(err.response)
                 })
         },
-        mostrarComentarios(articulo_id){
-            axios.get('/api/articulo/' + articulo_id + '/comentarios')
+        mostrarComentarios(articulo){
+          this.listaComentarios = []
+            axios.get('/api/articulo/' + articulo.id + '/comentarios')
                 .then(res =>{
                     res.data.forEach(mensaje => {
                         this.listaComentarios.push({
                             id: mensaje.id,
-                            comentarios: mensaje.texto
+                            texto: mensaje.texto,
+                            bloqueado: mensaje.bloqueado
                         })
                     });
-                    console.log(this.listaComentarios)
-                    
-                    
                 }).catch(err =>{
                     console.log(err.response)
                 })
         },
-        deleteComment(comentario_id){
-            axios.delete('/api/articulo/comentarios/'+comentario_id)
+        deleteComment(comentario){
+            axios.delete('/api/articulo/comentarios/'+comentario.id)
                     .then(res =>{
-                    /*this.mostrar_snackbar = true
+                    this.mostrar_snackbar = true
                     this.snackbar = 'Comentario borrado'
                     this.listaComentarios.splice(this.listaComentarios.indexOf(comentario), 1)
-                    this.articulo.valoracion = res.data;*/
+                    this.articulo.valoracion = res.data
+
                 }).catch(err =>{
                     console.log(err.response);
                 })
             },
-        bloquearComment(comentario_id){
-            axios.put('/api/articulo/comentarios/'+comentario_id+'/bloquear')
+        bloquearComment(comentario){
+            axios.put('/api/articulo/comentarios/'+comentario.id+'/bloquear')
                     .then(res =>{
-                        console.log(res.data)
-                    /*this.mostrar_snackbar = true
-                    this.snackbar = 'Comentario borrado'
-                    this.listaComentarios.splice(this.listaComentarios.indexOf(comentario), 1)
-                    this.articulo.valoracion = res.data;*/
+                    var newvalue = {
+                      id: res.data.id,
+                      texto: res.data.texto,
+                      bloqueado: res.data.bloqueado
+                    }
+                    this.listaComentarios.splice(this.listaComentarios.findIndex(c => c.id == comentario.id), 1, newvalue)
+                    this.mostrar_snackbar = true
+                    this.snackbar = 'Estado comentario cambiado'
+                    console.log(this.snackbar)
                 }).catch(err =>{
                     console.log(err.response);
                 })
