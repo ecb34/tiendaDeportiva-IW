@@ -59,7 +59,7 @@ export default {
       }
     },
   mounted(){
-    axios.get('/api/articulos?destacados=1')
+    axios.get('/api/articulos?destacados=home')
         .then(response => {
           this.articulosRecomendados = response.data;
         }).catch(err => {

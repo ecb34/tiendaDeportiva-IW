@@ -32,11 +32,14 @@
                     <v-rating readonly :half-increments="true" color="orange" v-model="articulo.valoracion" justify-center></v-rating>
                 </v-row>
                 <v-row>
-                    <v-btn class="mr-4 white--text" color="green draken-4" :disabled="!loggedIn">Comprar</v-btn>
-                    <v-btn color="primary" :disabled="!loggedIn" @click="addArticuloToCarrito()">Añadir al carrito</v-btn>
+                    <v-btn color="success" :disabled="!loggedIn" @click="addArticuloToCarrito()">
+                        <v-icon>mdi-cart</v-icon>Añadir al carrito
+                    </v-btn>
                 </v-row>
-                <v-row class="mt-3">
-                    <v-btn color="white" :disabled="!loggedIn" @click="addListaDeseos()">Añadir a la Lista de Deseos</v-btn>
+                <v-row class="mt-5">
+                    <v-btn color="pink" class="white--text" :disabled="!loggedIn" @click="addListaDeseos()">
+                        <v-icon>mdi-heart</v-icon> Añadir a Deseados
+                    </v-btn>
                 </v-row>
                 <v-divider class="mb-4 mt-2 green"></v-divider>
             </v-col>
@@ -50,6 +53,7 @@
                     </v-tab>
                     <v-tab ripple>
                         <v-badge v-if="listaComentarios.length > 0" :content="listaComentarios.length">
+
                             Comentarios
                         </v-badge>
                         <span v-else>
@@ -59,12 +63,6 @@
                     <v-tab v-if="loggedIn" ripple>
                         Comentar
                     </v-tab>
-
-                    <v-tab-item>
-                        <v-card text>
-                            <v-card-text>{{articulo.descripcion}}</v-card-text>
-                        </v-card>
-                    </v-tab-item>
                     <v-tab-item>
                         <v-card text>
                             <v-list three-line>
@@ -77,7 +75,7 @@
                                         </v-list-item-avatar>
 
                                         <v-list-item-content>
-                                            <v-list-item-title v-text="item.user"></v-list-item-title>
+                                            <v-list-item-title>{{item.user}} - {{fechaFormateada(item.created_at)}}</v-list-item-title>
                                             <v-list-item-subtitle v-text="item.texto"></v-list-item-subtitle>
                                             <v-rating readonly :half-increments="true" color="orange" v-model="item.valoracion" justify-center></v-rating>
                                             <v-list-item-group v-if="user.id===item.user_id">
@@ -116,7 +114,7 @@
                         <v-img class="orange--text align-end" v-bind:src="articulo.imagenes[0].url">
                             <v-card-title>{{articulo.nombre}}</v-card-title>
                         </v-img>
-                        <v-card-subtitle class="pb-0">{{articulo.pvp}}</v-card-subtitle>
+                        <v-card-subtitle class="pb-0">{{articulo.pvp}}€</v-card-subtitle>
                         <v-card-text class="text--primary">
                             {{articulo.descripcion}}
                         </v-card-text>
@@ -152,17 +150,11 @@
                 articulo: {},
                 listaArticulos: [],
                 comentario: "",
-                valoracion: 2.5,
+                valoracion: 0,
                 edit: -1,
                 listaComentarios: [],
-                listaArticulosRelacionados: ["https://picsum.photos/id/11/500/300", "https://picsum.photos/510/300?random",
-                    'http://d26lpennugtm8s.cloudfront.net/stores/008/632/products/lchl14-negra-11-5ef53327e0e0a6e96515128489853509-640-0.jpg',
-                    'https://ae01.alicdn.com/kf/HTB1yJ3PzByWBuNkSmFPq6xguVXa1.jpg?width=800&height=800&hash=1600'
-                ],
-                listaImagenes: ["https://picsum.photos/id/11/500/300", "https://picsum.photos/510/300?random",
-                    'http://d26lpennugtm8s.cloudfront.net/stores/008/632/products/lchl14-negra-11-5ef53327e0e0a6e96515128489853509-640-0.jpg',
-                    'https://ae01.alicdn.com/kf/HTB1yJ3PzByWBuNkSmFPq6xguVXa1.jpg?width=800&height=800&hash=1600'
-                ],
+                listaArticulosRelacionados: [],
+                listaImagenes: [],
                 imagen: '',
                 snackbar: '',
                 mostrar_snackbar: false
@@ -210,9 +202,12 @@
                     'comentario_id': id
                 }).then(res =>{
                     this.mostrar_snackbar = true
+                    res.data[0].user = this.user.nombre
                     this.snackbar = (this.edit==-1? 'Comentario guardado' : 'Comentario editado')
                     this.edit==-1? this.listaComentarios.push(res.data[0]) : (this.listaComentarios[index]=res.data[0]);
                     this.articulo.valoracion = res.data[1];
+                    this.comentario = ""
+                    this.valoracion = 0
                     this.edit=-1;
                 }).catch(err =>{
                     console.log(err.response);
@@ -231,6 +226,15 @@
                 }).catch(err =>{
                     console.log(err.response);
                 })
+            },
+            fechaFormateada(fecha) {
+                if (fecha) {
+                    var split = fecha.split("T");
+                    split = split[0].split('-')
+                    return split[2] + "/" + split[1] + "/" + split[0];
+                }
+
+                return "";
             }
         },
         computed: {
@@ -249,9 +253,7 @@
                     this.user.id = -1
                     console.log(err)
                 }
-                //lista de articulos
-                //const res = await axios.get('/api/articulos');
-                //this.listaArticulos = res.data.data;
+                
                 
                 //articulo con ID especifica, recuperamos las imagenes del articulo
                 const res2 = await axios.get('/api/articulos/' + this.$route.params.id);
@@ -261,7 +263,14 @@
                 this.listaComentarios = this.articulo.comentarios.filter((comentario) =>{
                         return comentario.bloqueado == false    
                     })
-                console.log(this.listaComentarios)
+                
+                //lista de articulos recomendados
+                axios.get('/api/articulos?destacados=detalle&marca='+this.articulo.marca.id)
+                .then(response => {
+                    this.listaArticulos = response.data;
+                }).catch(err => {
+                    console.log(err.response)
+                })
             } catch (err) {
                 console.log(err.response);
             }

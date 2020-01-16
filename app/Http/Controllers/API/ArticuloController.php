@@ -18,8 +18,10 @@ class ArticuloController extends Controller
      */
     public function index(Request $request)
     {
-        if($request->query('destacados')){
+        if($request->query('destacados') == 'home'){
             return Articulo::orderBy('valoracion', 'desc')->with('imagenes')->take(12)->get();
+        }else if($request->query('destacados') == 'detalle'){
+            return Articulo::where('marca_id', $request->query('marca'))->orderBy('valoracion','desc')->with('imagenes')->take(4)->get();
         }
         return Articulo::with('imagenes')->get();
     }

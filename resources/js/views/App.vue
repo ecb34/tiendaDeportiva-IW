@@ -132,7 +132,11 @@
         },
         methods: {
             async logout() {
-                await this.$store.dispatch('logout')
+                try{
+                    await this.$store.dispatch('logout')
+                }catch(err){
+                    console.log(err.response)
+                }
                 this.$router.go()
             },
             searchbyname(){

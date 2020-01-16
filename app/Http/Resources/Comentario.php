@@ -20,7 +20,8 @@ class Comentario extends JsonResource
             'valoracion' => $this->valoracion,
             'user' => $this->user->nombre,
             'user_id' => $this->user->id,
-            'bloqueado' => $this->bloqueado
+            'bloqueado' => $this->bloqueado,
+            'created_at' => $this->created_at
         ];
     }
 }
