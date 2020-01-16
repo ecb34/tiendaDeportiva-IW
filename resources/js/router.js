@@ -18,7 +18,6 @@ import NotFound from './components/NotFoundError'
 import Unauthorized from './components/UnauthorizedError'
 import Admin from './components/Admin'
 import CrearArticulo from './components/CrearArticulo'
-import EditarArticulo from './components/EditarArticulo'
 
 Vue.use(Router);
 
@@ -84,7 +83,7 @@ export default new Router({
         {
             path: '/editarArticulo/:id',
             name: 'editarArticulo',
-            component: EditarArticulo,
+            component: CrearArticulo,
             props: true
         },
         {
