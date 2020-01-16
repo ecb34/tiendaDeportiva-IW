@@ -128,7 +128,6 @@ export default {
            if(this.$route.name != 'admin')
             this.$router.push({ name: 'home', params: { snackbar: 'Registrado correctamente' }})
            else{
-             console.log(res.data)
             this.$emit('registrado', res.data)
            }
         })).catch(err =>{

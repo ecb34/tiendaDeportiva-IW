@@ -18,7 +18,7 @@ class CreateArticulosTable extends Migration
             $table->string('codigo')->unique();
             $table->string('nombre');
             $table->float('pvp',8,2);
-            $table->longText('descripcion');
+            $table->longText('descripcion')->nullable();
             $table->float('valoracion',2,1);
             $table->integer('genero')->default(2); //0 = hombre, 1 =mujer, 2 = unisex
             $table->integer('marca_id')->unsigned()->nullable();//si se borra la marca, se pone a null la clave ajena
