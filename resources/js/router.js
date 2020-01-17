@@ -77,7 +77,7 @@ export default new Router({
                 if(Store.getters.getRol == 'admin'){
                     next()
                 }else{
-                    next({name: '401'})
+                    next({name: 'articulos'})
                 }
             }
         },
