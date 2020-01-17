@@ -47,7 +47,8 @@ export default new Vuex.Store({
                     password: credentials.password
                 }).then(res =>{
                     localStorage.setItem('token', res.data.access_token)
-                    localStorage.setItem('rol', res.data.rol)
+                    localStorage.setItem('rol', res.data.role)
+                    
                     context.commit('setToken', res.data.access_token)
                     context.commit('setRol', res.data.role)
                     resolve()
