@@ -216,7 +216,14 @@ export default {
   methods: {
     validar() {
       if (this.$refs.form.validate()) {
-        var imagenes = this.imagenes.split(' ');
+        var split = this.imagenes.split(' ');
+        var imagenes = [];
+        split.forEach(s =>{
+          if(s){
+            imagenes.push(s);
+          }
+        }) 
+        console.log(imagenes)
         if(this.$route.name == 'nuevo'){
           
           //llamada para postear articulo

@@ -107,7 +107,7 @@
                 <v-row>
                     <v-card v-for="articulo in this.listaArticulos" v-bind:key="articulo.id" class="mx-auto mb-6"
                         max-width="250">
-                        <v-img class="orange--text align-end" v-bind:src="articulo.imagenes[0].url">
+                        <v-img class="orange--text align-end" @click="verArticulo(articulo)" v-bind:src="articulo.imagenes[0].url">
                             <v-card-title>{{articulo.nombre}}</v-card-title>
                         </v-img>
                         <v-card-subtitle class="pb-0">{{articulo.pvp}}€</v-card-subtitle>
@@ -115,10 +115,10 @@
                             {{articulo.descripcion}}
                         </v-card-text>
                         <v-card-actions>
-                            <v-btn color="orange" text>
+                            <v-btn color="orange" text @click="verArticulo(articulo)">
                                 Ver
                             </v-btn>
-                            <v-btn color="green" text>
+                            <v-btn color="green" :disabled="!loggedIn" text  @click="addArticuloToCarrito(articulo)">
                                 Añadir
                             </v-btn>
                         </v-card-actions>
@@ -174,10 +174,10 @@
                     console.log(err.response);
                 })
             },
-            addArticuloToCarrito() {
+            addArticuloToCarrito(articulo) {
                 axios.post('/api/user/carrito',{
-                    'articulo_id': this.articulo.id,
-                    'pvp': this.articulo.pvp,
+                    'articulo_id': articulo? articulo.id : this.articulo.id,
+                    'pvp': articulo? articulo.pvp : this.articulo.pvp,
                     'cantidad': 1
                 }).then(res =>{
                     this.mostrar_snackbar = true
@@ -231,6 +231,10 @@
                 }
 
                 return "";
+            },
+            verArticulo(articulo){
+                this.$router.push( {path: '/articulos/'+articulo.id})
+                this.$router.go()
             }
         },
         computed: {

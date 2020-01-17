@@ -169,6 +169,7 @@
                                     large
                                     right
                                     top
+                                    :disabled="!$store.getters.loggedIn"
                                     @click="addArticuloToCarrito(articulo)"
                                     >
                                     <v-icon>mdi-cart</v-icon>
@@ -176,7 +177,7 @@
                                     
                                     <h3 class="display-1 font-weight-light orange--text mb-2">{{articulo.nombre.substring(0,15)}}</h3>
                                     <div class="font-weight-light title mb-2">
-                                        {{articulo.descripcion.substring(0,100)}}...
+                                        {{articulo.descripcion? articulo.descripcion.substring(0,100) : ''}}...
                                     </div>
                                 </v-card-text>
                                 

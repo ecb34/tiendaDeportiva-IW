@@ -63,8 +63,7 @@ class ArticuloController extends Controller
             'genero' => $request->genero,
             'valoracion'=> 0
         ]);
-        
-        if($request->imagenes[0]!=null)
+        $articulo->save();
             foreach($request->imagenes as $imagenes){
                 $articulo->imagenes()->save(new Imagen([
                     'nombre' => $imagenes,
