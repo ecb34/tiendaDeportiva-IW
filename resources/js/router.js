@@ -72,7 +72,14 @@ export default new Router({
             path: '/admin',
             name: 'admin',
             component: Admin,
-            props: true
+            props: true,
+            beforeEnter(to,from,next){
+                if(Store.getters.getRol == 'admin'){
+                    next()
+                }else{
+                    next({name: '401'})
+                }
+            }
         },
         {
             path: '/NuevoArticulo',

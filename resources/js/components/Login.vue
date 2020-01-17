@@ -63,7 +63,14 @@ export default {
         submit(){
           this.$store.dispatch('login', this.credenciales)
                       .then((res) =>{
-                        //this.$router.go()//recarga la pagina... por ahora no lo usamos
+                        let role = this.$store.getters.getRol
+                        
+                        if(role =='admin'){
+                          this.$router.push('/admin') 
+                        }
+                        else{
+                          this.$router.push('/articulos')
+                        }
                       }).catch(err => {
                         this.error = 'Error, contraseña/email incorrecto'
                       })

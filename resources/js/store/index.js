@@ -9,7 +9,8 @@ export default new Vuex.Store({
     //* SE USA localstorage para que guarde la sesion.. quitarlo?
     state: {
         token : localStorage.getItem('token') || null,
-        precioTotal: localStorage.getItem('precio') || -1
+        precioTotal: localStorage.getItem('precio') || -1,
+        rol: localStorage.getItem('rol')
     },
     //Getters are function which consult the variables of the state.
     getters: {
@@ -19,6 +20,9 @@ export default new Vuex.Store({
         getToken(state){
             return state.token
         },
+        getRol(state){
+            return state.rol
+        },
         getPrecioTotal(state){
             return state.precioTotal
         }
@@ -26,6 +30,9 @@ export default new Vuex.Store({
     mutations: {
         setToken(state, token){
             state.token = token
+        },
+        setRol(state, rol){
+            state.rol = rol
         },
         setPrecioTotal(state,precioTotal){
             state.precioTotal = precioTotal
@@ -40,7 +47,9 @@ export default new Vuex.Store({
                     password: credentials.password
                 }).then(res =>{
                     localStorage.setItem('token', res.data.access_token)
+                    localStorage.setItem('rol', res.data.rol)
                     context.commit('setToken', res.data.access_token)
+                    context.commit('setRol', res.data.role)
                     resolve()
                 }).catch(err =>{
                     reject(err)
@@ -52,7 +61,9 @@ export default new Vuex.Store({
             return new Promise((resolve,reject) => {
                 axios.get('/api/auth/logout').then(()=>{
                     localStorage.removeItem('token')
+                    localStorage.removeItem('rol')
                     context.commit('setToken', '')
+                    context.commit('setRol', '')
                     resolve()
                 }).catch(err => {
                     console.log(err.response)
