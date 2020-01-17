@@ -38,7 +38,6 @@
                     <v-card-text>
                         <v-text-field v-model="editedMarca.nombre" :rules="reglas" label="Nombre*"></v-text-field>
                         <v-text-field v-model="editedMarca.empresa" :rules="reglas" label="Empresa*"></v-text-field>
-                        <v-text-field v-model="editedMarca.logo" label="Logo"></v-text-field>
                     </v-card-text>
                     <v-card-actions>
                         <v-spacer></v-spacer>
@@ -77,7 +76,6 @@ export default {
                 {text: 'ID', value: 'id'},
                 {text: 'Nombre', value: 'nombre'},
                 {text: 'Empresa', value: 'empresa'},
-                {text: 'Logo', value: 'logo'},
                 {text: 'Acciones', value: 'action', sortable: false}
             ],
             marcas: []
