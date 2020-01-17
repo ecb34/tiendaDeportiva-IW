@@ -85,8 +85,9 @@ class CategoriaController extends Controller
      */
     public function show($id)
     {
+        return response()->json($id, 400);
         $categoria = Categoria::find($id);
-
+        
         return new CategoriaResource($categoria);
     }
 
@@ -100,14 +101,21 @@ class CategoriaController extends Controller
     public function update(Request $request, $id)
     {
         // VALIDAR UPDATE
-        $existe = Categoria::find($request->categoria->id);
-        return response()->json($existe, 400);
+        // Comprobar si el padre tiene una categoria con ese hijo
+        $existe = Categoria::where(['categoria_id' => $request->padre_id,'name' => $request->newName])->first();
+        if($existe) {
+            $error = "Error, la categoria ya existe para esa raiz";
+            return response()->json($error, 400);
+        }
+        // Comprobar si la categoria a editar existe
+        $existe = Categoria::find($request->categoria_id);
         if(!$existe) {
-            $error = "Error, la categoria NO existe";
+            $error = "Error, la categoria que quieres editar NO existe";
             return response()->json($error, 400);
         }
 
-        $existe->name = $request->categoria->name;
+        // Update
+        $existe->name = $request->newName;
         $existe->update();
 
         $tree = Categoria::whereNull('categoria_id')

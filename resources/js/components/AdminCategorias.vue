@@ -127,7 +127,7 @@ export default {
         eliminarCategoria(categoria){
             axios.delete('/api/categorias/'+categoria.id)
                 .then(res =>{
-                    this.categorias.splice(this.categorias.indexOf(categoria),1)
+                    this.categorias = res.data;
                 }).catch(err =>{
                     console.log(err.response)
                 })

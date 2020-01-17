@@ -29,6 +29,17 @@
                             </v-expansion-panel-content>
                         </v-expansion-panel>
                         <v-expansion-panel>
+                            <v-expansion-panel-header>Marcas</v-expansion-panel-header>
+                            <v-expansion-panel-content>
+                                <v-checkbox v-for="marca in marcas" 
+                                :key="marca.id" 
+                                v-model="selected_marca" 
+                                :label="marca.nombre" 
+                                :value="marca.id"
+                                ></v-checkbox>
+                            </v-expansion-panel-content>
+                        </v-expansion-panel>
+                        <v-expansion-panel>
                             <v-expansion-panel-header>Precio</v-expansion-panel-header>
                             <v-expansion-panel-content>
                                     <v-range-slider
@@ -46,17 +57,6 @@
                             <v-expansion-panel-header>Valoración</v-expansion-panel-header>
                             <v-expansion-panel-content>
                                 <v-rating :half-increments=true v-model="rating"></v-rating>
-                            </v-expansion-panel-content>
-                        </v-expansion-panel>
-                        <v-expansion-panel>
-                            <v-expansion-panel-header>Marcas</v-expansion-panel-header>
-                            <v-expansion-panel-content>
-                                <v-checkbox v-for="marca in marcas" 
-                                :key="marca.id" 
-                                v-model="selected_marca" 
-                                :label="marca.nombre" 
-                                :value="marca.id"
-                                ></v-checkbox>
                             </v-expansion-panel-content>
                         </v-expansion-panel>
                     </v-expansion-panels>
@@ -174,7 +174,7 @@ export default {
             rating: 0,
             marcas: [],
             selected_marca: [],
-            panel:[0,1,2,3]
+            panel:[2,3]
         }
     },
     async created(){
@@ -204,7 +204,7 @@ export default {
             traerMarcas: function () {
                 axios.get('/api/marcas')
                 .then(response => {
-                    this.marcas = response.data.data
+                    this.marcas = response.data
                 })
             },
             traerArticulos: function (){

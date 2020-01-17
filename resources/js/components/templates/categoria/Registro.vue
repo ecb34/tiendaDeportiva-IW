@@ -4,7 +4,7 @@
       <h1>Registro de Categoría</h1>
       <v-row>
         <v-col>
-          <v-text-field v-model="categoria" :rules="reglasNombre" label="Nombre*" required></v-text-field>
+          <v-text-field v-model="categoria" :rules="reglasNombre" label="Nombre*" @keyup.enter="validar" required></v-text-field>
         </v-col>
         <v-col>
           <v-text-field disabled v-model="padre.name" label="Padre"></v-text-field>
