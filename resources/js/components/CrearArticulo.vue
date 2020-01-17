@@ -2,7 +2,7 @@
   <v-container>
     <v-form ref="form" v-model="valid">
     <v-card>
-      <h1>Crear Articulo</h1>
+      <h1 style="margin-left: 0.75%">{{titulo}}</h1>
       <v-row>
         <v-col>
           <v-card-text>
@@ -120,6 +120,7 @@ export default {
   },
   data() {
     return {
+      titulo: "Crear articulo",
       valid: true,
       nombre: "",
       precio: "",
@@ -174,14 +175,13 @@ export default {
       .get("/api/marcas")
       .then(response => {
         this.marcas = response.data;
-        console.log(response.data);
       })
       .catch(err => {
         console.log(err);
       });
-      console.log(this.isEdit);
       
     if(this.$route.name == 'editarArticulo'){
+      this.titulo = "Editar articulo"
       axios.get('/api/articulos/'+ this.$route.params.id)
         .then(res =>{
           this.nombre= res.data.data.nombre
@@ -189,7 +189,10 @@ export default {
           this.codigo= res.data.data.codigo
           this.marca = res.data.data.marca
           this.descripcion = res.data.data.descripcion
-          this.categoria = res.data.data.categoria
+          this.categoria = { id: res.data.data.categoria.id,
+                             name: res.data.data.categoria.nombre_completo}
+          this.categorias.push(this.categoria)
+          
           switch(res.data.data.genero){
             case 0: 
               this.genero = { nombre: "Hombre", id: "0" };
@@ -201,7 +204,7 @@ export default {
               this.genero = { nombre: "Unisex", id: "2" }
             break;
           }
-          this.genero = res.data.data.genero
+          
           res.data.data.imagenes.forEach(img => {
             this.imagenes = img.url + " " + this.imagenes
           });
@@ -223,9 +226,9 @@ export default {
               pvp: parseFloat(this.precio),
               codigo: this.codigo,
               descripcion: this.descripcion,
-              marca_id: this.marca.id,
-              categoria_id: this.categoria.id,
               genero: parseInt(this.genero),
+              categoria_id: this.categoria,
+              marca_id: this.marca,
               imagenes: imagenes
             })
             .then(res => {
@@ -244,14 +247,19 @@ export default {
               pvp: parseFloat(this.precio),
               codigo: this.codigo,
               descripcion: this.descripcion,
-              marca_id: this.marca.id ? this.marca.id : this.marca,
-              categoria_id: this.categoria.id ? this.categoria : this.categoria,
               genero: parseInt(this.genero),
+              categoria_id: this.categoria,
+              marca_id: this.marca,
               imagenes: imagenes
           }).then(res =>{
-            console.log(res.data)
+              this.$router.push({
+                name: "admin",
+                params: { mostrar_snackbar: "Articulo editado" }
+              })
           }).catch(err =>{
-            console.log(err.response)
+              console.log(err.response);
+              this.error = "Error al editar el articulo";
+              this.snackbar = true;
           })
         }
       }

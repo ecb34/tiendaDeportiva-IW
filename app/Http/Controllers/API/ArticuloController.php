@@ -53,7 +53,6 @@ class ArticuloController extends Controller
     public function store(Request $request)
     {
         $this->validarArticulo($request);
-
         $articulo = new Articulo([
             'codigo'     => $request->codigo,
             'nombre' => $request->nombre,
@@ -64,14 +63,16 @@ class ArticuloController extends Controller
             'genero' => $request->genero,
             'valoracion'=> 0
         ]);
-
+        
+        if($request->imagenes[0]!=null)
+            foreach($request->imagenes as $imagenes){
+                $articulo->imagenes()->save(new Imagen([
+                    'nombre' => $imagenes,
+                    'url' => $imagenes
+                ]));
+            }
+        
         $articulo->save();
-        foreach($request->imagenes as $imagenes){
-            $articulo->imagenes()->save(new Imagen([
-                'nombre' => $imagenes,
-                'url' => $imagenes
-            ]));
-        }
 
         return response()->json($articulo, 201);//el 201 es no content
     }

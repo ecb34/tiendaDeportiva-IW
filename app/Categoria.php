@@ -10,6 +10,17 @@ class Categoria extends Model
         'id', 'name', 'categoria_id'
     ];
 
+    public function nombre_completo() {
+        $nombre_completo = $this->name;
+        // Obtengo todos sus padres
+        $padre = $this->categoria;
+        while($padre) { // Mientras tenga padre
+            $nombre_completo = $padre->name . " - " . $nombre_completo;
+            $padre = $padre->categoria;
+        }
+        return $nombre_completo;
+    }
+
     /**** INICIO Relaciones Categorias ****/
     public function articulos()
     {

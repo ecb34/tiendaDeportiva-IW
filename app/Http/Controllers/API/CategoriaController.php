@@ -25,6 +25,7 @@ class CategoriaController extends Controller
 
     public function categoriassinhijos()
     {
+        // Obtengo las hojas
         $categorias = Categoria::has('children','=',0)->with('categoria')->get();
         $i = 0;
         // Por cada categoria hoja
