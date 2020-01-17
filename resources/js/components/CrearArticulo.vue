@@ -165,9 +165,6 @@ export default {
       .get("/api/categoriassinhijos")
       .then(response => {
         this.categorias = response.data;
-        for(var i = 0; i< this.categorias.length;i++){
-          this.categorias[i].name = this.categorias[i].categoria.name + ' - ' + this.categorias[i].name
-        }
       })
       .catch(err => {
         console.log(err);

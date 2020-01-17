@@ -26,16 +26,19 @@ class CategoriaController extends Controller
     public function categoriassinhijos()
     {
         $categorias = Categoria::has('children','=',0)->with('categoria')->get();
-        return $categorias;
-        /*$nombresConcatenados = array();
-        foreach($categorias as $categoria_hija) {
-            $concatenar = $categoria_hija->name;
-            while($categoria_hija = $categoria_hija->categoria) { // Mientras tenga padre
-                $concatenar = $categoria_hija->name + "-" + $concatenar;
+        $i = 0;
+        // Por cada categoria hoja
+        foreach($categorias as $padre) {
+            // Y obtengo los nombres de todos sus padres
+            $padre = $padre->categoria;
+            while($padre) { // Mientras tenga padre
+                $categorias[$i]->name = $padre->name . " - " . $categorias[$i]->name;
+                $padre = $padre->categoria;
             }
-            array_push($nombresConcatenados, $concatenar);
+            $i++;
         }
-        return response()->json($nombresConcatenados);*/
+
+        return $categorias;
     }
 
     public function categoriasRecomendadas()
