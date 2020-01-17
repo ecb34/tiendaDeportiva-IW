@@ -53,6 +53,64 @@
                                     ></v-range-slider>
                             </v-expansion-panel-content>
                         </v-expansion-panel>
+                         <v-expansion-panel>
+                            <v-expansion-panel-header>Ordenar por</v-expansion-panel-header>
+                            <v-expansion-panel-content>
+                                <v-list>
+                                    <v-list-item>
+                                        <v-list-item-content>
+                                            <v-list-item-title>Precio</v-list-item-title>
+                                        </v-list-item-content>
+                                        <v-list-item-action>
+                                            <v-btn @click="ordenArticulos('precio_up')" class="mx-3" fab dark small color="pink">
+                                                <v-icon dark>mdi-arrow-up-bold</v-icon>
+                                            </v-btn>
+                                        </v-list-item-action>
+                                        <v-list-item-action>
+                                            <v-btn  @click="ordenArticulos('precio_down')" class="mx-2" fab dark small color="pink">
+                                                <v-icon dark>mdi-arrow-down-bold</v-icon>
+                                            </v-btn>
+                                        </v-list-item-action>
+                                    </v-list-item>
+
+                                    <v-divider></v-divider>
+
+                                    <v-list-item>
+                                        <v-list-item-content>
+                                            <v-list-item-title>Nombre</v-list-item-title>
+                                        </v-list-item-content>
+                                        <v-list-item-action>
+                                            <v-btn @click="ordenArticulos('nombre_up')" class="mx-3" fab dark small color="pink">
+                                                <v-icon dark>mdi-arrow-up-bold</v-icon>
+                                            </v-btn>
+                                        </v-list-item-action>
+                                        <v-list-item-action>
+                                            <v-btn  @click="ordenArticulos('nombre_down')" class="mx-2" fab dark small color="pink">
+                                                <v-icon dark>mdi-arrow-down-bold</v-icon>
+                                            </v-btn>
+                                        </v-list-item-action>
+                                    </v-list-item>
+
+                                    <v-divider></v-divider>
+
+                                    <v-list-item>
+                                        <v-list-item-content>
+                                            <v-list-item-title>Valoracion</v-list-item-title>
+                                        </v-list-item-content>
+                                        <v-list-item-action>
+                                            <v-btn @click="ordenArticulos('valoracion_up')" class="mx-3" fab dark small color="pink">
+                                                <v-icon dark>mdi-arrow-up-bold</v-icon>
+                                            </v-btn>
+                                        </v-list-item-action>
+                                        <v-list-item-action>
+                                            <v-btn  @click="ordenArticulos('valoracion_down')" class="mx-2" fab dark small color="pink">
+                                                <v-icon dark>mdi-arrow-down-bold</v-icon>
+                                            </v-btn>
+                                        </v-list-item-action>
+                                    </v-list-item>
+                                </v-list>
+                            </v-expansion-panel-content>
+                        </v-expansion-panel>
                         <v-expansion-panel>
                             <v-expansion-panel-header>Valoración</v-expansion-panel-header>
                             <v-expansion-panel-content>
@@ -174,7 +232,7 @@ export default {
             rating: 0,
             marcas: [],
             selected_marca: [],
-            panel:[2,3]
+            panel:[2,3],
         }
     },
     async created(){
@@ -188,6 +246,28 @@ export default {
         }
     },
         methods: {
+            ordenArticulos(tipo){
+                switch(tipo){
+                    case 'precio_up':
+                         this.listaArticulos.sort((a, b) => (a.pvp > b.pvp) ? 1 : -1)
+                        break
+                    case 'precio_down':
+                        this.listaArticulos.sort((a, b) => (a.pvp < b.pvp) ? 1 : -1)
+                        break
+                    case 'nombre_up':
+                        this.listaArticulos.sort((a, b) => (a.nombre > b.nombre) ? 1 : -1)
+                        break
+                    case 'nombre_down':
+                        this.listaArticulos.sort((a, b) => (a.nombre < b.nombre) ? 1 : -1)
+                        break
+                    case 'valoracion_up':
+                        this.listaArticulos.sort((a, b) => (a.valoracion > b.valoracion) ? 1 : -1)
+                        break
+                    case 'valoracion_down':
+                        this.listaArticulos.sort((a, b) => (a.valoracion < b.valoracion) ? 1 : -1)
+                        break
+                }
+            },
             filtrarArticulos: function(articulo){
                 if(this.$route.query.q){
                     return articulo.nombre.toUpperCase().includes(this.$route.query.q.toUpperCase())
