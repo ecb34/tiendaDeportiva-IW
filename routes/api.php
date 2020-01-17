@@ -20,10 +20,12 @@ Route::apiResources([
     'articulos' => 'API\ArticuloController',
     'categorias'=> 'API\CategoriaController',
     'marcas' => 'API\MarcaController',
-    'users' => 'API\UserController'
+    'users' => 'API\UserController',
+    'imagenes' => 'API\ImagenController',
+    'documentos' => 'API\DocumentoController',
 ]);//excluye las rutas que devuelven html (create,edit...)
 Route::get('categoriasrecomendadas', 'API\CategoriaController@categoriasRecomendadas');
-
+Route::get('categoriassinhijos', 'API\CategoriaController@categoriassinhijos');
 
 Route::group(['middleware' => 'auth:api'], function(){
 
@@ -41,7 +43,10 @@ Route::group(['middleware' => 'auth:api'], function(){
     Route::post('user/carrito', 'API\PedidoController@addArticuloCarrito');
     Route::post('user/carrito/restar', 'API\PedidoController@restarArticuloCarrito');
     Route::delete('user/carrito/{id}', 'API\PedidoController@borrarArticuloCarrito');
-
+    
+    //articulos
+    Route::put('articulo/comentarios/{id}/bloquear', 'API\ArticuloController@bloquearComentarios');
+    Route::get('articulo/{id}/comentarios', 'API\ArticuloController@mostrarComentarios');
     Route::post('articulo/comentar', 'API\ArticuloController@comentar');
     Route::delete('articulo/comentarios/{id}', 'API\ArticuloController@deleteComment');
 });

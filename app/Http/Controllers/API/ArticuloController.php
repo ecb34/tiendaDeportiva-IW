@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Resources\Articulo as ArticuloResource;
 use App\Articulo;
 use App\Comentario;
+use App\Imagen;
 use Illuminate\Support\Facades\Validator;
 
 class ArticuloController extends Controller
@@ -28,12 +29,15 @@ class ArticuloController extends Controller
 
     protected function validarArticulo(Request $request){
         $validator = Validator::make($request->all(), [
-            'codigo' => 'required|unique',
+            'codigo' => 'required|unique:articulos',
             'pvp' => 'required',
             'nombre' => 'required',
             'descripcion' => 'nullable|max:150',
             'marca_id' => 'nullable',
-            'categoria_id' => 'nullable'
+            'categoria_id' => 'nullable',
+            'genero' => 'nullable',
+            'valoracion'=> 'required',
+            'imagenes' => 'nullable'
         ]);
 
         if ($validator->fails()) {
@@ -57,11 +61,19 @@ class ArticuloController extends Controller
             'descripcion' => $request->descripcion,
             'marca_id' => $request->marca_id,
             'categoria_id' => $request->categoria_id,
+            'genero' => $request->genero,
+            'valoracion'=> 0
         ]);
 
         $articulo->save();
+        foreach($request->imagenes as $imagenes){
+            $articulo->imagenes()->save(new Imagen([
+                'nombre' => $imagenes,
+                'url' => $imagenes
+            ]));
+        }
 
-        return response()->json(null, 201);//el 201 es no content
+        return response()->json($articulo, 201);//el 201 es no content
     }
 
     /**
@@ -70,8 +82,10 @@ class ArticuloController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Articulo $articulo)
+    public function show($id)
     {
+        $articulo = Articulo::find($id);
+
         return new ArticuloResource($articulo);
     }
 
@@ -134,6 +148,25 @@ class ArticuloController extends Controller
         $this->setValoracion($articulo);
         
         return response()->json([$comentario,$articulo->valoracion],200);
+    }
+
+    public function mostrarComentarios($id){
+        $comentarios = Articulo::find($id)->comentarios;
+
+        return response()->json($comentarios, 200);
+    }
+
+    public function bloquearComentarios($id){
+        $comentario = Comentario::find($id);
+
+        if(!$comentario)
+            return response()->json(['message' => 'Comentario no existe'], 404);
+        
+        $comentario->update([
+            'bloqueado' => !$comentario->bloqueado
+        ]);
+
+        return response()->json($comentario, 200);
     }
 
     /**

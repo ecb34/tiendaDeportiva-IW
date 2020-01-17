@@ -16,6 +16,8 @@ import Compra from './components/FinalizarCompra'
 import Store from './store/index'
 import NotFound from './components/NotFoundError'
 import Unauthorized from './components/UnauthorizedError'
+import Admin from './components/Admin'
+import CrearArticulo from './components/CrearArticulo'
 
 Vue.use(Router);
 
@@ -64,6 +66,31 @@ export default new Router({
             path: '/mujer',
             name: 'mujer',
             component: Articulos,
+            props: true
+        },
+        {
+            path: '/admin',
+            name: 'admin',
+            component: Admin,
+            props: true,
+            beforeEnter(to,from,next){
+                if(Store.getters.getRol == 'admin'){
+                    next()
+                }else{
+                    next({name: '401'})
+                }
+            }
+        },
+        {
+            path: '/NuevoArticulo',
+            name: 'nuevo',
+            component: CrearArticulo,
+            props: true
+        },
+        {
+            path: '/editarArticulo/:id',
+            name: 'editarArticulo',
+            component: CrearArticulo,
             props: true
         },
         {

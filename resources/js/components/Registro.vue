@@ -25,13 +25,16 @@
                 append-icon="mdi-calendar-range"
               ></v-text-field>
             </template>
-            <v-date-picker v-model="fechaNacimiento"></v-date-picker>
+            <v-date-picker v-model="fechaNacimiento" disabled></v-date-picker>
           </v-menu>
         </v-col>
       </v-row>
       <v-row>
         <v-col cols=6>
           <v-text-field v-model="email" :rules="reglasEmail" label="E-mail*" required></v-text-field>
+        </v-col>
+        <v-col>
+          <v-select v-model="rol" :items="roles" v-if="$route.name == 'admin'" label="Rol"></v-select>
         </v-col>
       </v-row>
       <v-row>
@@ -81,6 +84,8 @@ export default {
   data: () => ({
     valid: true,
     nombre: "",
+    rol: "",
+    roles: ['admin', 'api', 'usuario'],
     reglasNombre: [v => !!v || "El nombre es obligatorio"],
     email: "",
     reglasEmail: [
@@ -112,16 +117,21 @@ export default {
           apellido: this.apellido,
           fechaNacimiento: this.fechaNacimiento,
           password: this.password,
-          password_confirmation: this.password_confirmation
+          password_confirmation: this.password_confirmation,
+          rol: this.rol
         },{
           headers: {
             'Content-Type': 'application/json',
             'X-Requested-With' : 'XMLHttpRequest'
           }
         }).then((res =>{
-           this.$router.push({ name: 'home', params: { snackbar: 'Registrado correctamente' }})
+           if(this.$route.name != 'admin')
+            this.$router.push({ name: 'home', params: { snackbar: 'Registrado correctamente' }})
+           else{
+            this.$emit('registrado', res.data)
+           }
         })).catch(err =>{
-          //TODO por ahora el unico error que deberia pasar en el servidor..
+          console.log(err.response)
           this.errorServer = 'El email ya existe'
           this.snackbar = true;
         })

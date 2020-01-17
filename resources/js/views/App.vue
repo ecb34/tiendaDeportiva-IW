@@ -60,6 +60,7 @@
                         <v-tab to="/articulos">Articulos</v-tab>
                         <v-tab to="/contacto">Contacto</v-tab>
                         <v-tab to="/tiendas">Tiendas</v-tab>
+                        <v-tab v-if="isAdmin" to="/admin">Admin</v-tab>
                     </v-tabs>
                 </template>
             </v-app-bar>
@@ -146,6 +147,9 @@
         computed: {
             loggedIn() {
                 return this.$store.getters.loggedIn
+            },
+            isAdmin() {
+                return (this.$store.getters.getRol == 'admin')
             }
         },
         components: {

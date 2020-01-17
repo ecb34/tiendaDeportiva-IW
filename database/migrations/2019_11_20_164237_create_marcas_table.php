@@ -17,7 +17,7 @@ class CreateMarcasTable extends Migration
             $table->increments('id');
             $table->string('nombre')->unique();
             $table->string('empresa');
-            $table->string('logo');
+            $table->string('logo')->nullable();
             $table->timestamps();
             
         });

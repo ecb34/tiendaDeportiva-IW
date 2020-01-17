@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Documento extends Model
 {
     protected $fillable = [
-        'id', 'nombre','url'
+        'id', 'nombre','url', 'documento'
     ];
     
     /**** INICIO Relaciones Documentos ****/

@@ -18,6 +18,7 @@ class CreateComentariosTable extends Migration
             $table->longText('texto');
             $table->float('valoracion',2,1);
             $table->integer('articulo_id')->unsigned();
+            $table->boolean('bloqueado')->default(false);
             $table->foreign('articulo_id')->references('id')->on('articulos')->onDelete('cascade')->onUpdate('cascade');
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');

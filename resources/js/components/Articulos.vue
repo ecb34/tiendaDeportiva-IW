@@ -2,7 +2,7 @@
     <v-container fluid>
         <!-- Filtros -->
             <v-row >
-                <v-col cols="12" xs="12" md="4">
+                <v-col cols="12" xs="12" md="4" lg="3">
                      <v-row v-if="loading" justify="center">
                         <v-progress-circular
                         :width="4"
@@ -29,6 +29,17 @@
                             </v-expansion-panel-content>
                         </v-expansion-panel>
                         <v-expansion-panel>
+                            <v-expansion-panel-header>Marcas</v-expansion-panel-header>
+                            <v-expansion-panel-content>
+                                <v-checkbox v-for="marca in marcas" 
+                                :key="marca.id" 
+                                v-model="selected_marca" 
+                                :label="marca.nombre" 
+                                :value="marca.id"
+                                ></v-checkbox>
+                            </v-expansion-panel-content>
+                        </v-expansion-panel>
+                        <v-expansion-panel>
                             <v-expansion-panel-header>Precio</v-expansion-panel-header>
                             <v-expansion-panel-content>
                                     <v-range-slider
@@ -48,22 +59,11 @@
                                 <v-rating :half-increments=true v-model="rating"></v-rating>
                             </v-expansion-panel-content>
                         </v-expansion-panel>
-                        <v-expansion-panel>
-                            <v-expansion-panel-header>Marcas</v-expansion-panel-header>
-                            <v-expansion-panel-content>
-                                <v-checkbox v-for="marca in marcas" 
-                                :key="marca.id" 
-                                v-model="selected_marca" 
-                                :label="marca.nombre" 
-                                :value="marca.id"
-                                ></v-checkbox>
-                            </v-expansion-panel-content>
-                        </v-expansion-panel>
                     </v-expansion-panels>
                     
                 </v-col>
                 <!-- Articulos -->
-                <v-col cols="12" xs="12" md="8">
+                <v-col cols="12" xs="12" md="8" lg="9">
                     <h1 v-if="listaArticulos.length === 0 && !loading">No hay articulos que cumplan los filtros</h1>
                     <v-row v-if="loading" justify="center">
                         <v-progress-circular
@@ -85,7 +85,8 @@
                                 <router-link :to="`/articulos/${articulo.id}`">
                                 <v-img
                                     :aspect-ratio="16/9"
-                                    v-bind:src="articulo.imagenes[0].url"
+                                    :alt="articulo.nombre"
+                                    :src="articulo.imagenes.length > 0? articulo.imagenes[0].url : ''"
                                 >
                                     <v-expand-transition>
                                     <div
@@ -173,7 +174,7 @@ export default {
             rating: 0,
             marcas: [],
             selected_marca: [],
-            panel:[0,1,2,3]
+            panel:[2,3]
         }
     },
     async created(){
@@ -203,7 +204,7 @@ export default {
             traerMarcas: function () {
                 axios.get('/api/marcas')
                 .then(response => {
-                    this.marcas = response.data.data
+                    this.marcas = response.data
                 })
             },
             traerArticulos: function (){
@@ -215,7 +216,6 @@ export default {
                     this.max = this.listaArticulos.reduce((res, current) =>{
                         return (current.pvp > res) ? current.pvp : res
                     }, -1)
-                    
                     this.rangoPrecio[1] = this.max
                     this.loading = false;
                     this.listaArticulosSinFiltro = this.listaArticulos

@@ -16,7 +16,8 @@ class CreateDocumentosTable extends Migration
         Schema::create('documentos', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nombre');
-            $table->string('url')->unique();
+            $table->binary('documento')->nullable();
+            $table->string('url')->nullable();
             $table->integer('articulo_id')->unsigned();
             $table->foreign('articulo_id')->references('id')->on('articulos')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();

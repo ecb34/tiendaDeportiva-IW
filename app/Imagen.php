@@ -9,7 +9,7 @@ class Imagen extends Model
     protected $table = 'imagenes';
 
     protected $fillable = [
-        'id', 'nombre','url'
+        'id', 'nombre','url','image'
     ];
     
     /**** INICIO Relaciones Imagenes ****/

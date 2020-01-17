@@ -49,9 +49,12 @@
                 <v-divider class="mb-4 mt-2"></v-divider>
                 <v-tabs :grow="true" color="cyan" dark slider-color="yellow">
                     <v-tab ripple>
-                        <v-badge :content="listaComentarios.length">
+                        <v-badge v-if="listaComentarios.length > 0" :content="listaComentarios.length">
                             Comentarios
                         </v-badge>
+                        <span v-else>
+                            Comentarios
+                        </span>
                     </v-tab>
                     <v-tab v-if="loggedIn" ripple>
                         Comentar
@@ -59,7 +62,9 @@
                     <v-tab-item>
                         <v-card text>
                             <v-list three-line>
+                                <v-card-text v-if="listaComentarios.length==0"> <h3>No hay ningún comentario todavía, dejanos tu opinión ;). </h3></v-card-text>
                                 <template v-for="(item, index) in listaComentarios" :v-bind="index">
+
                                     <v-list-item :key="item.title">
                                         <v-list-item-avatar>
                                             <v-img src="https://cdn.onlinewebfonts.com/svg/img_184513.png"></v-img>
@@ -251,7 +256,10 @@
                 this.articulo = res2.data.data;
                 this.listaImagenes = this.articulo.imagenes;
                 this.imagen = this.listaImagenes[0].url;
-                this.listaComentarios = this.articulo.comentarios;
+                this.listaComentarios = this.articulo.comentarios.filter((comentario) =>{
+                        return comentario.bloqueado == false    
+                    })
+                
                 //lista de articulos recomendados
                 axios.get('/api/articulos?destacados=detalle&marca='+this.articulo.marca.id)
                 .then(response => {
