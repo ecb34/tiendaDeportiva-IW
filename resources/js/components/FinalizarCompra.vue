@@ -73,12 +73,12 @@ export default {
                 return
             }
             if(this.$refs.form.validate()){
-                axios.post('https://mysterious-castle-80612.herokuapp.com/',{
+                axios.post('http://172.20.42.144:80/tpviw/public/api/payment',{
                     cardNumber: this.tarjeta.numero,
                     expirationDate: this.tarjeta.mes + this.tarjeta.anyo,
                     cvs: this.tarjeta.cvs,
-                    quantity: 10,
-                    id: '123'
+                    quantity: this.$store.getters.getPrecioTotal,
+                    id: 'h725fb7460774044ce5e5d'
                 }).then(res =>{
                     switch(res.data.cod){
                         //pago correcto
