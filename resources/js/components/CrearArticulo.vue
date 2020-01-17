@@ -247,9 +247,9 @@ export default {
               pvp: parseFloat(this.precio),
               codigo: this.codigo,
               descripcion: this.descripcion,
-              genero: parseInt(this.genero),
-              categoria_id: this.categoria,
-              marca_id: this.marca,
+              genero: parseInt(this.genero.id),
+              categoria_id: this.categoria.id,
+              marca_id: this.marca.id,
               imagenes: imagenes
           }).then(res =>{
               this.$router.push({
